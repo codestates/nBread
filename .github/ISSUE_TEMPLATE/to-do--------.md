@@ -3,7 +3,7 @@ name: To Do 리스트 템플릿
 about: 프로젝트에 대한 To Do List를 작성합니다.
 title: To Do 리스트
 labels: backend, frontend
-assignees: ace0507, 365support, HeeJeYang, ryurbsgks
+assignees: 365support, ace0507, HeeJeYang, ryurbsgks
 
 ---
 

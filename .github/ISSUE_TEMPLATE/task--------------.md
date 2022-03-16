@@ -24,5 +24,4 @@ assignees: ''
 ### `3h`
 
 ### Labels
-- Sprint: `Sprint__2__`
 - Urgency: `High`
