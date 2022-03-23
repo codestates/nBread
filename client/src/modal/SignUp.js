@@ -6,8 +6,10 @@ import Navbar from '../component/Navbar';
 function SignUp() {
   const Wrapper = styled.div`
     text-align: center;
-    width: 320px;
-    height: 568px;
+    /* width: 320px;
+    height: 568px; */
+    width: 375px;
+    height: 667px;
     display: flex;
     justify-content: center;
     background-color: #D2D1D1;
@@ -18,8 +20,8 @@ function SignUp() {
   `;
   const SignUpTitle = styled.div`
     font-size: 28px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
   `;
   const SignUpForm = styled.form`
 
@@ -30,9 +32,9 @@ function SignUp() {
     display: flex;
     flex-direction: column;
     width: 295px;
-    height: 50px;
+    height: 56px;
     font-size: 18px;
-    margin-top: 10px;
+    margin-top: 15px;
   `;
 
   const SignUpButton = styled.button`
@@ -41,14 +43,14 @@ function SignUp() {
     background-color: #B51D29;
     color: white;
     border: none;
-    margin-top: 10px;
-
+    margin-top: 30px;
+    font-size: 18px;
   `;
 
   const SignUpToLogin = styled.div`
-    margin-top: 10px;
-
-
+    margin-top: 20px;
+    font-size: 14px;
+    color: gray;
   `;
 
   const Err = styled.div`
