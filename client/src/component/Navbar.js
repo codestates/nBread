@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import logo from '../icons/ban_logo.png'
+import React from 'react';
+import styled from 'styled-components';
+import logo from '../icons/ban_logo.png';
 
 
 function Navbar() {
