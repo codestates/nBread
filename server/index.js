@@ -2,8 +2,19 @@ const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const express = require('express')
-
+const cors = require('cors');
+const controllers = require('./controllers');
 const app = express()
+
+app.use(express.json());
+app.use(express.static('public'));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://wwww.nbread.kro.kr'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  })
+);
 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
@@ -18,6 +29,8 @@ const app = express()
 //   }
 // })
 
+app.post('/users/signup', controllers.signup);
+
 // const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8')
 // const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8')
 // const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8')
@@ -28,7 +41,7 @@ const app = express()
 //   ca : ca
 // }
 
-app.use((req, res) => {
+app.use('/' ,(req, res) => {
   res.send('서버 진행 중!')
 })
 
