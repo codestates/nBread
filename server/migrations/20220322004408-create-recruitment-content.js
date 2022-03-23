@@ -8,9 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      // user_id: {
-      //   type: Sequelize.INTEGER
-      // },
+      user_id: {
+        type: Sequelize.INTEGER
+      },
       address: {
         type: Sequelize.STRING
       },
@@ -34,7 +34,9 @@ module.exports = {
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW')
+        // defaultValue: Sequelize.NOW
       }
     });
   },

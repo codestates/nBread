@@ -1,57 +1,72 @@
-const fs = require('fs')
-const http = require('http')
-const https = require('https')
-const express = require('express')
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const express = require('express');
 
-const app = express()
+const app = express();
 
+const controllers = require('./controllers')
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
-//   let protocol = req.headers['x-forwarded-proto'] || req.protocol
+//   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
 //   if (protocol === 'https') next()
 //   else {
-//     let from = `${protocol}://${req.hostname}${req.url}`
-//     let to = `https://${req.hostname}${req.url}`
+//     let from = `${protocol}://${req.hostname}${req.url}`;
+//     let to = `https://${req.hostname}${req.url}`;
 
 //     console.log(`[${req.method}]: ${from} -> ${to}`)
 //     res.redirect(to)
-//   }
-// })
+//   };
+// });
 
-// const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8')
-// const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8')
-// const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8')
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
+// const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
 
 // const credentials = {
 //   key : privateKey,
 //   cert : certificate,
 //   ca : ca
-// }
+// };
 
-app.use((req, res) => {
-  res.send('서버 진행 중!')
-})
+app.use(express.json());
+app.use(
+  cors({
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'PUT', 'POST', 'PATCH','DELETE', 'OPTIONS']
+  })
+)
 
-const httpServer = http.createServer(app)
-// const httpsServer = https.createServer(credentials, app)
+app.post('/contents', controllers.boardPost);
+app.delete('/contents/:contentId', controllers.boardDelete);
+app.patch('/contents/:contentId', controllers.boardPatch);
+app.get('/contents/:contentId', controllers.boardDetailGet);
+app.get('/contents', controllers.boardGet);
+
+
+const httpServer = http.createServer(app);
+// const httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
-})
+});
 // httpsServer.listen(443, () => {
 //   console.log('HTTPS Server running on port 443')
-// })
+// });
 
 
 
-// const express = require('express')
-// const app = express()
+// const express = require('express');
+// const app = express();
 
 // app.use('/', (req, res) => {
 //   res.send('서버 진행 중')
-// })
+// });
 
 // app.listen(4000, (req, res) => {
 //   console.log('server running')
-// })
+// });
 

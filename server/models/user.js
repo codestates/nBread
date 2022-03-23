@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     phone_number: DataTypes.STRING
   }, {
     sequelize,
+    freezeTableName: true,
+    timestamps: false,
     modelName: 'user',
+    underscored: true
   });
   return user;
 };
