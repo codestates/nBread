@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     }
   }).then( (result) => {
     if (!result) {
-      return res.send({ message: '아이디 또는 비밀번호가 일치하지 않습니다' })
+      return res.send({ message: '아이디 또는 비밀번호가 일치하지 않습니다' });
     }
 
     let userInfo = {
