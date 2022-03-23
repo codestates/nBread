@@ -1,13 +1,21 @@
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const express = require('express');
-
+const cors = require('cors');
+const controllers = require('./controllers');
 const app = express();
 
-const controllers = require('./controllers')
+app.use(express.json());
+app.use(express.static('public'));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://wwww.nbread.kro.kr'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  })
+);
+
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
 //   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -31,15 +39,10 @@ const controllers = require('./controllers')
 //   ca : ca
 // };
 
-app.use(express.json());
-app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-    methods: ['GET', 'PUT', 'POST', 'PATCH','DELETE', 'OPTIONS']
-  })
-)
-
+app.post('/users/signup', controllers.signup);
+app.post('/users/login', controllers.login);
+app.post('/users/logout', controllers.logout);
+app.delete('/users', controllers.memberWithdrawal);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
