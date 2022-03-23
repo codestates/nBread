@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   recruitment_content.init({
+    user_id: DataTypes.INTEGER,
     address: DataTypes.STRING,
     category_food: DataTypes.INTEGER,
     delivery_fee: DataTypes.INTEGER,
@@ -19,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     closed: DataTypes.INTEGER
   }, {
     sequelize,
+    freezeTableName: true,
+    timestamps: false,
     modelName: 'recruitment_content',
+    underscored: true
   });
   return recruitment_content;
 };

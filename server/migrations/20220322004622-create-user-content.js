@@ -7,6 +7,12 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      user_id: {
+        type: Sequelize.INTEGER
+      },
+      content_id: {
+        type: Sequelize.INTEGER
       }
     });
   },
