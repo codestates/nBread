@@ -21,6 +21,40 @@
 # 제작기간
 - 2022년 3월 14일 ~ 2022년 4월 8일
 
+# Stack
+### Front-end
+
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+<img src="https://img.shields.io/badge/axios-6F02B5?style=for-the-badge&logo=&logoColor=black"> 
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=black"> 
+<img src="https://img.shields.io/badge/Kakaomap-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black"> 
+<img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=black"> 
+
+
+
+### Back-end
+<img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"> 
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+<img src="https://img.shields.io/badge/Jwt-010101?style=for-the-badge&logo=jwt&logoColor=black"> 
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> 
+<img src="https://img.shields.io/badge/oauth 2.0-EB5424?style=for-the-badge&logo=&logoColor=white"> 
+<img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white">
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+
+
+
+### Deploy
+<img src="https://img.shields.io/badge/S3-EC1C24?style=for-the-badge&logo=&logoColor=white"> <img src="https://img.shields.io/badge/rds-0066B3?style=for-the-badge&logo=&logoColor=white">
+<img src="https://img.shields.io/badge/ec2-FF9900?style=for-the-badge&logo=&logoColor=white">
+
+
+
+
+
+
+
+
 
 # 팀원 소개 
 <details>
