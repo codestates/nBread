@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.bulkInsert('recruitment_content', [{
       user_id: 1,
       address: 'daejeon',
-      category_food: 1,
+      category_food: 1, 
       delivery_fee: 1000,
       recruitment_personnel: 2,
       created_at: new Date(),
