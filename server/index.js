@@ -33,6 +33,7 @@ app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
+app.patch('/users', controllers.editMemberInformation);
 
 // const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8')
 // const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8')
