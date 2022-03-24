@@ -3,9 +3,9 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    await queryInterface.addColumn('recruitment_content', 'user_id', Sequelize.INTEGER)
-    await queryInterface.addColumn('user_content', 'user_id', Sequelize.INTEGER)
-    await queryInterface.addColumn('user_content', 'content_id', Sequelize.INTEGER)
+    // await queryInterface.addColumn('recruitment_content', 'user_id', Sequelize.INTEGER)
+    // await queryInterface.addColumn('user_content', 'user_id', Sequelize.INTEGER)
+    // await queryInterface.addColumn('user_content', 'content_id', Sequelize.INTEGER)
 
     await queryInterface.addConstraint('recruitment_content', {
       fields: ['user_id'],
@@ -46,8 +46,8 @@ module.exports = {
      await queryInterface.removeConstraint('recruitment_content', 'FK_recruitment_content_user_id')
      await queryInterface.removeConstraint('user_content', 'FK_user_content_user_id')
      await queryInterface.removeConstraint('user_content', 'FK_user_content_content_id')
-     await queryInterface.removeColumn('recruitment_content', 'user_id')
-     await queryInterface.removeColumn('user_content', 'user_id')
-     await queryInterface.removeColumn('user_content', 'content_id')
+    //  await queryInterface.removeColumn('recruitment_content', 'user_id')
+    //  await queryInterface.removeColumn('user_content', 'user_id')
+    //  await queryInterface.removeColumn('user_content', 'content_id')
   }
 };
