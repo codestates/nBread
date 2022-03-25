@@ -3,9 +3,11 @@ module.exports = {
   boardDelete: require('./board/deletion'),
   boardPatch: require('./board/correction'),
   boardDetailGet: require('./board/detailLookup'),
-  boardGet: require('./board/lookup')
+  boardGet: require('./board/lookup'),
   signup: require('./users/signup'),
   login: require('./users/login'),
   logout: require('./users/logout'),
-  memberWithdrawal: require('./users/memberWithdrawal')
+  memberWithdrawal: require('./users/memberWithdrawal'),
+  order: require('./orders/order'),
+  cancelOrder: require('./orders/cancel')
 };

@@ -48,6 +48,8 @@ app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
 app.get('/contents/:contentId', controllers.boardDetailGet);
 app.get('/contents', controllers.boardGet);
+app.post('/order/:contentId', controllers.order);
+app.delete('/order/:contentId', controllers.cancelOrder);
 
 
 const httpServer = http.createServer(app);
