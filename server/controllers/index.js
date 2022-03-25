@@ -8,5 +8,7 @@ module.exports = {
   login: require('./users/login'),
   logout: require('./users/logout'),
   memberWithdrawal: require('./users/memberWithdrawal'),
+  order: require('./orders/order'),
+  cancelOrder: require('./orders/cancel'),
   editMemberInformation: require('./users/editMemberInformation')
 };
