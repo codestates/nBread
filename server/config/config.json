@@ -4,20 +4,25 @@
     "password": "heejeyang",
     "database": "nbread_development",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+09:00"
   },
   "test": {
     "username": "root",
     "password": "heejeyang",
     "database": "nbread_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+09:00"
+
   },
   "production": {
     "username": "root",
     "password": "heejeyang",
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "+09:00"
+
   }
 }

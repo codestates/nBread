@@ -1,4 +1,4 @@
-const { recruitment_content } = require('../../models');
+const { recruitment_content, user_content } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions')
 
 module.exports = async (req, res) => {
@@ -23,6 +23,12 @@ module.exports = async (req, res) => {
   }
 
   await recruitment_content.create(content)
+  .then(data => {
+    user_content.create({
+      user_id: token.id,
+      content_id: data.dataValues.id
+    })
+  })
   .then(_ => {
     res.status(201).send({message: '글 작성 성공'});
   })
