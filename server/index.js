@@ -51,6 +51,8 @@ app.get('/contents/:contentId', controllers.boardDetailGet);
 app.get('/contents', controllers.boardGet);
 app.post('/order/:contentId', controllers.order);
 app.delete('/order/:contentId', controllers.cancelOrder);
+app.post('/users/checkId', controllers.checkId);
+app.post('/users/checkNickname', controllers.checkNickname);
 
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);

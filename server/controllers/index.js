@@ -10,5 +10,7 @@ module.exports = {
   memberWithdrawal: require('./users/memberWithdrawal'),
   order: require('./orders/order'),
   cancelOrder: require('./orders/cancel'),
-  editMemberInformation: require('./users/editMemberInformation')
+  editMemberInformation: require('./users/editMemberInformation'),
+  checkId: require('./users/checkId'),
+  checkNickname: require('./users/checkNickname')
 };
