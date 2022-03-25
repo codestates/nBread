@@ -1,21 +1,20 @@
-import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select'
+import React, {useState} from 'react';
+  //모달창이 떳을때 뒷배경 어둡게
+  const ModalBackdrop = styled.div`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: grid;
+  place-items: center;
+  `;
 
-function PostingWrite() {
-  //메뉴 선택
-  const Menu = [
-    { value: 'menu1', label: 'menu1' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
-  ]
-  //모집 인원
-  const NumberOfRecruits = [
-    { value: '1명', label: '1명' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
-  ]
-
+  
   const Wrapper = styled.div`
     text-align: center;
     /* width: 320px;
@@ -109,15 +108,28 @@ function PostingWrite() {
     margin-top: 7%;
   `;
 
-    
+function PostingWrite({openModalPostingWrite}) {
+  //메뉴 선택
+  const Menu = [
+    { value: 'menu1', label: 'menu1' },
+    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
+    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
+  ]
+  //모집 인원
+  const NumberOfRecruits = [
+    { value: '1명', label: '1명' },
+    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
+    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
+  ]
 
 
   return (
     <>
+    <ModalBackdrop onClick={openModalPostingWrite}>
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <PostingWriteForm>
       <PostingWriteTitle>모집글작성      
-      <span>&times;</span>
+      <span onClick={openModalPostingWrite}>&times;</span>
       </PostingWriteTitle>
       <InputFieldDiv>
         <InputField placeholder="식당이름"/>
@@ -145,6 +157,7 @@ function PostingWrite() {
         <PostingWriteButton>등록하기</PostingWriteButton>
       </PostingWriteForm>
     </Wrapper>
+    </ModalBackdrop>
     </>
   );
 }
