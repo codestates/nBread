@@ -3,7 +3,7 @@ import { SHOW_POST_LIST } from "./types";
 
 const showPostSuccess = (post) => {
   const posts = post.data.data
-  console.log('posts',post.data.data)
+  // console.log('posts',post.data.data)
   return {
     type : SHOW_POST_LIST,
     payload : posts,

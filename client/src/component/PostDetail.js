@@ -1,6 +1,9 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import logo1 from '../icons/01.png'
+import { showPostDetail } from '../redux/postList/action';
+
 
 const PostListMenu = styled.div`
 background-color: #EEEEEE;
@@ -17,7 +20,7 @@ display: flex;
 margin-left: 4px;
 align-items: center;
 width: 98%;
-height: 150px;
+height: 199px;
 margin-bottom: 8px;
 overFlow : auto;
 `;
@@ -77,14 +80,22 @@ height: 56px;
 text-align: center;
 `
 
-function PostDetail() {
+function PostDetail({click, setClick}) {
+  const list = useSelector((state)=> state.postsDetailReducer.posts)
+  // console.log('listsssss',list)
+
+  const handleBack = () => {
+    // console.log('clclcl')
+    setClick(!click)
+  }
 
   return (
     <div>
-      <PostListMenu> 배달 상세보기</PostListMenu>
+      {/* <PostListMenu> 배달 상세보기</PostListMenu> */}
       <PostWrapper>
         <PostIconWrapper>
-          <svg xmlns="http://www.w3.org/2000/svg" 
+          <svg onClick={handleBack} 
+            xmlns="http://www.w3.org/2000/svg" 
             width="20" 
             height="20" 
             viewBox="0 0 24 24"
@@ -102,36 +113,16 @@ function PostDetail() {
         <Wrapper>
           <PostListImg src={logo1}/>
           <PostListTextWrapper>
-            <PostListText>식당이름: 교촌 치킨</PostListText>
-            <PostListText>모집인원: 2/4 명</PostListText>
-            <PostListText>배달비: 4000원</PostListText>
+            <PostListText>식당이름: {list.restaurant_name}</PostListText>
+            <PostListText>모집인원: {list.recruitment_personnel}명</PostListText>
+            <PostListText>배달비: {list.delivery_fee}원</PostListText>
           </PostListTextWrapper>
         </Wrapper>
           <PostListText>2022 / 03 / 22</PostListText>
-          <PostListText>주소: 서울특별시 동작구 강남초등2길</PostListText>
+          <PostListText>주소: {list.address}</PostListText>
           <PostListText>설명글</PostListText>
           <PostListDetailText>
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱            
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱            
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱            
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱            
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱            
-            오늘 저녁에 돈까스 시켜드실분 찾습니다 
-            인원이 다 모이면 채팅으로 소통해요!
-            배달비 아낄 수 있는 N빵 짱
+            {list.body}
           </PostListDetailText>
       </PostWrapper>
       <PostButton> 신청하기 </PostButton>
