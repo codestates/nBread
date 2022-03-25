@@ -2,82 +2,82 @@ import React from 'react';
 import styled from 'styled-components';
 import logo1 from '../icons/01.png'
 
+const PostListMenu = styled.div`
+background-color: #EEEEEE;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 70px;
+font-size: 18px;
+font-weight: bold;
+border: 1px solid #C9C9C9;
+`
+const Wrapper = styled.div`
+display: flex;
+margin-left: 4px;
+align-items: center;
+width: 98%;
+height: 150px;
+margin-bottom: 8px;
+overFlow : auto;
+`;
 
-function PostDetail(props) {
-  const PostListMenu = styled.div`
-    background-color: #EEEEEE;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 70px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 1px solid #C9C9C9;
-  `
-  const Wrapper = styled.div`
-    display: flex;
-    margin-left: 4px;
-    align-items: center;
-    width: 98%;
-    height: 150px;
-    margin-bottom: 8px;
-    overFlow : auto;
-  `;
+const PostWrapper = styled.div`
+padding-left: 30px ;
+padding-right: 30px ;
+padding-top: 10px;
+`
 
-  const PostWrapper = styled.div`
-    padding-left: 30px ;
-    padding-right: 30px ;
-    padding-top: 10px;
-  `
+const PostListImg = styled.img`
 
-  const PostListImg = styled.img`
+`
 
-  `
+const PostListTextWrapper = styled.div`
+padding-left: 40px;
+`
 
-  const PostListTextWrapper = styled.div`
-    padding-left: 40px;
-  `
+const PostIconWrapper = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 10px;
+`
 
-  const PostIconWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  `
+const PostUpdateDelete = styled.div`
+display: flex;
+`
 
-  const PostUpdateDelete = styled.div`
-    display: flex;
-  `
+const PostUpdate = styled.div`
+font-size: 14px;
+color: #B1B1B1;
+`
+const PostDelete = styled.div`
+font-size: 14px;
+color: #B1B1B1;
+margin-left: 4px;
+`
+const PostListText = styled.div`
+margin-bottom: 10px;
+`
 
-  const PostUpdate = styled.div`
-    font-size: 14px;
-    color: #B1B1B1;
-  `
-  const PostDelete = styled.div`
-    font-size: 14px;
-    color: #B1B1B1;
-    margin-left: 4px;
-  `
-  const PostListText = styled.div`
-    margin-bottom: 10px;
-  `
+const PostListDetailText = styled.div`
+border: 1px solid;
+width: 340px;
+height: 200px;
+overFlow : auto;
+`
 
-  const PostListDetailText = styled.div`
-    border: 1px solid;
-    width: 340px;
-    height: 200px;
-    overFlow : auto;
-  `
+const PostButton = styled.button`
+position: fixed;
+bottom: 0px;
+border: none;
+background-color: #B51D29;
+color: white;
+width: 400px;
+height: 56px;
+text-align: center;
+`
 
-  const PostButton = styled.button`
-    position: fixed;
-    bottom: 0px;
-    border: none;
-    background-color: #B51D29;
-    color: white;
-    width: 400px;
-    height: 56px;
-    text-align: center;
-  `
+function PostDetail() {
 
   return (
     <div>
