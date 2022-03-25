@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosLogin } from '../redux/user/action';
 
 //모달창이 떳을때 뒷배경 어둡게
 const ModalBackdrop = styled.div`
@@ -83,6 +85,10 @@ color: gray;
 `;
 
 function Login({openModalLogin}) {
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  // console.log('login',isLogin)
+
   const [loginInfo, setLoginInfo] = useState({
     username: '',
     password: ''
@@ -91,43 +97,47 @@ function Login({openModalLogin}) {
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value })
-
-    console.log(e.target.value)
   }
 
   const handleLogin = () => {
     const { userId, password } = loginInfo;
+    // console.log(userId)
+    // console.log(password)
+
     if (userId === '' || password === '') {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
+    }else{
+      dispatch(axiosLogin(loginInfo))
     }
   }
 
   return (
     <>
     <ModalBackdrop onClick={openModalLogin}>
-    <Wrapper onClick={(e) => e.stopPropagation()}>
-      <LoginForm onSubmit={(e) => e.preventDefault()}>
-      <LoginTitle>로그인      
-      <span onClick={openModalLogin}>&times;</span>
-      </LoginTitle>
-      <InputFieldDiv>
-        <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
-        <Err></Err>
-        <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
-      </InputFieldDiv>
-        <Err>{errorMessage}</Err>
-        
+      <Wrapper onClick={(e) => e.stopPropagation()}>
+        <LoginForm onSubmit={(e) => e.preventDefault()}>
+        {!isLogin? <LoginTitle>로그인      
+        <span onClick={openModalLogin}>&times;</span>
+        </LoginTitle>
+        : <div>로그아웃</div>}
+        <InputFieldDiv>
+          <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
+          <Err></Err>
+          <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
+        </InputFieldDiv>
+          <Err>{errorMessage}</Err>
           
-        <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
-        <LoginButton type='submit'>카카오 로그인</LoginButton>
+            
+          <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
+          <LoginButton type='submit'>카카오 로그인</LoginButton>
+            
           
-        
-        
-          <SignUp className="bigBtn1">회원가입</SignUp>
-          <PassWorldCheck>비밀번호찾기</PassWorldCheck>
-        
-      </LoginForm>
-    </Wrapper>
+          
+            <SignUp className="bigBtn1">회원가입</SignUp>
+            <PassWorldCheck>비밀번호찾기</PassWorldCheck>
+          
+        </LoginForm>
+      </Wrapper>
     </ModalBackdrop>
   </>
   );
