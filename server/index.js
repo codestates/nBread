@@ -43,6 +43,7 @@ app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
+app.patch('/users', controllers.editMemberInformation);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
@@ -50,7 +51,6 @@ app.get('/contents/:contentId', controllers.boardDetailGet);
 app.get('/contents', controllers.boardGet);
 app.post('/order/:contentId', controllers.order);
 app.delete('/order/:contentId', controllers.cancelOrder);
-
 
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
@@ -62,8 +62,6 @@ httpServer.listen(80, () => {
 //   console.log('HTTPS Server running on port 443')
 // });
 
-
-
 // const express = require('express');
 // const app = express();
 
@@ -74,4 +72,3 @@ httpServer.listen(80, () => {
 // app.listen(4000, (req, res) => {
 //   console.log('server running')
 // });
-

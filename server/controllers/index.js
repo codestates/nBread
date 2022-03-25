@@ -9,5 +9,6 @@ module.exports = {
   logout: require('./users/logout'),
   memberWithdrawal: require('./users/memberWithdrawal'),
   order: require('./orders/order'),
-  cancelOrder: require('./orders/cancel')
+  cancelOrder: require('./orders/cancel'),
+  editMemberInformation: require('./users/editMemberInformation')
 };
