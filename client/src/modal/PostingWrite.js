@@ -1,6 +1,11 @@
+import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Select from 'react-select'
-import React, {useState} from 'react';
+import { foodList, selectPerson } from './SelectList';
+import DaumPostcode from 'react-daum-postcode';
+import { writingPost } from '../redux/postWriting/action';
+
   //모달창이 떳을때 뒷배경 어둡게
   const ModalBackdrop = styled.div`
   position: fixed;
@@ -14,7 +19,6 @@ import React, {useState} from 'react';
   place-items: center;
   `;
 
-  
   const Wrapper = styled.div`
     text-align: center;
     /* width: 320px;
@@ -25,30 +29,42 @@ import React, {useState} from 'react';
     justify-content: center;
     background-color: #D2D1D1;
     position: fixed;
-    top: 70%;
-    left: 90%;
-    transform: translate(-50%, -50%);
+    bottom: 60px;
+    right: 18px;
+    z-index: 1;
     @media (max-width: 768px) {
     width: 100vw;
-    width: 100vh;
+    height: 100vh;
   }  
   `;
+
   const PostingWriteTitle = styled.div`
     font-size: 28px;
     margin-top: 25px;
     margin-bottom: 25px;
   `;
+
+  const PostSpan = styled.span`
+    position: absolute;
+    right: 40px;
+  `
+
   const PostingWriteForm = styled.form`
-
-
   `;
 
   const InputFieldDiv = styled.div`
-  margin-top: 35px;
+    margin-top: 35px;
   `;
 
-
   const InputField = styled.input`
+      ::-webkit-inner-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+    ::-webkit-outer-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }    
     display: flex;
     flex-direction: column;
     width: 295px;
@@ -58,17 +74,33 @@ import React, {useState} from 'react';
     margin-top: 20px;
   `;
 
-    const InputAdress = styled.input`
+  const CloseBtn = styled.button`
+    display: block;
+    position: absolute;
+    top: 60px;
+    right: 25px;
+    z-index: 100;
+    padding: 7px;
+    width: 100px;
+    color: white;
+    background-color: #A3A3A3;
+    border: none;
+  `;
+
+  const AddressInputDiv = styled.div`
+    background-color: white;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     width: 240px;
     height: 50px;
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
+    border: 1px black solid;
   `;
 
   const SelectDiv = styled.div`
+    margin-top: 10px;
     display: flex;
   `;
 
@@ -79,6 +111,7 @@ import React, {useState} from 'react';
 
   //기본주소 Div
   const AdressBasicDiv = styled.div`
+    margin-top: 15px;
 `;  
 
   //'기본주소' 글씨
@@ -92,10 +125,15 @@ import React, {useState} from 'react';
   height: 35px;
 `;
 
-
   const Detail = styled(InputField)`
     height: 180px;
     margin-top: 20px;
+  `;
+
+  const Err = styled.div`
+  font-size: 14px;
+  color: red;
+  margin-top: 2px;
   `;
 
   const PostingWriteButton = styled.button`
@@ -108,55 +146,162 @@ import React, {useState} from 'react';
     margin-top: 7%;
   `;
 
+  const StyledMeneSelect = styled(Select)`
+    width: 145px;
+  `
+
+  const StyledPersonSelect = styled(Select)`
+    width: 145px;
+    margin-left: 4px;
+  `
+
+
 function PostingWrite({openModalPostingWrite}) {
-  //메뉴 선택
-  const Menu = [
-    { value: 'menu1', label: 'menu1' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
-  ]
-  //모집 인원
-  const NumberOfRecruits = [
-    { value: '1명', label: '1명' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' },
-    { value: 'map으로 돌릴것', label: 'map으로 돌릴것' }
-  ]
+  const dispatch = useDispatch();
+
+  const [writeInfo, setWriteInfo] = useState({
+    address: '',
+    body: '',
+    category_food: '',
+    delivery_fee: '',
+    recruitment_personnel: '',
+    restaurant_name: '',
+  })
+  const [visible, setVisible] = useState(false); // 다음 우편번호 컴포넌트의 노출여부 상태
+  const [errorMessage, setErrorMessage] = useState(''); // 에러 메세지 상태
+
+  const handleWritingValue = (key) => (e) => {
+    setWriteInfo({ ...writeInfo, [key]: e.target.value })
+  }
+
+  const handleSelectPerson = e => {
+    setWriteInfo({ ...writeInfo, recruitment_personnel : e.value})
+  }
+
+  const handleSelectMenu = e => {
+    setWriteInfo({ ...writeInfo, category_food : e.value})
+  }
+
+  const handleInput = (e) => {
+    const { value } = e.target;
+    if (value.length >= 5) {
+      e.preventDefault();
+      return;
+    }
+  };
+
+  const handleWritingBtn = () => {
+    const {address , body, category_food, delivery_fee, recruitment_personnel, restaurant_name} = writeInfo;
+    const data = {
+      address: address,
+      body: body,
+      category_food: category_food,
+      delivery_fee: delivery_fee,
+      recruitment_personnel: recruitment_personnel,
+      restaurant_name: restaurant_name
+    }
+    if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
+      setErrorMessage('모든 항목은 필수입니다')
+    }else{
+      dispatch(writingPost(data))
+    }
+    console.log('handleWritingBtn', data)
+  }
+
+  // 주소 api css
+  const addressStyle = {
+    display: 'block',
+    position: 'absolute',
+    top: '85px',
+    left: '20px',
+    zIndex: '100',
+    padding: '7px',
+    width: '90%',
+    height: '80%'
+  }
+
+  // 주소 검색 api
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = ''; 
+    
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      }
+      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    }
+    setWriteInfo({ ...writeInfo, address : fullAddress})
+    setVisible(false)
+  }
 
 
   return (
     <>
     <ModalBackdrop onClick={openModalPostingWrite}>
-    <Wrapper onClick={(e) => e.stopPropagation()}>
-      <PostingWriteForm>
-      <PostingWriteTitle>모집글작성      
-      <span onClick={openModalPostingWrite}>&times;</span>
-      </PostingWriteTitle>
-      <InputFieldDiv>
-        <InputField placeholder="식당이름"/>
-        <SelectDiv>
-        <Select options={Menu}>
-          메뉴
-        </Select>
-        <Select options={NumberOfRecruits}>
-          모집 인원
-        </Select>
-        </SelectDiv>
+      <Wrapper onClick={(e) => e.stopPropagation()}>
+        <PostingWriteForm onSubmit={(e) => e.preventDefault()}>
+          <PostingWriteTitle>모집글작성      
+            <PostSpan onClick={openModalPostingWrite}>&times;</PostSpan>
+          </PostingWriteTitle>
+          <InputFieldDiv>
+            <InputField placeholder='식당이름' onChange={handleWritingValue('restaurant_name')}/>
+            <SelectDiv>
+              <StyledMeneSelect 
+                placeholder={'메뉴'} 
+                options={foodList} 
+                onChange={(e)=>handleSelectMenu(e)} 
+              />
+              <StyledPersonSelect 
+                placeholder={'모집인원'} 
+                options={selectPerson} 
+                onChange={(e)=>handleSelectPerson(e)} 
+              />
+            </SelectDiv>
+            <AdressDiv>
 
-        <AdressDiv>
-        <InputAdress placeholder="주소"/>
-        {/* 주소입력과 기본 주소불러오기 */}
-        <AdressBasicDiv>
-        <AdressBasic>기본 주소</AdressBasic>
-        <AdressCheck type="checkbox"></AdressCheck>
-        </AdressBasicDiv>
-        </AdressDiv>
+            {visible? 
+              <>
+                <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
+                <DaumPostcode 
+                  onComplete={handleComplete}
+                  style={addressStyle}
+                  height={700}
+                  />
+              </>
+            : null
+            }
+            
+            {writeInfo.address === '' ? 
+              <AddressInputDiv onClick={() => setVisible(true)} >
+                주소를 검색 해주세요
+              </AddressInputDiv>
+            : <AddressInputDiv onClick={() => setVisible(true)} >
+                {writeInfo.address}
+              </AddressInputDiv>
+            }
 
-        <InputField placeholder="배달료"/>
-        <Detail placeholder="세부사항을 작성해주세요."/>
-        </InputFieldDiv>
-        <PostingWriteButton>등록하기</PostingWriteButton>
-      </PostingWriteForm>
-    </Wrapper>
+              {/* 주소입력과 기본 주소불러오기 */}
+              <AdressBasicDiv>
+              <AdressBasic>기본 주소</AdressBasic>
+              <AdressCheck type='checkbox'></AdressCheck>
+              </AdressBasicDiv>
+            </AdressDiv>
+            <InputField 
+              onKeyPress={handleInput}
+              onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+              placeholder='배달료' 
+              type='number' 
+              onChange={handleWritingValue('delivery_fee')}/>
+            <Detail placeholder='세부사항을 작성해주세요.' onChange={handleWritingValue('body')}/>
+          </InputFieldDiv>
+          <Err>{errorMessage}</Err>
+          <PostingWriteButton onClick={handleWritingBtn} type='submit'>등록하기</PostingWriteButton>
+        </PostingWriteForm>
+      </Wrapper>
     </ModalBackdrop>
     </>
   );
