@@ -2,16 +2,11 @@ import React, { useRef, useEffect , useState} from "react";
 import Navbar from '../component/Navbar'
 import styled from 'styled-components'
 import PostList from '../component/PostList';
-import PostDetail from "../component/PostDetail";
 import PostingWrite from "../modal/PostingWrite";
 import Chatting from "../modal/Chatting";
+import Map from "../component/Map";
 
 
-const options = {
-  //지도 생성 기본 옵션
-  center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도 중심좌표
-  level: 3, //지도 레벨(확대, 축소)
-};
 const Wrapper = styled.div`
 /* display: flex; */
 overflow:hidden; 
@@ -64,7 +59,6 @@ function Main() {
   const [PostingWriteModal, setPostingWriteModal] = useState(false);
   const [ChattingModal, setChattingModal] = useState(false);
   
-
   //글쓰기
   const openModalPostingWrite = () => {
     setPostingWriteModal(!PostingWriteModal);
@@ -74,31 +68,15 @@ function Main() {
     setChattingModal(!ChattingModal)
   }
 
-
-  const MapContainer = useRef(null); //지도 영역 DOM 레퍼런스
-
-
-  useEffect(() => {
-    new window.kakao.maps.Map(MapContainer.current, options); //지도 생성, 객체 리턴
-    return () => {};
-  }, []);
-
-
-
   return (
     <div>
       <Navbar/>
       <Wrapper>
         <PostListDiv>
           <PostList/>
-          {/* <PostDetail/> */}
         </PostListDiv>
         <MapDiv>
-            <div
-                className="map"
-                style={{ width: "100%", height: "100%" }}
-                ref={MapContainer}
-              ></div>
+          <Map />
         </MapDiv>
 
         {/* 글쓰기 버튼 */}
