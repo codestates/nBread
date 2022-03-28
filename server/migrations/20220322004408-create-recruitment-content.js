@@ -30,10 +30,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       lat: {
-        type: Sequelize.STRING
+        type: Sequelize.DOUBLE
       },
       lng: {
-        type: Sequelize.STRING
+        type: Sequelize.DOUBLE
       },
       closed: {
         type: Sequelize.INTEGER

@@ -12,8 +12,8 @@ module.exports = {
       created_at: new Date(),
       restaurant_name: '네네치킨',
       body: 'come and join with me!',
-      lat: "37.49654",
-      lng: "127.02476",
+      lat: 37.49654,
+      lng: 127.02476,
       closed: 1
     }, {
       user_id: 2,
@@ -24,8 +24,8 @@ module.exports = {
       created_at: new Date(),
       restaurant_name: '도미노피자',
       body: 'i like pizza',
-      lat: "37.49672",
-      lng: "127.02571",
+      lat: 37.49672,
+      lng: 127.02571,
       closed: 1
   }], {});
 
