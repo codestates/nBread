@@ -3,9 +3,23 @@ const { Op } = require('sequelize');
 
 module.exports = async (req, res) => {
   // 임시 데이터, contentIdArr 받아올 방법 생각하기
-  const contentIdArr = [1, 2]
+  const { start, end } = req.body;
+  const startArr = start.split(',');
+  const endArr = end.split(',');
+  console.log(startArr, endArr)
   await recruitment_content.findAll({ where : {
-    id: contentIdArr
+    lat : {
+      [Op.and] : {
+        [Op.gt] : Number(startArr[0]),
+        [Op.lt] : Number(endArr[0])
+      }
+    },
+    lng : {
+      [Op.and] : {
+        [Op.gt] : Number(startArr[1]),
+        [Op.lt] : Number(endArr[1])
+      }
+    }
   }})
   .then(data => {
     const contents = [];
