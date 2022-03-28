@@ -29,6 +29,12 @@ module.exports = {
       body: {
         type: Sequelize.STRING
       },
+      lat: {
+        type: Sequelize.STRING
+      },
+      lng: {
+        type: Sequelize.STRING
+      },
       closed: {
         type: Sequelize.INTEGER
       },

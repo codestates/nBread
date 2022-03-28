@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     recruitment_personnel: DataTypes.INTEGER,
     restaurant_name: DataTypes.STRING,
     body: DataTypes.STRING,
+    lat: DataTypes.STRING,
+    lng: DataTypes.STRING,
     closed: DataTypes.INTEGER
   }, {
     sequelize,
