@@ -82,12 +82,16 @@ text-align: center;
 
 function PostDetail({click, setClick}) {
   const list = useSelector((state)=> state.postsDetailReducer.posts)
-  // console.log('listsssss',list)
+  // console.log('listsssss',list.created_at)
+  
+  const changeDate = new Date(list.created_at) 
+  const newChangeDate = changeDate.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}) 
 
   const handleBack = () => {
     // console.log('clclcl')
     setClick(!click)
   }
+
 
   return (
     <div>
@@ -118,7 +122,7 @@ function PostDetail({click, setClick}) {
             <PostListText>배달비: {list.delivery_fee}원</PostListText>
           </PostListTextWrapper>
         </Wrapper>
-          <PostListText>2022 / 03 / 22</PostListText>
+          <PostListText>{newChangeDate}</PostListText>
           <PostListText>주소: {list.address}</PostListText>
           <PostListText>설명글</PostListText>
           <PostListDetailText>

@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     body: DataTypes.STRING,
     lat: DataTypes.DOUBLE,
     lng: DataTypes.DOUBLE,
-    closed: DataTypes.INTEGER
+    closed: DataTypes.INTEGER,
+    created_at: DataTypes.DATE
   }, {
     sequelize,
     freezeTableName: true,

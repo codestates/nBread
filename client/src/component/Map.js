@@ -1,11 +1,16 @@
 import React, { useRef, useEffect , useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
+import { showPostList } from "../redux/posts/actions";
+import { debounce } from 'lodash';
+
 
 const { kakao } = window;
 
 
 function KaKaoMap() {
+  const dispatch = useDispatch();
+
   const [state, setState] = useState({
     // 지도의 초기 위치
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
@@ -21,6 +26,7 @@ function KaKaoMap() {
 
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
+  // console.log('MarkerPost',MarkerPost)
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
   const SearchMap = () => {
@@ -52,10 +58,13 @@ function KaKaoMap() {
 
   useEffect(()=>{
     handleMapInfo()
-  }, [map, state, dragMap])
+  }, [map, state])
+
+  useEffect(()=>{
+    {info && dispatch(showPostList(info)) }
+  }, [info])
 
   const handleMapInfo = () => {
-    // console.log('map',map)
     {map && (setInfo({
       center: {
         lat: map.getCenter().getLat(),
@@ -76,7 +85,6 @@ function KaKaoMap() {
   }
 
 
-
   return (
     <div>
       <Map // 지도를 표시할 Container
@@ -88,12 +96,13 @@ function KaKaoMap() {
           height: "70vh",
         }}
         level={3} // 지도의 확대 레벨
-        onBoundsChanged={(map) => setDragMap({ // 지도 드래그시 남서 북동 위도 경도 
-          sw: map.getBounds().getSouthWest().toString(),
-          ne: map.getBounds().getNorthEast().toString(),
-        })}
+        // onBoundsChanged={(map) => setDragMap({ // 지도 드래그시 남서 북동 위도 경도 
+        //   sw: map.getBounds().getSouthWest().toString(),
+        //   ne: map.getBounds().getNorthEast().toString(),
+        // })}
         onCreate={(map) => setMap(map)}
         onZoomChanged={(map) => setLevel(map.getLevel())}
+        onDragEnd={handleMapInfo}
       >
 
       {MarkerPost.length > 0 && 
