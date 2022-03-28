@@ -1,16 +1,19 @@
 import { WRITING_POST_SUCCESS, WRITING_POST_FAILURE } from "./types";
+import {postInitialState} from '../posts/reducer'
 
 const writingPostInitialState = {
   posts: []
 }
+// console.log('postInitialState',postInitialState)
 
-const writingPostsReducer = (state=writingPostInitialState, action) => {
+const writingPostsReducer = (state=postInitialState, action) => {
   switch(action.type){
     case WRITING_POST_SUCCESS:
-      let post = action.payload;
+      let newPost = action.payload;
+      console.log('writing',newPost)
       return {
         ...state, 
-        posts: post,
+        newPost,
       }
     case WRITING_POST_FAILURE:
       return {

@@ -5,6 +5,8 @@ import Select from 'react-select'
 import { foodList, selectPerson } from './SelectList';
 import DaumPostcode from 'react-daum-postcode';
 import { writingPost } from '../redux/postWriting/action';
+import { useHistory } from 'react-router-dom';
+
 
   //모달창이 떳을때 뒷배경 어둡게
   const ModalBackdrop = styled.div`
@@ -157,6 +159,7 @@ import { writingPost } from '../redux/postWriting/action';
 
 
 function PostingWrite({openModalPostingWrite}) {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const [writeInfo, setWriteInfo] = useState({
@@ -166,6 +169,8 @@ function PostingWrite({openModalPostingWrite}) {
     delivery_fee: '',
     recruitment_personnel: '',
     restaurant_name: '',
+    lat: '',
+    lng: '',
   })
   const [visible, setVisible] = useState(false); // 다음 우편번호 컴포넌트의 노출여부 상태
   const [errorMessage, setErrorMessage] = useState(''); // 에러 메세지 상태
@@ -204,6 +209,7 @@ function PostingWrite({openModalPostingWrite}) {
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
+      history.push('/')
     }
     console.log('handleWritingBtn', data)
   }
