@@ -5,6 +5,14 @@ const express = require('express');
 const cors = require('cors');
 const controllers = require('./controllers');
 const app = express();
+const httpServer = http.createServer(app);
+// const httpsServer = https.createServer(credentials, app);
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: "*",
+    credentials: true
+  }
+})
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -54,8 +62,13 @@ app.delete('/order/:contentId', controllers.cancelOrder);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
 
-const httpServer = http.createServer(app);
-// const httpsServer = https.createServer(credentials, app);
+io.on('connection', (socket) => {
+  console.log("userconnected", socket.id)
+  socket.on('message',(message) => {
+    console.log('--------2---------',message)
+    io.emit('message',(message))
+  })
+})
 
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
