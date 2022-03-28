@@ -2,6 +2,7 @@ import axios from "axios";
 import { SHOW_POST_LIST_SUCCESS } from "./type";
 
 const showPostDetailSuccess = (post) => {
+  console.log('postdetail',post)
   return {
     type: SHOW_POST_LIST_SUCCESS,
     payload: post

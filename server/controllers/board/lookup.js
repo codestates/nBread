@@ -3,10 +3,13 @@ const { Op } = require('sequelize');
 
 module.exports = async (req, res) => {
   // 임시 데이터, contentIdArr 받아올 방법 생각하기
-  const { start, end } = req.body;
+  const { start, end } = req.query;
+  if (!start || !end) {
+    return res.status(204).send({message: '자료 없음'});
+  } 
   const startArr = start.split(',');
   const endArr = end.split(',');
-  console.log(startArr, endArr)
+  console.log('server',startArr, endArr)
   await recruitment_content.findAll({ where : {
     lat : {
       [Op.and] : {

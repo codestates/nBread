@@ -9,7 +9,7 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
   switch(action.type){
     case SHOW_POST_LIST_SUCCESS:
       let post = action.payload.data.data;
-      // console.log('reducerpost',post)
+      console.log('reducerpost',post)
       return {
         ...state, 
         posts: post,
