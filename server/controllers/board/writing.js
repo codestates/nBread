@@ -8,19 +8,21 @@ module.exports = async (req, res) => {
     // 토큰 없을 시 반환할 때 201?? 수정해야하나 여쭤보기
     return res.status(204).send({ message: '권한 없음' })
   }
-  const { address, food, recruitmentPersonnel, fee, restaurantName, body } = req.body;
+  const { address, category_food, recruitment_personnel, delivery_fee, restaurant_name, body, lat, lng } = req.body;
 
   const content = {
     user_id: token.id,
     address: address,
-    category_food: food,
-    delivery_fee: fee,
-    recruitment_personnel: recruitmentPersonnel,
+    category_food: category_food,
+    delivery_fee: delivery_fee,
+    recruitment_personnel: recruitment_personnel,
     // created_at: now(),
-    restaurant_name: restaurantName,
+    restaurant_name: restaurant_name,
     body: body,
-    closed: 1,
-  }
+    lat: lat,
+    lng: lng,
+    closed: 1
+  };
 
   await recruitment_content.create(content)
   .then(data => {
