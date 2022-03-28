@@ -2,16 +2,20 @@ import React, { useRef, useEffect , useState} from "react";
 import styled from 'styled-components';
 import logo from '../icons/ban_logo.png';
 import Login from "../modal/Login";
+import LoginUser from "../component/LoginUser";
 
 
 function Navbar() {
   //로그인 모달
   const [LoginModal, setLoginModal] = useState(false);
+  //로그인 상태일때
+  const [isLogin, setIsLogin] = useState(false);
 
    //로그인 모달
   const openModalLogin = () => {
     setLoginModal(!LoginModal);
   }
+
 
   
   const Wrapper = styled.div`
@@ -33,7 +37,7 @@ function Navbar() {
     <>
       <Wrapper>
         <Logo src={logo}/>
-        <LoginText onClick={openModalLogin}>로그인</LoginText>
+      {isLogin ? <LoginUser>로그아웃</LoginUser>:<LoginText onClick={openModalLogin} LoginModal={LoginModal}>로그인</LoginText>}
       </Wrapper>
       {LoginModal === true ? <Login openModalLogin={openModalLogin}></Login>:null}
     </>

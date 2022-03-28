@@ -2,7 +2,82 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosLogin } from '../redux/user/action';
+import SignUp from "./SignUp";
+import PWConfirm from "./PWConfirm";
 
+function Login({openModalLogin}) {
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  // console.log('login',isLogin)
+
+  const [loginInfo, setLoginInfo] = useState({
+    username: '',
+    password: ''
+  })
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //회원가입 모달
+  const [SignUpModal, setSignUpModal] = useState(false);
+
+  //회원가입 모달
+  const openModalSignUp = () => {
+  setSignUpModal(!SignUpModal)
+  }
+
+  //비밀번호찾기 모달
+  const [PWConfirmModal, setPWConfirmModal] = useState(false);
+
+  //비밀번호찾기 모달
+  const openModalPWConfirm = () => {
+  setPWConfirmModal(!PWConfirmModal)
+  }
+
+  const handleInputValue = (key) => (e) => {
+    setLoginInfo({ ...loginInfo, [key]: e.target.value })
+  }
+
+  const handleLogin = () => {
+    const { userId, password } = loginInfo;
+    // console.log(userId)
+    // console.log(password)
+
+    if (userId === '' || password === '') {
+      setErrorMessage('아이디와 비밀번호를 입력하세요');
+    }else{
+      dispatch(axiosLogin(loginInfo))
+    }
+  }
+
+  return (
+    <>
+    <ModalBackdrop>
+      <Wrapper onClick={(e) => e.stopPropagation()}>
+        <LoginForm onSubmit={(e) => e.preventDefault()}>
+        {!isLogin? <LoginTitle>로그인      
+        <span onClick={openModalLogin}>&times;</span>
+        </LoginTitle>
+        : <div>로그아웃</div>}
+        <InputFieldDiv>
+          <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
+          <Err></Err>
+          <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
+        </InputFieldDiv>
+          <Err>{errorMessage}</Err>
+          <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
+          <LoginButton type='submit'>카카오 로그인</LoginButton>
+            <SignUpButton onClick={openModalSignUp}>회원가입</SignUpButton>
+            <PassWorldCheck onClick={openModalPWConfirm}>비밀번호찾기</PassWorldCheck>
+        </LoginForm>
+      </Wrapper>
+      {/* 회원가입 모달 */}
+      {SignUpModal === true ? <SignUp openModalSignUp={openModalSignUp}></SignUp>:null}
+
+      {/* 비밀번호찾기 모달 */}
+      {PWConfirmModal === true ? <PWConfirm openModalPWConfirm={openModalPWConfirm}></PWConfirm>:null}
+    </ModalBackdrop>
+  </>
+  );
+}
 //모달창이 떳을때 뒷배경 어둡게
 const ModalBackdrop = styled.div`
 position: fixed;
@@ -72,7 +147,7 @@ color: red;
 margin-top: 2px;
 `;
 
-const SignUp = styled.div`
+const SignUpButton = styled.div`
 margin-top: 20px;
 font-size: 14px;
 color: gray;
@@ -83,64 +158,4 @@ margin-top: 20px;
 font-size: 14px;
 color: gray;
 `;
-
-function Login({openModalLogin}) {
-  const dispatch = useDispatch();
-  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
-  // console.log('login',isLogin)
-
-  const [loginInfo, setLoginInfo] = useState({
-    username: '',
-    password: ''
-  })
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const handleInputValue = (key) => (e) => {
-    setLoginInfo({ ...loginInfo, [key]: e.target.value })
-  }
-
-  const handleLogin = () => {
-    const { userId, password } = loginInfo;
-    // console.log(userId)
-    // console.log(password)
-
-    if (userId === '' || password === '') {
-      setErrorMessage('아이디와 비밀번호를 입력하세요');
-    }else{
-      dispatch(axiosLogin(loginInfo))
-    }
-  }
-
-  return (
-    <>
-    <ModalBackdrop onClick={openModalLogin}>
-      <Wrapper onClick={(e) => e.stopPropagation()}>
-        <LoginForm onSubmit={(e) => e.preventDefault()}>
-        {!isLogin? <LoginTitle>로그인      
-        <span onClick={openModalLogin}>&times;</span>
-        </LoginTitle>
-        : <div>로그아웃</div>}
-        <InputFieldDiv>
-          <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
-          <Err></Err>
-          <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
-        </InputFieldDiv>
-          <Err>{errorMessage}</Err>
-          
-            
-          <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
-          <LoginButton type='submit'>카카오 로그인</LoginButton>
-            
-          
-          
-            <SignUp className="bigBtn1">회원가입</SignUp>
-            <PassWorldCheck>비밀번호찾기</PassWorldCheck>
-          
-        </LoginForm>
-      </Wrapper>
-    </ModalBackdrop>
-  </>
-  );
-}
-
 export default Login;

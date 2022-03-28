@@ -1,4 +1,4 @@
-import { LOG_IN_SUCCESS } from "./types"
+import { LOG_IN_SUCCESS,LOG_IN_REQUEST,LOG_IN_FAILURE } from "./types"
 
 const loginInitialState = {
   isLogIn: false,
@@ -15,6 +15,16 @@ const loginReducer = (state=loginInitialState, action) => {
         data: data,
         isLogIn: true
       }
+      case LOG_IN_REQUEST:
+        return {
+          ...state
+        }
+        case LOG_IN_FAILURE:
+          return {
+            ...state, 
+            data: data,
+            isLogIn: true
+          }
     default: return state;
   }
 }
