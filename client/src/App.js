@@ -6,6 +6,7 @@ import SignUp from './modal/SignUp';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import Comment from './component/Comment';
+import LoginUser from './component/LoginUser';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path="/comment">
           <Comment/>
+        </Route>
+        <Route path="/LoginUser">
+          <LoginUser/>
         </Route>
     </BrowserRouter>
   );
