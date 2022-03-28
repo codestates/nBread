@@ -3,7 +3,7 @@ const { isAuthorized } = require('../tokenFunctions')
 
 module.exports = async (req, res) => {
 
-  const token = isAuthorized(req);
+  const token = isAuthorized(req, res);
   if (!token) {
     // 토큰 없을 시 반환할 때 201?? 수정해야하나 여쭤보기
     return res.status(204).send({ message: '권한 없음' })
@@ -34,6 +34,6 @@ module.exports = async (req, res) => {
   })
   .catch(err => {
     console.log('boardWriting error :', err);
-    res.send(500).send({message: '서버 에러'});
+    res.status(500).send({message: '서버 에러'});
   })
 }
