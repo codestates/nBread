@@ -201,7 +201,7 @@ function PostingWrite({openModalPostingWrite}) {
     }
   },[writeInfo.address])
 
-  // 주소 검색시 경도 위도 변경
+  // 글쓰기창에서 주소 검색시 경도 위도 찾아오기
   const newSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     
@@ -231,6 +231,7 @@ function PostingWrite({openModalPostingWrite}) {
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
+      // history.push('/')
       window.location.replace("/") 
       alert('글쓰기가 성공했습니다')
     }

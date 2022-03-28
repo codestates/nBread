@@ -1,4 +1,4 @@
-import { SHOW_POST_LIST } from "./types";
+import { SHOW_POST_LIST , RESET_POST_LIST} from "./types";
 
 
 export const postInitialState = {
@@ -13,7 +13,10 @@ const postsReducer = (state=postInitialState, action) => {
         ...state, 
         posts: post,
       }
-    
+    case RESET_POST_LIST:
+      return {
+        posts: null,
+      }
     default: return state;
   }
 }

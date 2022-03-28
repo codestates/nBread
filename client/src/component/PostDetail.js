@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import logo1 from '../icons/01.png'
 import { showPostDetail } from '../redux/postList/action';
 
 
@@ -89,7 +88,7 @@ function PostDetail({click, setClick}) {
 
   const handleBack = () => {
     // console.log('clclcl')
-    setClick(!click)
+    setClick(false)
   }
 
 
@@ -115,7 +114,7 @@ function PostDetail({click, setClick}) {
         </PostIconWrapper>
 
         <Wrapper>
-          <PostListImg src={logo1}/>
+          <PostListImg src={`/icon/${list.category_food}.png`}/>
           <PostListTextWrapper>
             <PostListText>식당이름: {list.restaurant_name}</PostListText>
             <PostListText>모집인원: {list.recruitment_personnel}명</PostListText>
