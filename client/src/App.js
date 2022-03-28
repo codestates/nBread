@@ -7,6 +7,7 @@ import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import Comment from './component/Comment';
 import LoginUser from './component/LoginUser';
+import Chatting_test from './modal/Chatting_test';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/LoginUser">
           <LoginUser/>
+        </Route>
+        <Route path="/test">
+          <Chatting_test/>
         </Route>
     </BrowserRouter>
   );
