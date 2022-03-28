@@ -2,9 +2,6 @@ import axios from 'axios';
 import { WRITING_POST_SUCCESS, WRITING_POST_FAILURE } from "./types";
 import { useHistory } from 'react-router-dom';
 
-// const history = useHistory();
-// history.push('/')
-
 const writingPostSuccess = (post) => {
   console.log('writingSuccess',post)
   return {
@@ -28,16 +25,14 @@ export const writingPost = (post) => {
       body: post.body,
       category_food: post.category_food,
       delivery_fee: post.delivery_fee,
-      recruitment_personnel: post.delivery_fee,
+      recruitment_personnel: post.recruitment_personnel,
       restaurant_name: post.restaurant_name
     }, {withCredentials: true})
     .then(data => {
-      // const history = useHistory();
-      console.log('ressss',data.status)
+      // console.log('ressss',data.status)
       if(data.status === 201){
+        const history = useHistory();
         dispatch(writingPostSuccess(post))
-        // history.push('/')
-        // alert('글이 성공적으로 작성되었습니다.');
       }else{
         console.log('글쓰기 실패')
       }
