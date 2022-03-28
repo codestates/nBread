@@ -10,7 +10,7 @@ function Main() {
   
   const [PostingWriteModal, setPostingWriteModal] = useState(false);
   const [ChattingModal, setChattingModal] = useState(false);
-  
+
   //글쓰기
   const openModalPostingWrite = () => {
     setPostingWriteModal(!PostingWriteModal);

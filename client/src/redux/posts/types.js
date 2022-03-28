@@ -1,1 +1,2 @@
 export const SHOW_POST_LIST = 'SHOW_POST_LIST';
+export const RESET_POST_LIST = 'RESET_POST_LIST';

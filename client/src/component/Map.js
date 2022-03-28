@@ -1,14 +1,14 @@
 import React, { useRef, useEffect , useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { showPostList } from "../redux/posts/actions";
+import { showPostList, showPostReset } from "../redux/posts/actions";
 import { debounce } from 'lodash';
 
 
 const { kakao } = window;
 
 
-function KaKaoMap() {
+function KaKaoMap({handleMapLevel}) {
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
@@ -23,7 +23,6 @@ function KaKaoMap() {
   const [searchAddress, SetSearchAddress] = useState();
   const [map, setMap] = useState();
   const [info, setInfo] = useState();
-
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
   // console.log('MarkerPost',MarkerPost)
@@ -60,8 +59,13 @@ function KaKaoMap() {
     handleMapInfo()
   }, [map, state])
 
+  // 지도의 레벨에 맞춰 목록 출력
   useEffect(()=>{
-    {info && dispatch(showPostList(info)) }
+    if(info && info.level <= 5){
+      dispatch(showPostList(info))
+    }else if(info && info.level >= 6){
+      dispatch(showPostList())
+    }    
   }, [info])
 
   const handleMapInfo = () => {
@@ -82,6 +86,7 @@ function KaKaoMap() {
       },
     }))
     }
+
   }
 
 
@@ -95,17 +100,14 @@ function KaKaoMap() {
           width: "100%",
           height: "70vh",
         }}
-        level={3} // 지도의 확대 레벨
-        // onBoundsChanged={(map) => setDragMap({ // 지도 드래그시 남서 북동 위도 경도 
-        //   sw: map.getBounds().getSouthWest().toString(),
-        //   ne: map.getBounds().getNorthEast().toString(),
-        // })}
+        level={4} // 지도의 확대 레벨
         onCreate={(map) => setMap(map)}
         onZoomChanged={(map) => setLevel(map.getLevel())}
-        onDragEnd={handleMapInfo}
+        // onDragEnd={handleMapInfo}
+        onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
       >
 
-      {MarkerPost.length > 0 && 
+      {MarkerPost && 
         MarkerPost.map((el, index) => (
           <MapMarker
             // key={`${position.title}-${position.latlng}`}
@@ -133,14 +135,6 @@ function KaKaoMap() {
     >
       지도 중심좌표 부드럽게 이동시키기
     </button>
-      {/* {!!dragMap && (
-            <>
-              <p>
-                {'영역좌표는 남서쪽 위도, 경도는  ' + dragMap.sw + ' 이고'}<br/>
-                {'북동쪽 위도, 경도는  ' + dragMap.ne + '입니다'}
-              </p>
-            </>
-          )} */}
       {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>}
       <div>
         <input onChange={handleSearchAddress} onKeyPress={onKeyPress}></input>
@@ -156,6 +150,7 @@ function KaKaoMap() {
           <p>북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}</p>
         </div>
       )}
+      {/* <button onClick={handleMapLevel}>클릭</button> */}
     </div>
   );
 }
