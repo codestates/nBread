@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useRef, useEffect , useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Select from 'react-select'
@@ -6,6 +6,7 @@ import { foodList, selectPerson } from './SelectList';
 import DaumPostcode from 'react-daum-postcode';
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
+const { kakao } = window;
 
 
   //모달창이 떳을때 뒷배경 어둡게
@@ -128,8 +129,7 @@ import { useHistory } from 'react-router-dom';
 `;
 
   const Detail = styled(InputField)`
-    height: 180px;
-    margin-top: 20px;
+    height: 180px;    margin-top: 20px;
   `;
 
   const Err = styled.div`
@@ -195,15 +195,37 @@ function PostingWrite({openModalPostingWrite}) {
     }
   };
 
+  useEffect(()=>{
+    if(writeInfo.address){
+      newSearchAddress()
+    }
+  },[writeInfo.address])
+
+  // 주소 검색시 경도 위도 변경
+  const newSearchAddress = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    
+    let callback = function(result, status) {
+      if (status === 'OK') {
+        const newAddSearch = result[0]
+        setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
+      }
+    };
+    console.log('writeInfo',writeInfo)
+    geocoder.addressSearch(`${writeInfo.address}`, callback);
+  }
+
   const handleWritingBtn = () => {
-    const {address , body, category_food, delivery_fee, recruitment_personnel, restaurant_name} = writeInfo;
+    const {address , body, category_food, delivery_fee, recruitment_personnel, restaurant_name, lat, lng} = writeInfo;
     const data = {
       address: address,
       body: body,
       category_food: category_food,
       delivery_fee: delivery_fee,
       recruitment_personnel: recruitment_personnel,
-      restaurant_name: restaurant_name
+      restaurant_name: restaurant_name,
+      lat: lat,
+      lng: lng,
     }
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
       setErrorMessage('모든 항목은 필수입니다')
@@ -212,7 +234,7 @@ function PostingWrite({openModalPostingWrite}) {
       window.location.replace("/") 
       alert('글쓰기가 성공했습니다')
     }
-    // console.log('handleWritingBtn', data)
+    console.log('handleWritingBtn', data)
   }
 
   // 주소 api css
@@ -275,6 +297,7 @@ function PostingWrite({openModalPostingWrite}) {
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
                 <DaumPostcode 
                   onComplete={handleComplete}
+                  onSuccess={newSearchAddress}
                   style={addressStyle}
                   height={700}
                   />

@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     return res.status(204).send({ message: '권한 없음' })
   }
   const { address, category_food, recruitment_personnel, delivery_fee, restaurant_name, body, lat, lng } = req.body;
-
+  
   const content = {
     user_id: token.id,
     address: address,
