@@ -1,4 +1,5 @@
 import React, { useRef, useEffect , useState} from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
@@ -18,6 +19,8 @@ function KaKaoMap() {
   const [map, setMap] = useState();
   const [info, setInfo] = useState();
 
+  // 마커 표시 게시물 데이터
+  const MarkerPost = useSelector((state)=> state.postsReducer.posts)
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
   const SearchMap = () => {
@@ -72,6 +75,8 @@ function KaKaoMap() {
     }
   }
 
+
+
   return (
     <div>
       <Map // 지도를 표시할 Container
@@ -90,9 +95,24 @@ function KaKaoMap() {
         onCreate={(map) => setMap(map)}
         onZoomChanged={(map) => setLevel(map.getLevel())}
       >
-      <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
-        <div style={{color:"#000"}}>Hello World!</div>
-      </MapMarker>
+
+      {MarkerPost.length > 0 && 
+        MarkerPost.map((el, index) => (
+          <MapMarker
+            // key={`${position.title}-${position.latlng}`}
+            key={index}
+            position={{ lat: el.lat, lng: el.lng }} // 마커 표시 위치
+            image={{
+              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지 주소
+              size: {
+                widht: 24,
+                height: 35
+              }, // 마커이미지의 크기
+            }}
+            // title={position.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          />
+        ))
+      }
     </Map>
     <button
       onClick={() =>
