@@ -68,7 +68,7 @@ function SignUp({openModalSignUp,SignUpModal}) {
 
   return (
     <>
-    <ModalBackdrop>
+    <ModalBackdrop onClick={openModalSignUp}>
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <SignUpForm onSubmit={(e) => e.preventDefault()}>
       <SignUpTitle>회원가입   
