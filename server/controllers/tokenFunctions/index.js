@@ -15,7 +15,7 @@ module.exports = {
     let auth = req.headers.cookie;
 
     if (!auth) {
-      return res.send({ message: '로그인이 필요한 서비스입니다' });
+      return null;
     }
 
     let token = auth.split(' ')[0].split('=')[1];

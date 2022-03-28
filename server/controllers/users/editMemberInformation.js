@@ -5,6 +5,10 @@ module.exports = (req, res) => {
 
   let token = isAuthorized(req, res);
 
+  if (!token) {
+    return res.status(204).send({ message: '권한 없음' });
+  }
+
   user.update({
     nickname: req.body.nickname,
     password: req.body.password,
