@@ -26,12 +26,13 @@ export const writingPost = (post) => {
       category_food: post.category_food,
       delivery_fee: post.delivery_fee,
       recruitment_personnel: post.recruitment_personnel,
-      restaurant_name: post.restaurant_name
+      restaurant_name: post.restaurant_name,
+      lat: post.lat,
+      lng: post.lng,
     }, {withCredentials: true})
     .then(data => {
       // console.log('ressss',data.status)
       if(data.status === 201){
-        const history = useHistory();
         dispatch(writingPostSuccess(post))
       }else{
         console.log('글쓰기 실패')
