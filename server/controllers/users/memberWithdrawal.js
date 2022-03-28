@@ -4,6 +4,10 @@ const { isAuthorized } = require('../tokenFunctions');
 module.exports = (req, res) => {
 
   let token = isAuthorized(req, res);
+
+  if (!token) {
+    return res.status(204).send({ message: '권한 없음' });
+  }
   
   user.destroy({
     where: {

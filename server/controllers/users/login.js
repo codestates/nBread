@@ -24,7 +24,7 @@ module.exports = (req, res) => {
     let accessToken = generateAccessToken(userInfo);
 
     sendAccessToken(res, accessToken);
-    res.status(200).send({ message: '로그인 성공' });
+    res.status(200).send({ data: userInfo, message: '로그인 성공' });
   }).catch( (err) => {
     res.status(500).send({ message: '서버 에러' });
   });
