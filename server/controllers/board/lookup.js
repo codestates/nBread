@@ -17,6 +17,6 @@ module.exports = async (req, res) => {
   })
   .catch(err => {
     console.log('boardDetailLookup error :', err);
-    res.send(500).send({message: '서버 에러'});
+    res.status(500).send({message: '서버 에러'});
   })
 };

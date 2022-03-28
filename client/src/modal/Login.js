@@ -50,7 +50,7 @@ function Login({openModalLogin}) {
 
   return (
     <>
-    <ModalBackdrop>
+    <ModalBackdrop onClick={openModalLogin}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         {!isLogin? <LoginTitle>로그인      
