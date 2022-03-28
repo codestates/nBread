@@ -209,9 +209,10 @@ function PostingWrite({openModalPostingWrite}) {
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
-      history.push('/')
+      window.location.replace("/") 
+      alert('글쓰기가 성공했습니다')
     }
-    console.log('handleWritingBtn', data)
+    // console.log('handleWritingBtn', data)
   }
 
   // 주소 api css
