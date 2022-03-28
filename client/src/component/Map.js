@@ -1,46 +1,135 @@
 import React, { useRef, useEffect , useState} from "react";
+import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
 
-function Map() {
+function KaKaoMap() {
   const [state, setState] = useState({
     // 지도의 초기 위치
     center: { lat: 37.49676871972202, lng: 127.02474726969814 },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
-  })
+  });
+  const [dragMap, setDragMap] = useState();
+  const [position, setPosition] = useState();
+  const [level, setLevel] = useState();
+  const [searchAddress, SetSearchAddress] = useState();
+  const [map, setMap] = useState();
+  const [info, setInfo] = useState();
 
-  const MapContainer = useRef(null); //지도 영역 DOM 레퍼런스
 
-  const options = {
-    //지도 생성 기본 옵션
-    center: new kakao.maps.LatLng(state.center.lat, state.center.lng), //지도 중심좌표
-    level: 3, //지도 레벨(확대, 축소)
-  };
-  
+  // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
+  const SearchMap = () => {
+    console.log('searchAddress',searchAddress)
+    const ps = new kakao.maps.services.Places()
+    
+    const placesSearchCB = function(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+            console.log(status);
+            console.log(data);
+            const newSearch = data[0]
+            setState({
+              center: { lat: newSearch.y, lng: newSearch.x }
+            })
+        }
+    };
+    ps.keywordSearch(`${searchAddress}`, placesSearchCB); 
+  }
 
-  useEffect(() => {
-    const map = new kakao.maps.Map(MapContainer.current, options); //지도 생성, 객체 리턴
-  }, [state]);
+  const onKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      SearchMap()
+    }
+  }
+
+  const handleSearchAddress = (e) => {
+    SetSearchAddress(e.target.value)
+  }
+
+  useEffect(()=>{
+    handleMapInfo()
+  }, [map, state, dragMap])
+
+  const handleMapInfo = () => {
+    // console.log('map',map)
+    {map && (setInfo({
+      center: {
+        lat: map.getCenter().getLat(),
+        lng: map.getCenter().getLng(),
+      },
+      level: map.getLevel(),
+      typeId: map.getMapTypeId(),
+      swLatLng: {
+        lat: map.getBounds().getSouthWest().getLat(),
+        lng: map.getBounds().getSouthWest().getLng(),
+      },
+      neLatLng: {
+        lat: map.getBounds().getNorthEast().getLat(),
+        lng: map.getBounds().getNorthEast().getLng(),
+      },
+    }))
+    }
+  }
 
   return (
     <div>
-      <div
-        className="map"
-        style={{ width: "100vw", height: "80vh" }}
-        ref={MapContainer}
-      ></div>
-
-      <button
-        onClick={() =>setState({center: { lat: 33.450701, lng: 126.570667 }})}
+      <Map // 지도를 표시할 Container
+        center={state.center}
+        isPanto={state.isPanto}
+        style={{
+          // 지도의 크기
+          width: "100%",
+          height: "70vh",
+        }}
+        level={3} // 지도의 확대 레벨
+        onBoundsChanged={(map) => setDragMap({ // 지도 드래그시 남서 북동 위도 경도 
+          sw: map.getBounds().getSouthWest().toString(),
+          ne: map.getBounds().getNorthEast().toString(),
+        })}
+        onCreate={(map) => setMap(map)}
+        onZoomChanged={(map) => setLevel(map.getLevel())}
       >
-        지도 중심좌표 부드럽게 이동시키기
-      </button>
-
+      <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
+        <div style={{color:"#000"}}>Hello World!</div>
+      </MapMarker>
+    </Map>
+    <button
+      onClick={() =>
+        setState({
+          center: { lat: 33.55635, lng: 126.795841 },
+          isPanto: true,
+        })
+      }
+    >
+      지도 중심좌표 부드럽게 이동시키기
+    </button>
+      {/* {!!dragMap && (
+            <>
+              <p>
+                {'영역좌표는 남서쪽 위도, 경도는  ' + dragMap.sw + ' 이고'}<br/>
+                {'북동쪽 위도, 경도는  ' + dragMap.ne + '입니다'}
+              </p>
+            </>
+          )} */}
+      {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>}
+      <div>
+        <input onChange={handleSearchAddress} onKeyPress={onKeyPress}></input>
+        <button onClick={SearchMap}>클릭</button>
+      </div>
+      {info && (
+        <div>
+          <p>위도 : {info.center.lat}</p>
+          <p>경도 : {info.center.lng}</p>
+          <p>레벨 : {info.level}</p>
+          <p>타입 : {info.typeId}</p>
+          <p>남서쪽 좌표 : {info.swLatLng.lat}, {info.swLatLng.lng}</p>
+          <p>북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}</p>
+        </div>
+      )}
     </div>
   );
 }
 
-export default Map;
+export default KaKaoMap;
 
