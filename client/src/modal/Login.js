@@ -5,6 +5,7 @@ import { axiosLogin } from '../redux/user/action';
 import SignUp from "./SignUp";
 import PWConfirm from "./PWConfirm";
 
+
 function Login({openModalLogin}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
@@ -45,6 +46,7 @@ function Login({openModalLogin}) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     }else{
       dispatch(axiosLogin(loginInfo))
+      openModalLogin()
     }
   }
 
@@ -53,10 +55,9 @@ function Login({openModalLogin}) {
     <ModalBackdrop onClick={openModalLogin}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
-        {!isLogin? <LoginTitle>로그인      
+        <LoginTitle>로그인      
         <span onClick={openModalLogin}>&times;</span>
         </LoginTitle>
-        : <div>로그아웃</div>}
         <InputFieldDiv>
           <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
           <Err></Err>

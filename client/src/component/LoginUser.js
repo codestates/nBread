@@ -1,8 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosLogout } from '../redux/user/action';
 
 function LoginUser() {
+  const dispatch = useDispatch();  
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const data = useSelector((state)=> state.loginReducer.data)
   const history = useHistory()
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -10,10 +15,17 @@ function LoginUser() {
   const onClick = () => {
     setIsActive(!isActive);
   }
+
+  const handleLogout = () => {
+      dispatch(axiosLogout())
+      isLogin(false)
+  }
+
+
   return (
     <Wrapper>
     <MenuTrigger isActive onClick={onClick}>
-        <UserName>로그인상태</UserName>
+        <UserName>{data.nickname + " 님"}</UserName>
           <UserImg className="userImg"/>
       </MenuTrigger>
       <Svg 
@@ -29,7 +41,7 @@ function LoginUser() {
       <LoginMenu ref={dropdownRef}>
         <Ul>
           <Li onClick={null}><A href="/MyPage">마이페이지</A></Li>
-          <Li onClick={null}><A href="/">로그아웃</A></Li>
+          <Li onClick={handleLogout}><A href="/">로그아웃</A></Li>
         </Ul>
       </LoginMenu>
     </Wrapper>
@@ -42,6 +54,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 20px;
+  z-index: 99;
 `;
 
 const MenuTrigger = styled.div`
@@ -95,14 +108,18 @@ const LoginMenu = styled.nav`
   width: 200px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  //-------------------------------
+  /* //-----------기본적용되어있던것.
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-20px);
+  transform: translateY(-20px); */
+  //-----------임시로적용
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
   //조건부 스타일링
-  opacity: ${props => (props.isActive === true ? "1" : "0")};
+  /* opacity: ${props => (props.isActive === true ? "1" : "0")};
   visibility: ${props => (props.isActive === true ? "visible" : "hidden")};
-  transform: ${props => (props.isActive === true ? "translateY(0)" : "translateY(-20px)")};
+  transform: ${props => (props.isActive === true ? "translateY(0)" : "translateY(-20px)")}; */
 `;
 
 const Ul = styled.ul`

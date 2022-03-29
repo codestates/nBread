@@ -1,24 +1,30 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { axiosLogin } from '../redux/user/action';
 function SignUp({openModalSignUp,SignUpModal}) {
+  const dispatch = useDispatch();
+  const SignUp = useSelector((state)=> state.loginReducer.SignUp)
+  
+
   const [userInfo, setUserInfo] = useState({
     username: '',
     password: '',
     passwordCheck: '',
-    nickName: ''
+    nickname: ''
   })
   const [message, setMessage] = useState({
     idMessage: '',
     passwordMessage: '',
     passwordCheckMessage: '',
-    nickNameMessage: ''
+    nicknameMessage: '',
+    errorMessage: ''
   })
   const [validation, setValidation] = useState({
     idValidation: false,
     passwordValidation: false,
     passwordCheckValidation: false,
-    nickNameValidation: false,
+    nicknameValidation: false,
     errorValidation: false
   })
 
@@ -26,7 +32,7 @@ function SignUp({openModalSignUp,SignUpModal}) {
 
   const usernameRegExp = /^[A-Za-z0-9+]{4,12}$/; 
   const passwordRegExp = /^[A-Za-z0-9~!@#$%^&*()_+|<>?:{}+]{8,16}$/;
-  const nickNameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
+  const nicknameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
 
   const handleInputValue = (key) => (e) => {
     setUserInfo({ ...userInfo, [key]: e.target.value })
@@ -58,10 +64,26 @@ function SignUp({openModalSignUp,SignUpModal}) {
       }
     }
 
-    if (key === 'nickName') {
-      if (e.target.value.length < 2 || e.target.value.length > 10 || !nickNameRegExp.test(e.target.value)) {
-        setMessage({ ...message, nickNameMessage: '2~10자 한글, 영어 , 숫자만 사용 가능 합니다'})
-        setValidation({ ...validation, nickNameValidation: true})
+    if (key === 'nickname') {
+      if (e.target.value.length < 2 || e.target.value.length > 10 || !nicknameRegExp.test(e.target.value)) {
+        setMessage({ ...message, nicknameMessage: '2~10자 한글, 영어 , 숫자만 사용 가능 합니다'})
+        setValidation({ ...validation, nicknameValidation: true})
+      } else {
+        setValidation({ ...validation, nicknameValidation: false})
+      }
+    }
+  }
+
+  const handleSignup = () => {
+    const { username, password, passwordCheck, nickname  } = userInfo;
+
+    if (!username || !password || !passwordCheck || !nickname) {
+      setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
+      setValidation({ ...validation, errorValidation: true})
+    }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && nicknameRegExp.test(nickname) && password === passwordCheck){
+      dispatch(axiosLogin(userInfo))
+      if(SignUp === true){
+        alert('회원가입 완료되었습니다.')
       }
     }
   }
@@ -81,9 +103,10 @@ function SignUp({openModalSignUp,SignUpModal}) {
         <InputField placeholder="비밀번호 확인" onChange={handleInputValue('passwordCheck')}/>
         {userInfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <InputField placeholder="전화번호"/>
-        <InputField placeholder="닉네임" onChange={handleInputValue('nickName')}/>
-        {userInfo.nickName.length > 0 && validation.nickNameValidation ? <Err>{message.nickNameMessage}</Err> : null}
-        <SignUpButton>회원가입</SignUpButton>
+        <InputField placeholder="닉네임" onChange={handleInputValue('nickname')}/>
+        {userInfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
+        <Err>{message.errorMessage}</Err>
+        <SignUpButton type='submit' onClick={handleSignup}>회원가입</SignUpButton>
         <SignUpToLogin>로그인으로 돌아가기</SignUpToLogin>
       </SignUpForm>
     </Wrapper>
