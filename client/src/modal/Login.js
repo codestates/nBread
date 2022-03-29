@@ -9,6 +9,7 @@ import PWConfirm from "./PWConfirm";
 function Login({openModalLogin}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const LoginModal = useSelector((state)=> state.loginReducer.LoginModal)
   // console.log('login',isLogin)
 
   const [loginInfo, setLoginInfo] = useState({
@@ -23,6 +24,7 @@ function Login({openModalLogin}) {
   //회원가입 모달
   const openModalSignUp = () => {
   setSignUpModal(!SignUpModal)
+  LoginModal(false)
   }
 
   //비밀번호찾기 모달
