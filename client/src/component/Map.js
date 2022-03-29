@@ -98,7 +98,7 @@ function KaKaoMap({handleMapLevel}) {
         style={{
           // 지도의 크기
           width: "100%",
-          height: "70vh",
+          height: "100vh",
         }}
         level={4} // 지도의 확대 레벨
         onCreate={(map) => setMap(map)}
@@ -125,7 +125,7 @@ function KaKaoMap({handleMapLevel}) {
         ))
       }
     </Map>
-    <button
+    {/* <button
       onClick={() =>
         setState({
           center: { lat: 33.55635, lng: 126.795841 },
@@ -134,13 +134,15 @@ function KaKaoMap({handleMapLevel}) {
       }
     >
       지도 중심좌표 부드럽게 이동시키기
-    </button>
-      {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>}
-      <div>
+    </button> */}
+      {/* {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>} */}
+
+      {/* <div>
         <input onChange={handleSearchAddress} onKeyPress={onKeyPress}></input>
         <button onClick={SearchMap}>클릭</button>
-      </div>
-      {info && (
+      </div> */}
+
+      {/* {info && (
         <div>
           <p>위도 : {info.center.lat}</p>
           <p>경도 : {info.center.lng}</p>
@@ -149,7 +151,7 @@ function KaKaoMap({handleMapLevel}) {
           <p>남서쪽 좌표 : {info.swLatLng.lat}, {info.swLatLng.lng}</p>
           <p>북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}</p>
         </div>
-      )}
+      )} */}
       {/* <button onClick={handleMapLevel}>클릭</button> */}
     </div>
   );
