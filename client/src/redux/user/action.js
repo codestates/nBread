@@ -5,7 +5,8 @@ import {
   LOG_OUT_SUCCESS,
   USER_DELETE,
   USER_SIGNUP,
-  USER_EDIT
+  USER_EDIT,
+  LOGIN_MODAL
 } from "./types"
 import axios from "axios"
 
@@ -59,6 +60,13 @@ const userEdit = (res) => {
   }
 }
 
+//로그인 모달
+const LoginModal = () => {
+  return {
+    type : LOGIN_MODAL
+  }
+}
+
 //-----------로그인-------------------
 export const axiosLogin = (user) => {
   // console.log('loginInfo',loginInfo)
@@ -105,21 +113,28 @@ export const axiosUserDelete = () => {
   }
 
   //-----------회원가입-------------------
-export const axiosUserSignUp = (user) => {
+export const axiosUserSignUp = (data) => {
+  console.log('user22222222222',data.username)
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-    username: user.username,
-    password: user.password,
-    nickname: user.nickname,
+    username: data.username,
+    password: data.password,
+    nickname: data.nickname,
     // phoneNumber: loginInfo.phoneNumber
     } ,{withCredentials: true})
   .then(res => {
-  dispatch(userSignUp())
+    if(res.status===200){
+      console.log('회원가입완료')
+      dispatch(userSignUp())
+      
+    }else{
+      console.log('err')
+    }
+  
   })
   .catch(err=> console.log(err))
   }
   }
-//콘솔, if문 추가
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
     return (dispatch) => {

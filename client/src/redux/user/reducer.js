@@ -4,12 +4,15 @@ import {
   LOG_IN_FAILURE,
   LOG_OUT_SUCCESS,
   USER_DELETE,USER_SIGNUP,
-  USER_EDIT } from "./types"
+  USER_EDIT,
+  LOGIN_MODAL
+} from "./types"
 
 const loginInitialState = {
   isLogIn: false,
   data:[],
-  SignUp: false
+  SignUp: false,
+  LoginModal: false
 }
 
 
@@ -57,6 +60,12 @@ const loginReducer = (state=loginInitialState, action) => {
         return {
           ...state, 
           data: action.payload
+        }   
+      //로그인 모달    
+      case LOGIN_MODAL:
+        return {
+          ...state, 
+          LoginModal: true
         }       
     default: return state;
   }

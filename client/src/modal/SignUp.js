@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { axiosLogin } from '../redux/user/action';
+import { axiosUserSignUp } from '../redux/user/action';
 function SignUp({openModalSignUp,SignUpModal}) {
   const dispatch = useDispatch();
   const SignUp = useSelector((state)=> state.loginReducer.SignUp)
@@ -81,7 +81,7 @@ function SignUp({openModalSignUp,SignUpModal}) {
       setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
       setValidation({ ...validation, errorValidation: true})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && nicknameRegExp.test(nickname) && password === passwordCheck){
-      dispatch(axiosLogin(userInfo))
+      dispatch(axiosUserSignUp(userInfo))
       if(SignUp === true){
         alert('회원가입 완료되었습니다.')
       }

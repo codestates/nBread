@@ -8,3 +8,6 @@ export const USER_DELETE = 'USER_DELETE';
 export const USER_SIGNUP = 'USER_SIGNUP';
 //회원정보수정
 export const USER_EDIT = 'USER_EDIT';
+
+//로그인 모달
+export const LOGIN_MODAL = 'LOGIN_MODAL';
