@@ -39,7 +39,7 @@ const logoutSuccess = () => {
 //회원탈퇴 테스트
 const userDelete = () => {
   return {
-    type : USER_DELETE,
+    type : USER_DELETE
   }
 }
 
@@ -83,9 +83,10 @@ export const axiosLogin = (user) => {
 //-----------로그아웃-------------------
   export const axiosLogout = () => {
     return (dispatch) => {
-    dispatch(logoutSuccess())
-    axios.post(`${process.env.REACT_APP_API_URL}/users/login`,{withCredentials: true})
+      console.log('dkanrjsk')
+    axios.post(`${process.env.REACT_APP_API_URL}/users/logout`,{},{withCredentials: true})
     .then(res => {
+      console.log('res222222',res)
     dispatch(logoutSuccess())
     })
     .catch(err=> console.log(err))
@@ -96,6 +97,7 @@ export const axiosUserDelete = () => {
   return (dispatch) => {
   axios.delete(`${process.env.REACT_APP_API_URL}/users`,{withCredentials: true})
   .then(res => {
+    console.log('res',res)
   dispatch(userDelete())
   })
   .catch(err=> console.log(err))
@@ -105,7 +107,6 @@ export const axiosUserDelete = () => {
   //-----------회원가입-------------------
 export const axiosUserSignUp = (user) => {
   return (dispatch) => {
-  dispatch(userSignUp())
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
     username: user.username,
     password: user.password,
@@ -118,7 +119,7 @@ export const axiosUserSignUp = (user) => {
   .catch(err=> console.log(err))
   }
   }
-
+//콘솔, if문 추가
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
     return (dispatch) => {

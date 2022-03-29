@@ -37,7 +37,8 @@ const loginReducer = (state=loginInitialState, action) => {
       case LOG_OUT_SUCCESS:
         return {
           ...state, 
-          isLogIn: false
+          isLogIn: false,
+          data:null
         }
       //회원탈퇴 테스트
       case USER_DELETE:

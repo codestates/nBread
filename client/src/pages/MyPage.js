@@ -88,8 +88,8 @@ const handleUserEdit = () => {
   const handleUserDelete = () => {  
     alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
     dispatch(axiosUserDelete())
-    alert('회원탈퇴되었습니다.')
-    window.location.replace("/")
+    // alert('회원탈퇴되었습니다.')
+    history.push('/')
   }
   return (
     <div>

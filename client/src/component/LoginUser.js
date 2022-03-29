@@ -19,13 +19,15 @@ function LoginUser() {
   const handleLogout = () => {
       dispatch(axiosLogout())
       isLogin(false)
+
+      history.push('/')
   }
 
 
   return (
     <Wrapper>
     <MenuTrigger isActive onClick={onClick}>
-        <UserName>{data.nickname + " 님"}</UserName>
+        <UserName>{data ? data.nickname + " 님" : '안녕하세요'}</UserName>
           <UserImg className="userImg"/>
       </MenuTrigger>
       <Svg 
@@ -41,7 +43,7 @@ function LoginUser() {
       <LoginMenu ref={dropdownRef}>
         <Ul>
           <Li onClick={null}><A href="/MyPage">마이페이지</A></Li>
-          <Li onClick={handleLogout}><A href="/">로그아웃</A></Li>
+          <Li onClick={handleLogout}><A>로그아웃</A></Li>
         </Ul>
       </LoginMenu>
     </Wrapper>
