@@ -96,7 +96,7 @@ function PostDetail({click, setClick}) {
   // console.log(postId)
 
   // 로그인한 유저의 id
-  const userInfo = useSelector((state)=> state.loginReducer.data.id)
+  const userInfo = useSelector((state)=> state.loginReducer.data)
   // console.log('userInfo',userInfo)
 
   // 데이터 날짜 변경
@@ -137,13 +137,14 @@ function PostDetail({click, setClick}) {
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
           </svg>
-          {userInfo === listUserId && 
-            <PostUpdateDelete>
-              <PostUpdate onClick={handelPostEdit}> 수정 </PostUpdate>
-              <PostDelete onClick={handelPostDelete}> 삭제 </PostDelete>
-            </PostUpdateDelete>
+          {!userInfo ? null
+            :( userInfo.id === listUserId 
+              ? <PostUpdateDelete>
+                  <PostUpdate onClick={handelPostEdit}> 수정 </PostUpdate>
+                  <PostDelete onClick={handelPostDelete}> 삭제 </PostDelete>
+                </PostUpdateDelete>
+              : null )
           }
-
         </PostIconWrapper>
 
         <Wrapper>
@@ -161,11 +162,11 @@ function PostDetail({click, setClick}) {
             {list.body}
           </PostListDetailText>
       </PostWrapper>
-      {userInfo === listUserId 
-        ?<PostButton> 마감하기 </PostButton>
-        :<PostButton> 신청하기 </PostButton>
+      {!userInfo ? null
+        :( userInfo.id === listUserId 
+          ? <PostButton> 마감하기 </PostButton>
+          : <PostButton> 신청하기 </PostButton> )
       }
-      
     </div>
   );
 }
