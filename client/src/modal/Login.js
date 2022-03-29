@@ -6,7 +6,7 @@ import SignUp from "./SignUp";
 import PWConfirm from "./PWConfirm";
 
 
-function Login({openModalLogin}) {
+function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   // console.log('login',isLogin)
@@ -17,13 +17,16 @@ function Login({openModalLogin}) {
   })
   const [errorMessage, setErrorMessage] = useState('');
 
-  //회원가입 모달
-  const [SignUpModal, setSignUpModal] = useState(false);
+  // //회원가입 모달
+  // const [SignUpModal, setSignUpModal] = useState(false);
 
-  //회원가입 모달
-  const openModalSignUp = () => {
-  setSignUpModal(!SignUpModal)
+
+  const handleCloseLoginModal = () => {
+    setLoginModal(false)
   }
+
+
+    
 
   //비밀번호찾기 모달
   const [PWConfirmModal, setPWConfirmModal] = useState(false);
@@ -46,17 +49,18 @@ function Login({openModalLogin}) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     }else{
       dispatch(axiosLogin(loginInfo))
-      openModalLogin()
+      setLoginModal(false)
+      alert('로그인')
     }
   }
 
   return (
     <>
-    <ModalBackdrop onClick={openModalLogin}>
+    <ModalBackdrop onClick={handleCloseLoginModal}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         <LoginTitle>로그인      
-        <span onClick={openModalLogin}>&times;</span>
+        <span onClick={handleCloseLoginModal}>&times;</span>
         </LoginTitle>
         <InputFieldDiv>
           <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
@@ -66,12 +70,12 @@ function Login({openModalLogin}) {
           <Err>{errorMessage}</Err>
           <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
           <LoginButton type='submit'>카카오 로그인</LoginButton>
-            <SignUpButton onClick={openModalSignUp}>회원가입</SignUpButton>
+            <SignUpButton onClick={handleSignupModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>회원가입</SignUpButton>
             <PassWorldCheck onClick={openModalPWConfirm}>비밀번호찾기</PassWorldCheck>
         </LoginForm>
       </Wrapper>
       {/* 회원가입 모달 */}
-      {SignUpModal === true ? <SignUp openModalSignUp={openModalSignUp}></SignUp>:null}
+      {/* {SignUpModal === true ? <SignUp openModalSignUp={openModalSignUp}></SignUp>:null} */}
 
       {/* 비밀번호찾기 모달 */}
       {PWConfirmModal === true ? <PWConfirm openModalPWConfirm={openModalPWConfirm}></PWConfirm>:null}

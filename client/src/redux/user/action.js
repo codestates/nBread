@@ -105,16 +105,19 @@ export const axiosUserDelete = () => {
   }
 
   //-----------회원가입-------------------
-export const axiosUserSignUp = (user) => {
+export const axiosUserSignUp = (data) => {
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-    username: user.username,
-    password: user.password,
-    nickname: user.nickname,
+    username: data.username,
+    password: data.password,
+    nickname: data.nickname,
     // phoneNumber: loginInfo.phoneNumber
-    } ,{withCredentials: true})
+    },{},{withCredentials: true})
   .then(res => {
-  dispatch(userSignUp())
+    if(res.status===200){
+      console.log('회원가입완료')
+      dispatch(userSignUp(data))
+    }
   })
   .catch(err=> console.log(err))
   }
