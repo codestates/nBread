@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
+import { showPostUserDelete } from '../redux/posts/actions';
+import { useHistory } from 'react-router-dom';
 
 
 const PostListMenu = styled.div`
@@ -80,9 +82,24 @@ text-align: center;
 `
 
 function PostDetail({click, setClick}) {
+  const history = useHistory();
+  const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer.posts)
-  // console.log('listsssss',list.created_at)
-  
+  console.log('listsssss',list)
+
+  // 글 쓴 유저의 id
+  const listUserId = list.user_id
+  // console.log('listUserId',listUserId)
+
+  // 글의 id
+  const postId = list.id
+  // console.log(postId)
+
+  // 로그인한 유저의 id
+  const userInfo = useSelector((state)=> state.loginReducer.data.id)
+  // console.log('userInfo',userInfo)
+
+  // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
   const newChangeDate = changeDate.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}) 
 
@@ -91,6 +108,19 @@ function PostDetail({click, setClick}) {
     setClick(false)
   }
 
+  const handelPostDelete = () => {
+    alert('삭제하시겠습니까?')
+    dispatch(showPostUserDelete(postId))
+    // history.push('/')
+    window.location.replace("/") 
+  }
+
+  const handelPostEdit = () => {
+    
+    // dispatch(showPostUserDelete(postId))
+    // history.push('/')
+    // window.location.replace("/") 
+  }
 
   return (
     <div>
@@ -107,10 +137,13 @@ function PostDetail({click, setClick}) {
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
           </svg>
-          <PostUpdateDelete>
-            <PostUpdate> 수정 </PostUpdate>
-            <PostDelete> 삭제 </PostDelete>
-          </PostUpdateDelete>
+          {userInfo === listUserId && 
+            <PostUpdateDelete>
+              <PostUpdate onClick={handelPostEdit}> 수정 </PostUpdate>
+              <PostDelete onClick={handelPostDelete}> 삭제 </PostDelete>
+            </PostUpdateDelete>
+          }
+
         </PostIconWrapper>
 
         <Wrapper>
@@ -128,7 +161,11 @@ function PostDetail({click, setClick}) {
             {list.body}
           </PostListDetailText>
       </PostWrapper>
-      <PostButton> 신청하기 </PostButton>
+      {userInfo === listUserId 
+        ?<PostButton> 마감하기 </PostButton>
+        :<PostButton> 신청하기 </PostButton>
+      }
+      
     </div>
   );
 }
