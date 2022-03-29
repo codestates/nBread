@@ -1,4 +1,4 @@
-import { SHOW_POST_LIST , RESET_POST_LIST} from "./types";
+import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST} from "./types";
 
 
 export const postInitialState = {
@@ -16,6 +16,10 @@ const postsReducer = (state=postInitialState, action) => {
     case RESET_POST_LIST:
       return {
         posts: null,
+      }
+    case DELETE_POST_LIST:
+      return {
+        ...state
       }
     default: return state;
   }

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserSignUp } from '../redux/user/action';
+
 function SignUp({handleCloseSignupModal,setLoginModal}) {
+
   const dispatch = useDispatch();
   const SignUp = useSelector((state)=> state.loginReducer.SignUp)
   

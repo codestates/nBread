@@ -9,6 +9,7 @@ import PWConfirm from "./PWConfirm";
 function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const LoginModal = useSelector((state)=> state.loginReducer.LoginModal)
   // console.log('login',isLogin)
 
   const [loginInfo, setLoginInfo] = useState({
@@ -23,6 +24,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
 
   const handleCloseLoginModal = () => {
     setLoginModal(false)
+
   }
 
 

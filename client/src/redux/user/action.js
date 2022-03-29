@@ -5,7 +5,8 @@ import {
   LOG_OUT_SUCCESS,
   USER_DELETE,
   USER_SIGNUP,
-  USER_EDIT
+  USER_EDIT,
+  LOGIN_MODAL
 } from "./types"
 import axios from "axios"
 
@@ -56,6 +57,13 @@ const userEdit = (res) => {
   return {
     type : USER_EDIT,
     payload: res.data.data
+  }
+}
+
+//로그인 모달
+const LoginModal = () => {
+  return {
+    type : LOGIN_MODAL
   }
 }
 
@@ -122,7 +130,6 @@ export const axiosUserSignUp = (data) => {
   .catch(err=> console.log(err))
   }
   }
-//콘솔, if문 추가
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
     return (dispatch) => {

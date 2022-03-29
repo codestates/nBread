@@ -4,6 +4,7 @@ const https = require('https');
 const express = require('express');
 const cors = require('cors');
 const controllers = require('./controllers');
+const path = require('path');
 const app = express();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
@@ -15,14 +16,19 @@ const io = require('socket.io')(httpServer, {
 })
 
 app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static( path.join(__dirname, '../client/build'))) 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://wwww.nbread.kro.kr'],
+    origin: ['http://localhost:3000', 'http://www.nbread.kro.kr', 'https://www.nbread.kro.kr'],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'))
+  }) 
 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {

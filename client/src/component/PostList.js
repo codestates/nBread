@@ -59,7 +59,7 @@ function PostList({}) {
   const handlePostList = (contentId) => {
     // console.log(contentId);
     setClick(true)
-    console.log('클릭상태',click)
+    // console.log('클릭상태',click)
     dispatch(showPostDetail(contentId))
   }
 
@@ -76,7 +76,7 @@ function PostList({}) {
       : ( click
         ? <PostDetail click={click} setClick={setClick}/>
         : post.map((li ,i) => {
-          console.log('category',li.category_food)
+          // console.log('category',li.category_food)
           return (
             <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
               <PostListImg src={`/icon/${li.category_food}.png`}/>

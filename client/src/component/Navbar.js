@@ -43,6 +43,7 @@ function Navbar() {
   const LoginText = styled.div`
     margin-right: 2em;
   `; 
+
   return (
     <>
       <Wrapper>
@@ -57,5 +58,22 @@ function Navbar() {
     </>
   );
 }
+
+const Wrapper = styled.div`
+height: 120px;
+background-color: #D2D1D1;
+display: flex;
+align-items: center;
+justify-content: space-between;
+z-index: 1;
+`;
+
+const Logo = styled.img`
+
+`; 
+
+const LoginText = styled.div`
+margin-right: 2em;
+`; 
 
 export default Navbar;
