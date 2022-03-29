@@ -18,7 +18,7 @@ const writingPostFailure = (error) => {
 };
 
 export const writingPost = (post) => {
-  // console.log('actionPost',post.address)
+   console.log('actionPost',post.address)
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/contents`, {
       address: post.address,

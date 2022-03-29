@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 
 module.exports = async (req, res) => {
   // 임시 데이터, contentIdArr 받아올 방법 생각하기
+  console.log("잘 오니?")
   const { start, end } = req.query;
   if (!start || !end) {
     return res.status(204).send({message: '자료 없음'});
@@ -30,6 +31,7 @@ module.exports = async (req, res) => {
       delete i.dataValues.userId
       contents.push(i.dataValues)
     }
+	console.log(contents)
     res.status(200).send({ data: contents, message: '글 조회 성공' });
   })
   .catch(err => {

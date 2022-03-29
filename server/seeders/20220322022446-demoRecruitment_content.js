@@ -5,12 +5,12 @@ module.exports = {
 
     await queryInterface.bulkInsert('recruitment_content', [{
       user_id: 1,
-      address: '서울특별시 서초구 서초동 서초대로 396',
+      address: 'seoul',
       category_food: 1, 
       delivery_fee: 1000,
       recruitment_personnel: 2,
       created_at: new Date(),
-      restaurant_name: '네네치킨',
+      restaurant_name: 'nene',
       body: 'come and join with me!',
       lat: 37.49654,
       lng: 127.02476,

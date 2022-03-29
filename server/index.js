@@ -30,6 +30,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'))
   }) 
 
+// app.get('*', (req, res) => {
+// res.sendFile(path.join(__dirname, '../client/build/index.html'))
+// })
+ 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
 //   let protocol = req.headers['x-forwarded-proto'] || req.protocol;

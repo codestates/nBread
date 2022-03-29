@@ -232,7 +232,7 @@ function PostingWrite({openModalPostingWrite}) {
     }else{
       dispatch(writingPost(data))
       // history.push('/')
-      window.location.replace("/") 
+     window.location.replace("/") 
       alert('글쓰기가 성공했습니다')
     }
     console.log('handleWritingBtn', data)
