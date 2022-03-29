@@ -10,6 +10,8 @@ const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
+    method: ["GET", "POST"],
+    allowedHeaders: ["*"],
     credentials: true
   }
 })
@@ -64,11 +66,22 @@ app.post('/users/checkNickname', controllers.checkNickname);
 
 io.on('connection', (socket) => {
   console.log("userconnected", socket.id)
-  socket.on('message',(message) => {
-    console.log('--------2---------',message)
-    io.emit('message',(message))
-  })
-})
+
+  socket.on('onJoin',({ roomName: room, userName: user }) => {
+    socket.join(room);
+    io.to(room).emit("onConnect", `${user} 님이 입장했습니다.`)
+    
+    socket.on('onSend',(message) => {
+      console.log('--------2---------', message)
+      io.to(room).emit('onReceive', message)
+    });
+    
+    socket.on('disconnect', () => {
+      socket.leave(room);
+      io.to(room).emit('onDisconnect', `${user} 님이 퇴장하셨습니다.`);
+    });
+  });
+});
 
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
