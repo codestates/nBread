@@ -13,7 +13,7 @@ const io = require('socket.io')(httpServer, {
     origin: "*",
     credentials: true
   }
-})
+});
 
 app.use(express.json());
 // app.use(express.static('public'));
@@ -26,14 +26,6 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'))
-  }) 
-
-// app.get('*', (req, res) => {
-// res.sendFile(path.join(__dirname, '../client/build/index.html'))
-// })
- 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
 //   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -57,6 +49,9 @@ app.get('/', (req, res) => {
 //   ca : ca
 // };
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+}); 
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
@@ -71,6 +66,9 @@ app.post('/order/:contentId', controllers.order);
 app.delete('/order/:contentId', controllers.cancelOrder);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 io.on('connection', (socket) => {
   console.log("userconnected", socket.id)
