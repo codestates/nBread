@@ -2,7 +2,7 @@ const { user } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
-
+console.log(req.headers.cookie)
   let token = isAuthorized(req, res);
 
   if (!token) {
