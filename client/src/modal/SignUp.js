@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserSignUp } from '../redux/user/action';
-function SignUp({openModalSignUp,SignUpModal}) {
+
+function SignUp({handleCloseSignupModal,setLoginModal}) {
+
   const dispatch = useDispatch();
   const SignUp = useSelector((state)=> state.loginReducer.SignUp)
   
@@ -82,19 +84,18 @@ function SignUp({openModalSignUp,SignUpModal}) {
       setValidation({ ...validation, errorValidation: true})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && nicknameRegExp.test(nickname) && password === passwordCheck){
       dispatch(axiosUserSignUp(userInfo))
-      if(SignUp === true){
         alert('회원가입 완료되었습니다.')
-      }
+        handleCloseSignupModal()
     }
   }
 
   return (
     <>
-    <ModalBackdrop onClick={openModalSignUp}>
+    <ModalBackdrop>
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <SignUpForm onSubmit={(e) => e.preventDefault()}>
       <SignUpTitle>회원가입   
-      <span onClick={openModalSignUp}>&times;</span>    
+      <span onClick={handleCloseSignupModal}>&times;</span>    
       </SignUpTitle>
         <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
         {userInfo.username.length > 0 && validation.idValidation ? <Err>{message.idMessage}</Err> : null}
@@ -106,7 +107,8 @@ function SignUp({openModalSignUp,SignUpModal}) {
         <InputField placeholder="닉네임" onChange={handleInputValue('nickname')}/>
         {userInfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <Err>{message.errorMessage}</Err>
-        <SignUpButton type='submit' onClick={handleSignup}>회원가입</SignUpButton>
+        <SignUpButton type='submit' onClick={handleSignup} setLoginModal={setLoginModal} >회원가입</SignUpButton>
+
         <SignUpToLogin>로그인으로 돌아가기</SignUpToLogin>
       </SignUpForm>
     </Wrapper>

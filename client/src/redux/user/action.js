@@ -114,23 +114,18 @@ export const axiosUserDelete = () => {
 
   //-----------회원가입-------------------
 export const axiosUserSignUp = (data) => {
-  console.log('user22222222222',data.username)
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
     username: data.username,
     password: data.password,
     nickname: data.nickname,
     // phoneNumber: loginInfo.phoneNumber
-    } ,{withCredentials: true})
+    },{},{withCredentials: true})
   .then(res => {
     if(res.status===200){
       console.log('회원가입완료')
-      dispatch(userSignUp())
-      
-    }else{
-      console.log('err')
+      dispatch(userSignUp(data))
     }
-  
   })
   .catch(err=> console.log(err))
   }
