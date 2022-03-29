@@ -2,8 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../component/Navbar'
 import styled from 'styled-components'
 import { Link, useHistory } from 'react-router-dom';
+//회원탈퇴 테스트
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosUserDelete } from '../redux/user/action';
+import { axiosUserEdit } from '../redux/user/action';
+import { useLocation } from 'react-router';
 
 function MyPage() {
+//회원탈퇴 테스트
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const location = useLocation()
+
   const history = useHistory();
   const nicknameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
   const passwordRegExp = /^[A-Za-z0-9~!@#$%^&*()_+|<>?:{}+]{8,16}$/;
@@ -23,12 +33,12 @@ function MyPage() {
     passwordValidation: false,
     passwordCheckValidation: false
   })
-
+//마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
     setSettingUserinfo({ ...settingUserinfo, [key]: e.target.value })
     
     if (key === 'nickname') {
-      if (!nicknameRegExp.test(e.target.value)) {
+      if (e.target.value.length < 2 || e.target.value.length > 10 || !nicknameRegExp.test(e.target.value)) {
         setMessage({ ...message, nicknameMessage: '2~10자 한글, 영어 , 숫자만 사용 가능 합니다'})
         setValidation({ ...validation, nicknameValidation: true})
       } else {
@@ -36,8 +46,8 @@ function MyPage() {
         setMessage({ ...message, nicknameMessage: ''})
       }
     }
-
     if (key === 'password') {
+      
       if (!passwordRegExp.test(e.target.value)) {
         setMessage({ ...message, passwordMessage: '8~16자 영문 대 소문자, 숫자, 특수문자만 사용 가능합니다'})
         setValidation({ ...validation, passwordValidation: true})
@@ -57,8 +67,29 @@ function MyPage() {
       }
     }
   }
+//메인페이지로 이동 버튼
   const clickHomelBtn = () => {
     history.push("/")
+  }
+//회원정보 수정 버튼
+const handleUserEdit = () => {
+  const { nickname, password, passwordCheck } = settingUserinfo;
+    if (nickname === '' || password === '' || passwordCheck === ''){
+    alert('ah')
+    }else{
+      dispatch(axiosUserEdit(settingUserinfo))
+      alert('수정완료')
+      window.location.replace("/MyPage")
+    }
+}
+
+
+//회원탈퇴 테스트 
+  const handleUserDelete = () => {  
+    alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
+    dispatch(axiosUserDelete())
+    alert('회원탈퇴되었습니다.')
+    window.location.replace("/")
   }
   return (
     <div>
@@ -81,7 +112,7 @@ function MyPage() {
       
       <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
-        <InputField placeholder="닉네임" onChange={settingOnChange('nickname')}/>
+        <InputField onChange={settingOnChange('nickname')}/>
         {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
         <InputField/>
@@ -94,8 +125,8 @@ function MyPage() {
         <InputTitle>비밀번호확인</InputTitle>
         <InputField onChange={settingOnChange('passwordCheck')}/>
         {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
-        <SignUpToLogin>회원탈퇴</SignUpToLogin>
-        <EditButton>수정하기</EditButton>
+        <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
+        <EditButton onClick={handleUserEdit}>수정하기</EditButton>
       </MyPageForm>
           </MyPageDiv>
         </MapDiv>

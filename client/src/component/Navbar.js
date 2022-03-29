@@ -3,13 +3,17 @@ import styled from 'styled-components';
 import logo from '../icons/ban_logo.png';
 import Login from "../modal/Login";
 import LoginUser from "../component/LoginUser";
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function Navbar() {
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+
+
   //로그인 모달
   const [LoginModal, setLoginModal] = useState(false);
-  //로그인 상태일때
-  const [isLogin, setIsLogin] = useState(false);
+  // //로그인 상태일때
+  // const [isLogin, setIsLogin] = useState(false);
 
    //로그인 모달
   const openModalLogin = () => {
@@ -24,6 +28,7 @@ function Navbar() {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 1;
   `;
 
   const Logo = styled.img`
