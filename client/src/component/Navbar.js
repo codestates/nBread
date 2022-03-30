@@ -27,7 +27,6 @@ function Navbar() {
     setSignUpModal(false);
     };
   
-
   return (
     <>
       <Wrapper>
