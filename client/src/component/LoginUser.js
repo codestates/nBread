@@ -28,8 +28,8 @@ function LoginUser({setLoginModal}) {
   return (
     <>
     {data ? 
-    <Wrapper>
-    <MenuTrigger isActive onClick={onClick}>
+    <Wrapper> 
+    <MenuTrigger onClick={onClick}>
     <UserName> {data.nickname + " 님"}</UserName>
           <UserImg className="userImg"/>
       </MenuTrigger>

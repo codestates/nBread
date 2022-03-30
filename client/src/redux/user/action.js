@@ -11,9 +11,11 @@ import {
 import axios from "axios"
 
 const loginSuccess = (data) => {
+  //------------------data를 어떻게 받을것인지 회원수정이랑 맞출것
+  console.log(data)
   return {
     type : LOG_IN_SUCCESS,
-    payload: data.data.data
+    payload: data
   }
 }
 
@@ -53,10 +55,11 @@ const userSignUp = (data) => {
 }
 
 //회원수정
-const userEdit = (res) => {
+const userEdit = (data) => {
+  console.log('뭐가 들어왔냐?', data)
   return {
     type : USER_EDIT,
-    payload: res.data.data
+    payload: data
   }
 }
 
@@ -80,7 +83,7 @@ export const axiosLogin = (user) => {
   .then(data => {
   if(data.data.message === "로그인 성공"){
   console.log('로그인 성공',data.data.data.nickname )
-  dispatch(loginSuccess(data))
+  dispatch(loginSuccess(data.data.data))
   }else {
   console.log('로그인 실패', )
   }
@@ -132,18 +135,22 @@ export const axiosUserSignUp = (data) => {
   }
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
+    console.log('2222',data)
     return (dispatch) => {
     dispatch(userEdit(data))
+    
     axios.patch(`${process.env.REACT_APP_API_URL}/users/:userId`, {
-      password: data.password,
-      username: data.username,
-      nickname: data.nickname
+      
+      nickname: data.nickname,
+      password: data.password
       // phoneNumber: loginInfo.phoneNumber
+      
       } ,{withCredentials: true})
-    .then(res => {
-      if(res.status===200){
+    .then(data => {
+      
+      if(data.status===200){
         console.log('수정완료')
-        dispatch(userEdit(res))
+        dispatch(userEdit(data))
         
       }else{
         console.log('err')
