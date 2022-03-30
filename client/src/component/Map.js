@@ -57,7 +57,7 @@ function KaKaoMap({handleMapLevel}) {
 
   useEffect(()=>{
     handleMapInfo()
-  }, [map, state])
+  }, [map,state])
 
   // 지도의 레벨에 맞춰 목록 출력
   useEffect(()=>{

@@ -164,7 +164,7 @@ function PostingWrite({openModalPostingWrite}) {
 
   // 로그인한 유저 정보
   const userInfo = useSelector((state)=> state.loginReducer.data)
-  console.log('userinfo',userInfo)
+  // console.log('userinfo',userInfo)
 
 
   const [writeInfo, setWriteInfo] = useState({
@@ -216,7 +216,7 @@ function PostingWrite({openModalPostingWrite}) {
         setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
       }
     };
-    console.log('writeInfo',writeInfo)
+    // console.log('writeInfo',writeInfo)
     geocoder.addressSearch(`${writeInfo.address}`, callback);
   }
 
@@ -242,7 +242,7 @@ function PostingWrite({openModalPostingWrite}) {
       window.location.replace("/") 
       alert('글쓰기가 성공했습니다')
     }
-    console.log('handleWritingBtn', data)
+    // console.log('handleWritingBtn', data)
   }
 
   // 주소 api css

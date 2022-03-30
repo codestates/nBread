@@ -50,7 +50,7 @@ function PostList({}) {
 
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
-  console.log('postpostpost',post)
+  // console.log('post',post)
 
   // useEffect(()=>{
   //   dispatch(showPostList())

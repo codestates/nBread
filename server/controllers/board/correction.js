@@ -3,7 +3,7 @@ const { recruitment_content } = require('../../models');
 module.exports = async (req, res) => {
   console.log(req.params, req.query)
   const { contentId } = req.params;
-  const { address, category_food, recruitment_personnel, delivery_fee, restaurant_name, body, lat, lng } = req.body;
+  const { address, category_food, recruitment_personnel, delivery_fee, restaurant_name, body, lat, lng, closed } = req.body;
   if (!closed) {
     await recruitment_content.update({
       address: address,
