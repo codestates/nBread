@@ -9,7 +9,7 @@ const postsReducer = (state=postInitialState, action) => {
   switch(action.type){
     case SHOW_POST_LIST:
       let post = action.payload;
-	console.log("reducerposts console: ", post)
+	// console.log("reducerposts console: ", post)
       return {
         ...state, 
         posts: post,
