@@ -49,6 +49,7 @@ app.use(
 //   ca : ca
 // };
 
+app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
@@ -59,8 +60,8 @@ app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
 app.get('/contents/:contentId', controllers.boardDetailGet);
 app.get('/contents', controllers.boardGet);
-app.post('/order/:contentId', controllers.order);
-app.delete('/order/:contentId', controllers.cancelOrder);
+app.post('/orders/:contentId', controllers.order);
+app.delete('/orders/:contentId', controllers.cancelOrder);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
 
