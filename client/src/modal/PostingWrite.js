@@ -6,169 +6,28 @@ import { foodList, selectPerson } from './SelectList';
 import DaumPostcode from 'react-daum-postcode';
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
+import { locationChange } from "../redux/location/action";
 const { kakao } = window;
 
 
-  //모달창이 떳을때 뒷배경 어둡게
-  const ModalBackdrop = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0,0,0,0.4);
-  display: grid;
-  place-items: center;
-  `;
-
-  const Wrapper = styled.div`
-    text-align: center;
-    /* width: 320px;
-    height: 568px; */
-    width: 375px;
-    height: 667px;
-    display: flex;
-    justify-content: center;
-    background-color: #D2D1D1;
-    position: fixed;
-    bottom: 60px;
-    right: 18px;
-    z-index: 1;
-    @media (max-width: 768px) {
-    width: 100vw;
-    height: 100vh;
-  }  
-  `;
-
-  const PostingWriteTitle = styled.div`
-    font-size: 28px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-  `;
-
-  const PostSpan = styled.span`
-    position: absolute;
-    right: 40px;
-  `
-
-  const PostingWriteForm = styled.form`
-  `;
-
-  const InputFieldDiv = styled.div`
-    margin-top: 35px;
-  `;
-
-  const InputField = styled.input`
-      ::-webkit-inner-spin-button{
-        -webkit-appearance: none; 
-        margin: 0; 
-    }
-    ::-webkit-outer-spin-button{
-        -webkit-appearance: none; 
-        margin: 0; 
-    }    
-    display: flex;
-    flex-direction: column;
-    width: 295px;
-    height: 50px;
-    font-size: 18px;
-    margin: 0 auto;
-    margin-top: 20px;
-  `;
-
-  const CloseBtn = styled.button`
-    display: block;
-    position: absolute;
-    top: 60px;
-    right: 25px;
-    z-index: 100;
-    padding: 7px;
-    width: 100px;
-    color: white;
-    background-color: #A3A3A3;
-    border: none;
-  `;
-
-  const AddressInputDiv = styled.div`
-    background-color: white;
-    display: flex;
-    align-items: center;
-    width: 240px;
-    height: 50px;
-    font-size: 18px;
-    margin: 0 auto;
-    margin-top: 20px;
-    border: 1px black solid;
-  `;
-
-  const SelectDiv = styled.div`
-    margin-top: 10px;
-    display: flex;
-  `;
-
-  //주소와 기본주소 Div
-  const AdressDiv = styled.div`
-    display: flex;
-`;    
-
-  //기본주소 Div
-  const AdressBasicDiv = styled.div`
-    margin-top: 15px;
-`;  
-
-  //'기본주소' 글씨
-  const AdressBasic = styled.div`
-  font-size: 14px;
-`;
-
-  //기본주소 체크박스
-  const AdressCheck = styled.input`
-  width: 35px;
-  height: 35px;
-`;
-
-  const Detail = styled(InputField)`
-    height: 180px;    margin-top: 20px;
-  `;
-
-  const Err = styled.div`
-  font-size: 14px;
-  color: red;
-  margin-top: 2px;
-  `;
-
-  const PostingWriteButton = styled.button`
-    width: 295px;
-    height: 56px;
-    background-color: #B51D29;
-    color: white;
-    border: none;
-    font-size: 18px;
-    margin-top: 7%;
-  `;
-
-  const StyledMeneSelect = styled(Select)`
-    width: 145px;
-  `
-
-  const StyledPersonSelect = styled(Select)`
-    width: 145px;
-    margin-left: 4px;
-  `
 
 
-function PostingWrite({openModalPostingWrite}) {
+
+function PostingWrite({PostingWriteModal,openModalPostingWrite}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
   // 로그인한 유저 정보
   const userInfo = useSelector((state)=> state.loginReducer.data)
-  // console.log('userinfo',userInfo)
+
+  const [testWriteInfo, setTestWriteInfo] = useState({
+    lat: '',
+    lng: '',
+  })
 
 
   const [writeInfo, setWriteInfo] = useState({
-    address: '',
+    address: userInfo.address,
     body: '',
     category_food: '',
     delivery_fee: '',
@@ -200,11 +59,39 @@ function PostingWrite({openModalPostingWrite}) {
     }
   };
 
+  // useEffect(()=>{
+  //   if(writeInfo.address){
+  //     newSearchAddress()
+  //   }
+  // },[userInfo.address])
+
+  // useEffect(()=>{
+  //   userInfoNewSearchAddress()
+  // },[])
+
   useEffect(()=>{
-    if(writeInfo.address){
-      newSearchAddress()
-    }
-  },[writeInfo.address])
+    setNewSearchAddress()  
+  },[PostingWriteModal, writeInfo.address])
+
+
+   // ----test----
+  const setNewSearchAddress = () => {
+    // console.log('userInfo.address',userInfo.address)
+    const geocoder = new kakao.maps.services.Geocoder();
+    
+    let callback = function(result, status) {
+      // console.log('result',result)
+      // console.log('status',status)
+      if (status === 'OK') {
+        const newAddSearch = result[0]
+        // console.log('newAddSearch',newAddSearch)
+        setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
+      }
+    };
+    geocoder.addressSearch(`${writeInfo.address}`, callback);
+  }
+
+  // ---- test------
 
   // 글쓰기창에서 주소 검색시 경도 위도 찾아오기
   const newSearchAddress = () => {
@@ -216,10 +103,10 @@ function PostingWrite({openModalPostingWrite}) {
         setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
       }
     };
-    // console.log('writeInfo',writeInfo)
     geocoder.addressSearch(`${writeInfo.address}`, callback);
   }
 
+  // 글 등록하기 버튼
   const handleWritingBtn = () => {
     const {address , body, category_food, delivery_fee, recruitment_personnel, restaurant_name, lat, lng} = writeInfo;
     const data = {
@@ -232,17 +119,18 @@ function PostingWrite({openModalPostingWrite}) {
       lat: lat,
       lng: lng,
     }
+    console.log('data',data)
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
       setErrorMessage('모든 항목은 필수입니다')
     }else if(!userInfo){
       setErrorMessage('로그인이 필요합니다')
     }else{
       dispatch(writingPost(data))
+      dispatch(locationChange(data.lat, data.lng))
       // history.push('/')
-      window.location.replace("/") 
       alert('글쓰기가 성공했습니다')
+      window.location.replace("/") 
     }
-    // console.log('handleWritingBtn', data)
   }
 
   // 주소 api css
@@ -344,5 +232,157 @@ function PostingWrite({openModalPostingWrite}) {
     </>
   );
 }
+
+  //모달창이 떳을때 뒷배경 어둡게
+  const ModalBackdrop = styled.div`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: grid;
+  place-items: center;
+  `;
+
+  const Wrapper = styled.div`
+    text-align: center;
+    /* width: 320px;
+    height: 568px; */
+    width: 375px;
+    height: 667px;
+    display: flex;
+    justify-content: center;
+    background-color: #D2D1D1;
+    position: fixed;
+    bottom: 60px;
+    right: 18px;
+    z-index: 1;
+    /* @media (max-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+  }   */
+  `;
+
+  const PostingWriteTitle = styled.div`
+    font-size: 28px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+  `;
+
+  const PostSpan = styled.span`
+    position: absolute;
+    right: 40px;
+  `
+
+  const PostingWriteForm = styled.form`
+  `;
+
+  const InputFieldDiv = styled.div`
+    margin-top: 35px;
+  `;
+
+  const InputField = styled.input`
+      ::-webkit-inner-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+    ::-webkit-outer-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }    
+    display: flex;
+    flex-direction: column;
+    width: 295px;
+    height: 50px;
+    font-size: 18px;
+    margin: 0 auto;
+    margin-top: 20px;
+  `;
+
+  const CloseBtn = styled.button`
+    display: block;
+    position: absolute;
+    top: 60px;
+    right: 25px;
+    z-index: 100;
+    padding: 7px;
+    width: 100px;
+    color: white;
+    background-color: #A3A3A3;
+    border: none;
+  `;
+
+  const AddressInputDiv = styled.div`
+    background-color: white;
+    display: flex;
+    align-items: center;
+    width: 240px;
+    height: 50px;
+    font-size: 18px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px black solid;
+  `;
+
+  const SelectDiv = styled.div`
+    margin-top: 10px;
+    display: flex;
+  `;
+
+  //주소와 기본주소 Div
+  const AdressDiv = styled.div`
+    display: flex;
+`;    
+
+  //기본주소 Div
+  const AdressBasicDiv = styled.div`
+    margin-top: 15px;
+`;  
+
+  //'기본주소' 글씨
+  const AdressBasic = styled.div`
+  font-size: 14px;
+`;
+
+  //기본주소 체크박스
+  const AdressCheck = styled.input`
+  width: 35px;
+  height: 35px;
+`;
+
+  const Detail = styled(InputField)`
+    height: 180px;    
+    margin-top: 20px;
+  `;
+
+  const Err = styled.div`
+  font-size: 14px;
+  color: red;
+  margin-top: 2px;
+  `;
+
+  const PostingWriteButton = styled.button`
+    width: 295px;
+    height: 56px;
+    background-color: #B51D29;
+    color: white;
+    border: none;
+    font-size: 18px;
+    margin-top: 7%;
+  `;
+
+  const StyledMeneSelect = styled(Select)`
+    width: 145px;
+  `
+
+  const StyledPersonSelect = styled(Select)`
+    width: 145px;
+    margin-left: 4px;
+  `
+
+
+
 
 export default PostingWrite;

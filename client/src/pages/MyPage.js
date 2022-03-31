@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserDelete } from '../redux/user/action';
 import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
+import MyPagePost from '../component/MyPagePost';
 
 function MyPage() {
 //회원탈퇴 테스트
@@ -112,7 +113,7 @@ const handleUserEdit = () => {
       <Navbar/>
       <Wrapper>
         <PostListDiv>
-          목록
+          <MyPagePost/>
         </PostListDiv>
         
         <MapDiv>
@@ -177,9 +178,10 @@ overflow:hidden;
 `;
 const PostListDiv = styled.div`
 float: left;
-background-color: #EEEEEE;
-width: 460px;
+/* background-color: #EEEEEE; */
+width: 400px;
 height: calc(100vh - 120px);
+overFlow : auto;
 `;
 
 const MapDiv = styled.div`
