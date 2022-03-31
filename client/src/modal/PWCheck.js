@@ -2,73 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 function PWCheck() {
-  const Wrapper = styled.div`
-    text-align: center;
-    /* width: 320px;
-    height: 568px; */
-    width: 375px;
-    height: 667px;
-    display: flex;
-    justify-content: center;
-    background-color: #D2D1D1;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  `;
-  const LoginTitle = styled.div`
-    font-size: 28px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-  `;
-  const LoginForm = styled.form`
-
-
-  `;
-
-  const InputFieldDiv = styled.div`
-
-  `;
-
-
-  const InputField = styled.input`
-    display: flex;
-    flex-direction: column;
-    width: 295px;
-    height: 56px;
-    font-size: 18px;
-    margin-top: 15px;
-    margin: 0 auto;
-  `;
-
-  const LoginButton = styled.button`
-    width: 295px;
-    height: 56px;
-    background-color: #B51D29;
-    color: white;
-    border: none;
-    margin-top: 30px;
-    font-size: 18px;
-  `;
-
-
-  const Err = styled.div`
-    font-size: 14px;
-    color: red;
-    margin-top: 2px;
-  `;
-
-    const SignUp = styled.div`
-    margin-top: 20px;
-    font-size: 14px;
-    color: gray;
-  `;
-
-    const PassWorldCheck = styled.div`
-    margin-top: 20px;
-    font-size: 14px;
-    color: gray;
-  `;
 
   return (
     <>
@@ -100,5 +33,74 @@ function PWCheck() {
     </>
   );
 }
+
+
+const Wrapper = styled.div`
+text-align: center;
+/* width: 320px;
+height: 568px; */
+width: 375px;
+height: 667px;
+display: flex;
+justify-content: center;
+background-color: #D2D1D1;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+`;
+const LoginTitle = styled.div`
+font-size: 28px;
+margin-top: 25px;
+margin-bottom: 25px;
+`;
+const LoginForm = styled.form`
+
+
+`;
+
+const InputFieldDiv = styled.div`
+
+`;
+
+
+const InputField = styled.input`
+display: flex;
+flex-direction: column;
+width: 295px;
+height: 56px;
+font-size: 18px;
+margin-top: 15px;
+margin: 0 auto;
+`;
+
+const LoginButton = styled.button`
+width: 295px;
+height: 56px;
+background-color: #B51D29;
+color: white;
+border: none;
+margin-top: 30px;
+font-size: 18px;
+`;
+
+
+const Err = styled.div`
+font-size: 14px;
+color: red;
+margin-top: 2px;
+`;
+
+const SignUp = styled.div`
+margin-top: 20px;
+font-size: 14px;
+color: gray;
+`;
+
+const PassWorldCheck = styled.div`
+margin-top: 20px;
+font-size: 14px;
+color: gray;
+`;
 
 export default PWCheck;

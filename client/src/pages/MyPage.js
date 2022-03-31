@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserDelete } from '../redux/user/action';
 import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
+import MyPagePost from '../component/MyPagePost';
 
 function MyPage() {
 //회원탈퇴 테스트
   const dispatch = useDispatch();
-  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const isLogin = useSelector((state)=> state.loginReducer)
   const location = useLocation()
 
   const history = useHistory();
@@ -33,6 +34,9 @@ function MyPage() {
     passwordValidation: false,
     passwordCheckValidation: false
   })
+
+  const [changeInfoBtn, setChangeInfoBtn] = useState(false);
+
 //마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
     setSettingUserinfo({ ...settingUserinfo, [key]: e.target.value })
@@ -72,14 +76,25 @@ function MyPage() {
     history.push("/")
   }
 //회원정보 수정 버튼
+// 이전 회원정보 수정 버튼
+// const handleUserEdit = () => {
+//   const { nickname, password, passwordCheck } = settingUserinfo;
+//     if (nickname === '' || password === '' || passwordCheck === ''){
+//     alert('ah')
+//     }else{
+//       dispatch(axiosUserEdit(settingUserinfo))
+//       alert('수정완료')
+//       window.location.replace("/MyPage")
+//     }
+// }
+
 const handleUserEdit = () => {
-  const { nickname, password, passwordCheck } = settingUserinfo;
-    if (nickname === '' || password === '' || passwordCheck === ''){
-    alert('ah')
+    if (settingUserinfo.nickname === ''){
+      setChangeInfoBtn(!changeInfoBtn)
     }else{
       dispatch(axiosUserEdit(settingUserinfo))
       alert('수정완료')
-      window.location.replace("/MyPage")
+      setChangeInfoBtn(!changeInfoBtn)
     }
 }
 
@@ -88,37 +103,57 @@ const handleUserEdit = () => {
   const handleUserDelete = () => {  
     alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
     dispatch(axiosUserDelete())
-    // alert('회원탈퇴되었습니다.')
-    history.push('/')
+    alert('회원탈퇴되었습니다.')
+    history.push("/")
+    isLogin(false)
+    
   }
   return (
     <div>
       <Navbar/>
       <Wrapper>
         <PostListDiv>
-          목록
+          <MyPagePost/>
         </PostListDiv>
+        
         <MapDiv>
-          
           <MyPageDiv>
           <MyPageProfileDiv>
-          <MyProfile></MyProfile>
+          <MyProfile>사진</MyProfile>
           <MyProfileDiv>
-          <MyProfileName>닉네임</MyProfileName>
+          <MyProfileName>{isLogin.data.username}</MyProfileName>
           <MyProfileButton>사진수정</MyProfileButton>
           <MyProfileButton>삭제</MyProfileButton>
           </MyProfileDiv>
           </MyPageProfileDiv>
-      
-      <MyPageForm onSubmit={(e) => e.preventDefault()}>
+      {/* --------------------------회원정보 수정------------------------- */}
+      {changeInfoBtn ? (
+        <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
-        <InputField onChange={settingOnChange('nickname')}/>
+        <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
         {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
-        <InputField/>
+        <InputField defaultValue={'기존의 전화번호'}/>
         
         <InputTitle>주소</InputTitle>
-        <InputField/>
+        <InputField defaultValue={'기존의 주소'}/>
+        <InputTitle>비밀번호</InputTitle>
+        <InputField onChange={settingOnChange('password')}/>
+        {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
+        <InputTitle>비밀번호확인</InputTitle>
+        <InputField onChange={settingOnChange('passwordCheck')}/>
+        {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
+        <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
+        <EditButton onClick={handleUserEdit}>수정완료</EditButton>
+        </MyPageForm>
+      ) : (
+        <MyPageForm onSubmit={(e) => e.preventDefault()}>
+        <InputTitle>닉네임</InputTitle>
+        <Div>{isLogin.data.nickname}</Div>
+        <InputTitle>전화번호</InputTitle>
+        <Div>{isLogin.data.phone_number}</Div>
+        <InputTitle>주소</InputTitle>
+        <Div>{isLogin.data.address}</Div>
         <InputTitle>비밀번호</InputTitle>
         <InputField onChange={settingOnChange('password')}/>
         {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
@@ -127,7 +162,9 @@ const handleUserEdit = () => {
         {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <EditButton onClick={handleUserEdit}>수정하기</EditButton>
-      </MyPageForm>
+        </MyPageForm>
+      )}
+      
           </MyPageDiv>
         </MapDiv>
         <HomeButton onClick={clickHomelBtn}>홈으로</HomeButton>
@@ -141,9 +178,10 @@ overflow:hidden;
 `;
 const PostListDiv = styled.div`
 float: left;
-background-color: #EEEEEE;
-width: 460px;
+/* background-color: #EEEEEE; */
+width: 400px;
 height: calc(100vh - 120px);
+overFlow : auto;
 `;
 
 const MapDiv = styled.div`
@@ -172,6 +210,8 @@ width: 90px;
 height: 90px;
 position: relative;
 top: 25%;
+color: white;
+text-align: center;
 `;
 
 //마이페이지 프로필사진 영역 Div
@@ -236,6 +276,15 @@ width: 500px;
 height: 56px;
 font-size: 18px;
 margin-top: 10px;
+`;
+
+const Div = styled.div`
+width: 500px;
+height: 56px;
+font-size: 16px;
+color: #525252;
+margin-top: 10px;
+
 `;
 
 const EditButton = styled.button`

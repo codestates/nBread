@@ -3,7 +3,7 @@ import { WRITING_POST_SUCCESS, WRITING_POST_FAILURE } from "./types";
 import { useHistory } from 'react-router-dom';
 
 const writingPostSuccess = (post) => {
-  console.log('writingSuccess',post)
+  // console.log('writingSuccess',post)
   return {
     type : WRITING_POST_SUCCESS,
     payload : post
@@ -18,7 +18,7 @@ const writingPostFailure = (error) => {
 };
 
 export const writingPost = (post) => {
-  // console.log('actionPost',post.address)
+  //  console.log('actionPost',post.address)
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/contents`, {
       address: post.address,

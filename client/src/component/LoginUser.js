@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosLogout } from '../redux/user/action';
 
-function LoginUser() {
+function LoginUser({setLoginModal}) {
   const dispatch = useDispatch();  
-  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const data = useSelector((state)=> state.loginReducer.data)
   const history = useHistory()
   const dropdownRef = useRef(null);
@@ -18,16 +17,20 @@ function LoginUser() {
 
   const handleLogout = () => {
       dispatch(axiosLogout())
-      isLogin(false)
-
       history.push('/')
+  }
+
+  const handleLoginButton = () => {
+    setLoginModal(true)
   }
 
 
   return (
-    <Wrapper>
-    <MenuTrigger isActive onClick={onClick}>
-        <UserName>{data ? data.nickname + " 님" : '안녕하세요'}</UserName>
+    <>
+    {data ? 
+    <Wrapper> 
+    <MenuTrigger onClick={onClick}>
+    <UserName> {data.nickname + " 님"}</UserName>
           <UserImg className="userImg"/>
       </MenuTrigger>
       <Svg 
@@ -47,8 +50,13 @@ function LoginUser() {
         </Ul>
       </LoginMenu>
     </Wrapper>
+    : <LoginText onClick={handleLoginButton}>로그인</LoginText>}
+    </>
   );
 }
+const LoginText = styled.div`
+margin-right: 2em;
+`; 
 
 const Wrapper = styled.div`
   position: relative;
@@ -57,6 +65,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 20px;
   z-index: 99;
+  background-color: #E1C79C;
 `;
 
 const MenuTrigger = styled.div`

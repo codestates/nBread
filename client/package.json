@@ -23,6 +23,7 @@
     "redux-thunk": "^2.4.1",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
+    "sweetalert2": "^11.4.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

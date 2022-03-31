@@ -10,7 +10,7 @@ module.exports = {
       delivery_fee: 1000,
       recruitment_personnel: 2,
       created_at: new Date(),
-      restaurant_name: '네네치킨',
+      restaurant_name: 'nene',
       body: 'come and join with me!',
       lat: 37.49654,
       lng: 127.02476,

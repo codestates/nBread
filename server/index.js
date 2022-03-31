@@ -4,6 +4,7 @@ const https = require('https');
 const express = require('express');
 const cors = require('cors');
 const controllers = require('./controllers');
+const path = require('path');
 const app = express();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
@@ -14,13 +15,14 @@ const io = require('socket.io')(httpServer, {
     allowedHeaders: ["*"],
     credentials: true
   }
-})
+});
 
 app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static( path.join(__dirname, '../client/build'))) 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://wwww.nbread.kro.kr'],
+    origin: ['http://localhost:3000', 'http://www.nbread.kro.kr', 'https://www.nbread.kro.kr'],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
@@ -49,6 +51,10 @@ app.use(
 //   ca : ca
 // };
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+}); 
+
 app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
@@ -64,6 +70,9 @@ app.post('/orders/:contentId', controllers.order);
 app.delete('/orders/:contentId', controllers.cancelOrder);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 io.on('connection', (socket) => {
   console.log("userconnected", socket.id)

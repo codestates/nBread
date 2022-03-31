@@ -15,7 +15,7 @@ module.exports = {
         nickname: 'test',
         password: 'test',
         picture: null,
-        address: '서울특별시 서초구 서초대로 396',
+        address: '서울특별시 서초구 서초대로74길 11',
         phone_number: '01087654321'
     }, {
       username: 'leejiwon',
