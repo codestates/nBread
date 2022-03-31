@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST} from "./types";
+import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST, SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
 
 const showPostSuccess = (post) => {
   const posts = post.data.data
@@ -27,6 +27,18 @@ const showPostDelete = () => {
     payload : null,
   }
 }
+
+const showMyOpenListSuccess = (post) => {
+  const posts = post.data.data
+  // const posts = post.data.data
+  // console.log('posts',post)
+  return {
+    type : SHOW_MY_OPEN_LIST_SUCCESS,
+    payload : posts,
+  }
+}
+
+
 // { params: {contentId: location.state.contentId}}
 export const showPostUserDelete = (contentId) => {
   // console.log('contentId',contentId)
@@ -59,5 +71,22 @@ export const showPostList = (info) => {
 	dispatch(showPostSuccess(post))})
       .catch(err=> console.log(err))
     }
+  }
+}
+
+// 마이페이지 리스트 불러오기
+export const showMyPageOpenList = (userId) => {
+  // console.log('contentId',contentId)
+  return (dispatch) => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/contents/${userId}`)
+    .then(res => {
+      console.log('res-----', res)
+      if(res.status === 200){
+        // dispatch(showMyOpenListSuccess())
+      }else{
+        console.log('마이페이지 글 불러오기 실패')
+      }
+    })
+    .catch(err=> console.log(err))
   }
 }

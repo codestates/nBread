@@ -1,14 +1,16 @@
-import React, { useRef, useEffect , useState} from "react";
+import React, { useRef, useEffect , useState, useMemo} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { showPostList, showPostReset } from "../redux/posts/actions";
+import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
-
+import { locationChange } from "../redux/location/action";
 
 const { kakao } = window;
 
 
 function KaKaoMap({handleMapLevel}) {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
@@ -26,6 +28,42 @@ function KaKaoMap({handleMapLevel}) {
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
   // console.log('MarkerPost',MarkerPost)
+
+  const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
+  // console.log(userInfo)
+
+  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
+
+
+  // test ------------
+  useEffect(()=>{
+    // console.log('state',state)
+    userInfoNewSearchAddress()
+    setState({
+      center: { lat: locationInfo.posts[0], lng: locationInfo.posts[1] }
+    })
+    // window.location.replace("/") 
+    // history.push('/')    
+  },[userInfo])
+
+
+  const userInfoNewSearchAddress = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    
+    let callback = function(result, status) {
+      if (status === 'OK') {
+        const newAddSearch = result[0]
+        const newAddSearchLng =  newAddSearch.x
+        const newAddSearchLat =  newAddSearch.y
+        dispatch(locationChange(newAddSearchLat, newAddSearchLng))
+      }
+    };
+    {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
+    // geocoder.addressSearch(`${userInfo.data.address}`, callback);
+  }
+
+   // --------
+
 
   // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
   const SearchMap = () => {
