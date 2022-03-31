@@ -17,6 +17,13 @@ module.exports = {
         picture: null,
         address: '서울특별시 서초구 서초대로74길 11',
         phone_number: '01087654321'
+    }, {
+      username: 'leejiwon',
+      nickname: 'lee',
+      password: 'test',
+      picture: null,
+      address: '서울특별시 서초구 서초대로 397',
+      phone_number: '01012341234'
     }], {});
 
   },

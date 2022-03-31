@@ -4,6 +4,7 @@ module.exports = {
   boardPatch: require('./board/correction'),
   boardDetailGet: require('./board/detailLookup'),
   boardGet: require('./board/lookup'),
+  userBoard: require('./users/board'),
   signup: require('./users/signup'),
   login: require('./users/login'),
   logout: require('./users/logout'),

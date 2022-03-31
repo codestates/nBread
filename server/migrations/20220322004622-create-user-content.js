@@ -11,7 +11,7 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
-      content_id: {
+      recruitment_content_id: {
         type: Sequelize.INTEGER
       }
     });
