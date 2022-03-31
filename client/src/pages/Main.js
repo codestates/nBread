@@ -38,7 +38,6 @@ function Main() {
     setChattingModal(!ChattingModal)
   }
 
-
   // ----------test-------------------
   // useEffect(()=>{
   //   userInfoNewSearchAddress()
@@ -60,6 +59,35 @@ function Main() {
   // }
 
 
+  const [searchAddress, SetSearchAddress] = useState();
+  const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
+
+  const SearchMap = () => {
+    const ps = new kakao.maps.services.Places()
+    
+    const placesSearchCB = function(data, status, pagination) {
+        if (status === kakao.maps.services.Status.OK) {
+            console.log(status);
+            console.log(data);
+            const newSearch = data[0]
+            SetMainSearchAddressCenter({
+              center: { lat: newSearch.y, lng: newSearch.x }
+            })
+        }
+    };
+    ps.keywordSearch(`${searchAddress}`, placesSearchCB); 
+  }
+
+  const handleSearchAddress = (e) => {
+    SetSearchAddress(e.target.value)
+  }
+
+  const onKeyPress = (e) => {
+    if(e.key === 'Enter'){
+      SearchMap()
+      // window.location.replace('/');
+    }
+  }
 
   return (
     <div>
@@ -69,9 +97,12 @@ function Main() {
           <PostList/>
         </PostListDiv>
         <MapDiv>
-          <Map />
+          <Map mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
-
+        <SearchDiv>
+          <SearchInputDiv onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
+          <SearchBtnDiv onClick={SearchMap} >주소검색</SearchBtnDiv>
+        </SearchDiv>
         {/* 글쓰기 버튼 */}
         <WritingButton onClick={openModalPostingWrite}>글쓰기</WritingButton>
         {/* 채팅 버튼 */}
@@ -136,4 +167,24 @@ background-color: #B51D29;
 color: white;
 z-index: 1;
 `;
+
+const SearchDiv = styled.div`
+  position: fixed;
+  right: 16px;
+  top: 230px;
+  z-index: 1;
+`
+const SearchInputDiv = styled.input`
+  position: fixed;
+  right: 16px;
+  z-index: 1;
+`
+
+const SearchBtnDiv = styled.button`
+  position: fixed;
+  right: 16px;
+  z-index: 1;
+`
+
+
 export default Main;

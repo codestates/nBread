@@ -5,11 +5,12 @@ import { showPostList, showPostReset } from "../redux/posts/actions";
 import { useHistory } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { locationChange } from "../redux/location/action";
+import { useInterval } from "./useInterval";
 
 const { kakao } = window;
 
 
-function KaKaoMap({handleMapLevel}) {
+function KaKaoMap({mainSearchAddressCenter}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -21,31 +22,36 @@ function KaKaoMap({handleMapLevel}) {
   });
   const [dragMap, setDragMap] = useState();
   const [position, setPosition] = useState();
-  const [level, setLevel] = useState();
   const [searchAddress, SetSearchAddress] = useState();
   const [map, setMap] = useState();
   const [info, setInfo] = useState();
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
-  // console.log('MarkerPost',MarkerPost)
-
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
-  // console.log(userInfo)
-
   const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
+
+  // 주소 검색시 위치로 이동
+  const mainSearch = () => {
+    {mainSearchAddressCenter&& 
+      setState({
+        center: { lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng }
+      })
+    }
+  }
+  
+  useEffect(()=>{
+    mainSearch()
+  },[mainSearchAddressCenter])
 
 
   // test ------------
   useEffect(()=>{
-    // console.log('state',state)
     userInfoNewSearchAddress()
     setState({
       center: { lat: locationInfo.posts[0], lng: locationInfo.posts[1] }
     })
-    // window.location.replace("/") 
-    // history.push('/')    
-  },[userInfo])
 
+  },[userInfo])
 
   const userInfoNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -62,36 +68,7 @@ function KaKaoMap({handleMapLevel}) {
     // geocoder.addressSearch(`${userInfo.data.address}`, callback);
   }
 
-   // --------
-
-
-  // 키워드 입력후 검색 클릭 시 원하는 키워드의 주소로 이동
-  const SearchMap = () => {
-    console.log('searchAddress',searchAddress)
-    const ps = new kakao.maps.services.Places()
-    
-    const placesSearchCB = function(data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            console.log(status);
-            console.log(data);
-            const newSearch = data[0]
-            setState({
-              center: { lat: newSearch.y, lng: newSearch.x }
-            })
-        }
-    };
-    ps.keywordSearch(`${searchAddress}`, placesSearchCB); 
-  }
-
-  const onKeyPress = (e) => {
-    if(e.key === 'Enter'){
-      SearchMap()
-    }
-  }
-
-  const handleSearchAddress = (e) => {
-    SetSearchAddress(e.target.value)
-  }
+  // --------------
 
   useEffect(()=>{
     handleMapInfo()
@@ -123,9 +100,7 @@ function KaKaoMap({handleMapLevel}) {
         lng: map.getBounds().getNorthEast().getLng(),
       },
     }))
-    }
-
-  }
+  }}
 
 
   return (
@@ -140,7 +115,7 @@ function KaKaoMap({handleMapLevel}) {
         }}
         level={4} // 지도의 확대 레벨
         onCreate={(map) => setMap(map)}
-        onZoomChanged={(map) => setLevel(map.getLevel())}
+        // onZoomChanged={(map) => setLevel(map.getLevel())}
         // onDragEnd={handleMapInfo}
         onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
       >
@@ -163,22 +138,7 @@ function KaKaoMap({handleMapLevel}) {
         ))
       }
     </Map>
-    {/* <button
-      onClick={() =>
-        setState({
-          center: { lat: 33.55635, lng: 126.795841 },
-          isPanto: true,
-        })
-      }
-    >
-      지도 중심좌표 부드럽게 이동시키기
-    </button> */}
       {/* {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>} */}
-
-      {/* <div>
-        <input onChange={handleSearchAddress} onKeyPress={onKeyPress}></input>
-        <button onClick={SearchMap}>클릭</button>
-      </div> */}
 
       {/* {info && (
         <div>
