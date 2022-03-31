@@ -55,6 +55,7 @@ module.exports = async (req, res) => {
       }
       res.status(200).send({ data: contents, message: '글 조회 성공' });
     })
+  })
   .catch(err => {
     console.log('boardDetailLookup error :', err);
     res.status(500).send({message: '서버 에러'});
