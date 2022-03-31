@@ -82,7 +82,7 @@ function PostList({}) {
               <PostListImg src={`/icon/${li.category_food}.png`}/>
               <PostListTextWrapper>
                 <PostListText>식당이름: {li.restaurant_name}</PostListText>
-                <PostListText>모집인원: {li.recruitment_personnel}</PostListText>
+                <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}명</PostListText>
                 <PostListText>배달비: {li.delivery_fee}</PostListText>
               </PostListTextWrapper>
             </Wrapper>
