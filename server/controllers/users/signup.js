@@ -8,7 +8,8 @@ module.exports = (req, res) => {
     },
     defaults: {
       password: req.body.password,
-      phone_number: req.body.phone_number,
+      phone_number: req.body.phoneNumber,
+      address: req.body.address,
       nickname: req.body.nickname
     }
   }).then( ([result, created]) => {

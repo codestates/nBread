@@ -37,6 +37,7 @@ module.exports = (req, res) => {
     })
     .then(result => {
       for (data of result) {
+        console.log(result)
         recruitmentArr.push(data.dataValues)
       }
 
@@ -50,6 +51,7 @@ module.exports = (req, res) => {
         for (let i = 0; i < result.length; i++) {
           delete result[i].dataValues.userId
           result[i].dataValues.content_count = recruitmentArr[i].content_count
+          console.log(contentsIdArr, result)
           if (result[i].dataValues.user_id === token.id) {
             recruitment.push(result[i].dataValues)
           } else {
