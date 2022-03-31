@@ -6,7 +6,7 @@ import { showPostDetail } from '../redux/postList/action';
 import PostDetail from './PostDetail';
 import MyOpenList from './MyOpenList';
 import MyApplyList from './MyApplyList';
-import { showMyPageOpenList } from '../redux/posts/actions';
+import { showMyPageOpenList } from '../redux/myposts/action';
 
 const PostListMenu = styled.div`
   background-color: #EEEEEE;
@@ -66,7 +66,7 @@ margin-bottom: 10px;
 
 function MyPagePost(props) {
   const [click, setClick] = useState(false);
-
+  const [listClick, setListClick] = useState(true);
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
   // console.log('post',post)
@@ -84,29 +84,33 @@ function MyPagePost(props) {
     dispatch(showPostDetail(contentId))
   }
 
+  useEffect(() => {
+    handleOpenList()
+  }, [])
+
   const handleOpenList = () => {
-    console.log('userInfo', userInfo.id)
-    dispatch(showMyPageOpenList(userInfo.id))
+    setListClick(true)
+    dispatch(showMyPageOpenList())
   }
 
   const handleApplyList = () => {
     // 신청목록에서 보내줘야 할 건? 
-    dispatch()
+    setListClick(false)
+    // dispatch()
   }
 
   return (
     <>
-    {/* {!post ? <PostListMenu> 배달 목록 0개 </PostListMenu>
-      : ( click
-          ?  <PostListMenu> 배달 상세보기 </PostListMenu>
-          :  <PostListMenu> 배달 목록 {post.length}개 </PostListMenu>
-        )
-    } */}
     <PostButtonDiv>
       <PostButton onClick={handleOpenList}>개설목록</PostButton>
       <PostButton onClick={handleApplyList}>신청목록</PostButton>
     </PostButtonDiv>
-    {!post ? '목록이 없어요!'
+    {listClick 
+      ?  <MyOpenList/>
+      :  <MyApplyList/>
+    }
+
+    {/* {!post ? '목록이 없어요!'
       : ( click
         ? <PostDetail click={click} setClick={setClick}/>
         : post.map((li ,i) => {
@@ -122,9 +126,7 @@ function MyPagePost(props) {
           )
         })
         )
-      }
-      <MyOpenList/>
-      <MyApplyList/>
+      } */}
     </>
   );
 }
