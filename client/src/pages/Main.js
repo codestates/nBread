@@ -89,6 +89,17 @@ function Main() {
     }
   }
 
+  const [writingAddress, SetWritingAddress] = useState({
+    lat: '', 
+    lng: ''
+  });
+
+  // console.log('writingAddress',writingAddress)
+  const handleWritingAddress = (e) => {
+    SetWritingAddress(e)
+  }
+
+
   return (
     <div>
       <Navbar/>
@@ -97,7 +108,7 @@ function Main() {
           <PostList/>
         </PostListDiv>
         <MapDiv>
-          <Map mainSearchAddressCenter={mainSearchAddressCenter}/>
+          <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
         <SearchDiv>
           <SearchInputDiv onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
@@ -111,7 +122,7 @@ function Main() {
       </Wrapper>
 
       {/* 글쓰기 Modal */}
-      {PostingWriteModal === true ?<PostingWrite PostingWriteModal={PostingWriteModal} openModalPostingWrite={openModalPostingWrite}></PostingWrite>:null}
+      {PostingWriteModal === true ?<PostingWrite handleWritingAddress={handleWritingAddress} PostingWriteModal={PostingWriteModal} openModalPostingWrite={openModalPostingWrite}></PostingWrite>:null}
 
       {/* 채팅 Modal */}
       {ChattingModal === true ?

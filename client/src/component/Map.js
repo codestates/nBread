@@ -10,13 +10,17 @@ import { useInterval } from "./useInterval";
 const { kakao } = window;
 
 
-function KaKaoMap({mainSearchAddressCenter}) {
+function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
+  // console.log('현재위치',locationInfo)
+
 
   const [state, setState] = useState({
     // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    // center: { lat: 37.49676871972202, lng: 127.02474726969814 },
+    center: { lat: locationInfo.posts[0], lng: locationInfo.posts[1] },
     // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
     isPanto: true,
   });
@@ -28,7 +32,6 @@ function KaKaoMap({mainSearchAddressCenter}) {
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
-  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
 
   // 주소 검색시 위치로 이동
   const mainSearch = () => {
@@ -44,13 +47,23 @@ function KaKaoMap({mainSearchAddressCenter}) {
   },[mainSearchAddressCenter])
 
 
+  // console.log('mapmapamp',writingAddress)
+
+  const writingSearch = () => {
+    {writingAddress&& 
+      setState({
+        center: { lat: writingAddress.lat, lng: writingAddress.lng }
+      })
+    }
+  }
+
+  useEffect(()=>{
+    writingSearch()
+  },[writingAddress])
+
   // test ------------
   useEffect(()=>{
     userInfoNewSearchAddress()
-    setState({
-      center: { lat: locationInfo.posts[0], lng: locationInfo.posts[1] }
-    })
-
   },[userInfo])
 
   const userInfoNewSearchAddress = () => {
@@ -62,8 +75,12 @@ function KaKaoMap({mainSearchAddressCenter}) {
         const newAddSearchLng =  newAddSearch.x
         const newAddSearchLat =  newAddSearch.y
         dispatch(locationChange(newAddSearchLat, newAddSearchLng))
+        setState({
+          center: { lat: newAddSearchLat, lng:  newAddSearchLng }
+        })
       }
     };
+    
     {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
     // geocoder.addressSearch(`${userInfo.data.address}`, callback);
   }

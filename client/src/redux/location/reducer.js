@@ -2,7 +2,7 @@ import { LOCATION_SEARCH_SUCCESS } from "./types";
 
 
 const locationState = {
-  posts: []
+  posts: [37.49676871972202, 127.02474726969814]
 }
 
 // const locationReducer= (state=locationState, action) => {

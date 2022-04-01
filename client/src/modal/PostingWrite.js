@@ -13,7 +13,7 @@ const { kakao } = window;
 
 
 
-function PostingWrite({PostingWriteModal,openModalPostingWrite}) {
+function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWrite}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -85,6 +85,7 @@ function PostingWrite({PostingWriteModal,openModalPostingWrite}) {
       if (status === 'OK') {
         const newAddSearch = result[0]
         // console.log('newAddSearch',newAddSearch)
+        // handleWritingAddress( {lat: newAddSearch.y, lng: newAddSearch.x})
         setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
       }
     };
@@ -126,10 +127,12 @@ function PostingWrite({PostingWriteModal,openModalPostingWrite}) {
       setErrorMessage('로그인이 필요합니다')
     }else{
       dispatch(writingPost(data))
-      dispatch(locationChange(data.lat, data.lng))
+      // dispatch(locationChange(data.lat, data.lng))
       // history.push('/')
       alert('글쓰기가 성공했습니다')
-      window.location.replace("/") 
+      handleWritingAddress( {lat: data.lat, lng: data.lng})
+      // window.location.replace("/") 
+      openModalPostingWrite()
     }
   }
 
