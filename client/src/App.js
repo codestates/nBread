@@ -8,6 +8,7 @@ import MyPage from './pages/MyPage';
 import Comment from './component/Comment';
 import LoginUser from './component/LoginUser';
 import Chatting_test from './modal/Chatting_test';
+import Test from './modal/Test';
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path="/test">
           <Chatting_test/>
+        </Route>
+        <Route path="/chat">
+          <Test/>
         </Route>
     </BrowserRouter>
   );
