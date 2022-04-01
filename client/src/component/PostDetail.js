@@ -146,6 +146,7 @@ function PostDetail({click, setClick}) {
     alert('마감하시겠습니까?')
     // console.log(list.id)
     dispatch(editPostClosed(list.id))
+    window.location.replace("/") 
   }
 
   const handlePostRecruitment = () => {
