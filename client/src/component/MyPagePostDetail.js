@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
@@ -106,6 +106,17 @@ function PostDetail({click, setClick}) {
     body: list.body,
   })
   
+  useEffect(()=>{
+    setPostEditInfo({
+      restaurant_name: list.restaurant_name,
+      recruitment_personnel: list.recruitment_personnel,
+      delivery_fee: list.delivery_fee,
+      address: list.address,
+      body: list.body,
+    })
+  },[list])
+  
+
   const handleBack = () => {
     setClick(!click)
   }
@@ -117,15 +128,11 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEdit = () => {
-    console.log('postEditInfo',postEditInfo.restaurant_name)
     setEditText(!editText)
   }
-  console.log('postEditInfo',postEditInfo)
 
   const handelPostEditComplete = () => {
-    console.log('클릭시 id',list.id)
     setEditText(!editText)
-    console.log('글글글글',postEditInfo)
     dispatch(editPostDetail(list.id,postEditInfo))
     alert('글 수정 성공')
     // history.push('/')
