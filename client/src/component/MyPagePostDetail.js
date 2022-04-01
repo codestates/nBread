@@ -112,7 +112,7 @@ function PostDetail({click, setClick}) {
   const handelPostDelete = () => {
     alert('삭제하시겠습니까?')
     dispatch(showPostUserDelete(postId))
-    window.location.replace("/") 
+    window.location.replace("/MyPage") 
   }
 
   const handelPostEdit = () => {
@@ -125,7 +125,7 @@ function PostDetail({click, setClick}) {
     dispatch(editPostDetail(list.id,postEditInfo))
     alert('글 수정 성공')
     // history.push('/')
-    window.location.replace("/") 
+    window.location.replace("/MyPage") 
   }
   
 
