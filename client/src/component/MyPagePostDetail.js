@@ -97,6 +97,7 @@ function PostDetail({click, setClick}) {
   const newChangeDate = changeDate.toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}) 
 
   const [editText, setEditText] = useState(false)
+
   const [postEditInfo, setPostEditInfo] = useState({
     restaurant_name: list.restaurant_name,
     recruitment_personnel: list.recruitment_personnel,
@@ -111,17 +112,20 @@ function PostDetail({click, setClick}) {
 
   const handelPostDelete = () => {
     alert('삭제하시겠습니까?')
-    dispatch(showPostUserDelete(postId))
+    dispatch(showPostUserDelete(list.id))
     window.location.replace("/MyPage") 
   }
 
   const handelPostEdit = () => {
+    console.log('postEditInfo',postEditInfo.restaurant_name)
     setEditText(!editText)
   }
+  console.log('postEditInfo',postEditInfo)
 
   const handelPostEditComplete = () => {
-    // console.log('클릭시 id',list.id)
+    console.log('클릭시 id',list.id)
     setEditText(!editText)
+    console.log('글글글글',postEditInfo)
     dispatch(editPostDetail(list.id,postEditInfo))
     alert('글 수정 성공')
     // history.push('/')

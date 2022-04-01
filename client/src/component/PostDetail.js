@@ -86,7 +86,7 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  // console.log('list====',list)
+  console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id
   // console.log('현재postId',postId)
@@ -120,7 +120,8 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    // console.log('클릭시 id',list.id)
+    console.log('클릭시 id',list.id)
+
     setEditText(!editText)
     dispatch(editPostDetail(list.id,postEditInfo))
     alert('글 수정 성공')

@@ -20,11 +20,9 @@ const postDetailInitialState = {
 };
 
 const postsDetailReducer = (state=postDetailInitialState, action) => {
-  // console.log('reducerpost',postDetailInitialState)
   switch(action.type){
     case SHOW_POST_LIST_SUCCESS:
       let post = action.payload.data.data;
-      // console.log('reducerPost',post)
       let newData = {
         address: post.address,
         body: post.body,
@@ -41,8 +39,6 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
       }
       return Object.assign({}, state, newData);
     case SHOW_POST_EDIT_SUCCESS:
-      // let post = action.payload.data.data;
-      // console.log('reducerpost',post)
       return Object.assign({}, state, {
           contendId: post.contendId,
           restaurant_name: post.restaurant_name,
@@ -51,7 +47,8 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
           address: post.address,
           body: post.body,
       });
-    default: return state;
+    default: return '';
+    // default: return state; // 원래 코드
   }
 }
 
