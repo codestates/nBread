@@ -8,8 +8,10 @@ import { axiosUserDelete } from '../redux/user/action';
 import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
-const { kakao } = window;
 import MyPagePost from '../component/MyPagePost';
+
+const { kakao } = window;
+
 function MyPage() {
 //이미지 미리보기
   const [img, setImg] = useState('이미지없음');
