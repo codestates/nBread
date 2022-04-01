@@ -6,8 +6,8 @@ module.exports = async (req, res) => {
   const { contentId } = req.params;
   const recruitmentArr = [];
   const token = isAuthorized(req, res);
+  console.log("---1---", token)
   if (!token) {
-
     await recruitment_content.findOne({ where : {
       id: contentId
     }})
@@ -43,8 +43,7 @@ module.exports = async (req, res) => {
       user_content.findAll({
         where: {
           recruitment_content_id: contentId
-        },
-        attributes: ['user_id']
+        }
       })
       .then(result => {
 
