@@ -12,7 +12,6 @@ import axios from "axios"
 
 const loginSuccess = (data) => {
   //------------------data를 어떻게 받을것인지 회원수정이랑 맞출것
-  console.log(data)
   return {
     type : LOG_IN_SUCCESS,
     payload: data
@@ -121,10 +120,12 @@ export const axiosUserSignUp = (data) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
     username: data.username,
     password: data.password,
-    nickname: data.nickname,
-    // phoneNumber: loginInfo.phoneNumber
+    phoneNumber: data.phoneNumber,
+    address: data.address,
+    nickname: data.nickname
     },{},{withCredentials: true})
   .then(res => {
+    console.log(data,'회원가입시 뭘받았나?')
     if(res.status===200){
       console.log('회원가입완료')
       dispatch(userSignUp(data))
@@ -140,11 +141,10 @@ export const axiosUserSignUp = (data) => {
     dispatch(userEdit(data))
     
     axios.patch(`${process.env.REACT_APP_API_URL}/users/:userId`, {
-      
-      nickname: data.nickname,
-      password: data.password
-      // phoneNumber: loginInfo.phoneNumber
-      
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+      nickname: data.nickname
       } ,{withCredentials: true})
     .then(data => {
       
@@ -161,3 +161,29 @@ export const axiosUserSignUp = (data) => {
     }
     }
 
+  //-----------프로필사진변경-------------------
+  // export const axiosUserEdit = (data) => {
+  //   console.log('2222',data)
+  //   return (dispatch) => {
+  //   dispatch(userEdit(data))
+    
+  //   axios.patch(`${process.env.REACT_APP_API_URL}/users/:userId`, {
+  //     password: data.password,
+  //     phoneNumber: data.phoneNumber,
+  //     address: data.address,
+  //     nickname: data.nickname
+  //     } ,{withCredentials: true})
+  //   .then(data => {
+      
+  //     if(data.status===200){
+  //       console.log('수정완료')
+  //       dispatch(userEdit(data))
+        
+  //     }else{
+  //       console.log('err')
+  //     }
+    
+  //   })
+  //   .catch(err=> console.log(err))
+  //   }
+  //   }

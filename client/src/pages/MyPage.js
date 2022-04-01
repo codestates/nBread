@@ -7,9 +7,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserDelete } from '../redux/user/action';
 import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
+import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 
+const { kakao } = window;
+
 function MyPage() {
+//이미지 미리보기
+  const [img, setImg] = useState('이미지없음');
+  const [previewImg, setPreviewImg] = useState(null);
+
+//주소
+  const [visible, setVisible] = useState(false); 
+
+
 //회원탈퇴 테스트
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
@@ -18,24 +29,56 @@ function MyPage() {
   const history = useHistory();
   const nicknameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
   const passwordRegExp = /^[A-Za-z0-9~!@#$%^&*()_+|<>?:{}+]{8,16}$/;
+  const phonNumberRegExp = /^[0-9]{10,11}$/;
+
+
   const [settingUserinfo, setSettingUserinfo] = useState({
     nickname: '',
+    phonNumber: '',
+    address: '',
     password: '',
     passwordCheck: ''
   })
   const [message, setMessage] = useState({
     nicknameMessage: '',
+    phonNumberMessage: '',
     passwordMessage: '',
     passwordCheckMessage: ''
   })
 
   const [validation, setValidation] = useState({
     nicknameValidation: false,
+    phonNumberValidation: false,
     passwordValidation: false,
     passwordCheckValidation: false
   })
 
   const [changeInfoBtn, setChangeInfoBtn] = useState(false);
+
+//프로필사진
+  const handleFileInput = (e) => {
+    const reader = new FileReader()
+    const file = e.target.files[0];
+    if(file){
+      reader.readAsDataURL(e.target.files[0])
+    }
+    reader.onloadend = () => {
+      const previewImgUrl = reader.result
+      if(previewImgUrl) {
+        setPreviewImg(previewImgUrl)
+      }
+    }
+    const fileExt = file.name.split('.').pop();
+    if(file.type !== 'image/jpeg' || fileExt !=='jpeg'){
+      alert('jpeg 파일만 Upload 가능합니다.');
+      return;
+    }
+    
+  
+  }
+  
+
+  
 
 //마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
@@ -50,6 +93,17 @@ function MyPage() {
         setMessage({ ...message, nicknameMessage: ''})
       }
     }
+
+    if (key === 'phonNumber') {
+      if (e.target.value.length < 10 || e.target.value.length > 11 || !phonNumberRegExp.test(e.target.value)) {
+        setMessage({ ...message, phonNumberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
+        setValidation({ ...validation, phonNumberValidation: true})
+      } else {
+        setValidation({ ...validation, phonNumberValidation: false})
+        setMessage({ ...message, phonNumberMessage: ''})
+      }
+    }
+
     if (key === 'password') {
       
       if (!passwordRegExp.test(e.target.value)) {
@@ -75,18 +129,6 @@ function MyPage() {
   const clickHomelBtn = () => {
     history.push("/")
   }
-//회원정보 수정 버튼
-// 이전 회원정보 수정 버튼
-// const handleUserEdit = () => {
-//   const { nickname, password, passwordCheck } = settingUserinfo;
-//     if (nickname === '' || password === '' || passwordCheck === ''){
-//     alert('ah')
-//     }else{
-//       dispatch(axiosUserEdit(settingUserinfo))
-//       alert('수정완료')
-//       window.location.replace("/MyPage")
-//     }
-// }
 
 const handleUserEdit = () => {
     if (settingUserinfo.nickname === ''){
@@ -98,7 +140,6 @@ const handleUserEdit = () => {
     }
 }
 
-
 //회원탈퇴 테스트 
   const handleUserDelete = () => {  
     alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
@@ -108,6 +149,43 @@ const handleUserEdit = () => {
     isLogin(false)
     
   }
+
+  const deleteImg = () => {
+    setPreviewImg(null)
+  }
+
+    // 주소 검색 api
+    const handleComplete = (data) => {
+      let fullAddress = data.address;
+      let extraAddress = ''; 
+      
+      if (data.addressType === 'R') {
+        if (data.bname !== '') {
+          extraAddress += data.bname;
+        }
+        if (data.buildingName !== '') {
+          extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+        }
+        fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+      }
+      setSettingUserinfo({ ...settingUserinfo, address : fullAddress})
+      setVisible(false)
+    }
+      // 글쓰기창에서 주소 검색시 경도 위도 찾아오기
+    const newSearchAddress = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    
+    let callback = function(result, status) {
+      if (status === 'OK') {
+        const newAddSearch = result[0]
+        setSettingUserinfo({ ...settingUserinfo, lat: newAddSearch.y, lng: newAddSearch.x})
+      }
+    };
+    // console.log('writeInfo',writeInfo)
+    geocoder.addressSearch(`${settingUserinfo.address}`, callback);
+  }
+
+
   return (
     <div>
       <Navbar/>
@@ -119,47 +197,74 @@ const handleUserEdit = () => {
         <MapDiv>
           <MyPageDiv>
           <MyPageProfileDiv>
-          <MyProfile>사진</MyProfile>
-          <MyProfileDiv>
-          <MyProfileName>{isLogin.data.username}</MyProfileName>
-          <MyProfileButton>사진수정</MyProfileButton>
-          <MyProfileButton>삭제</MyProfileButton>
-          </MyProfileDiv>
+          <MyProfile>
+          {/* <ProfileImg src={userInfo.img} /> ㅇㅣ러케 사용자 저장 이미지 불ㅓ오기 */}
+          <FrofileImg src={previewImg ? previewImg : <MyProfile></MyProfile> }/>
+          </MyProfile>
+            <ImageLabel center htmlFor="img">
+            <InputHidden id="img" accept="image/*" type="file" onChange={handleFileInput}/>
+            </ImageLabel>
+            <ImageDiv><MyProfileButton onClick={deleteImg}>삭제</MyProfileButton></ImageDiv>
+            <MyProfileName>{isLogin.data.username}</MyProfileName>
           </MyPageProfileDiv>
       {/* --------------------------회원정보 수정------------------------- */}
       {changeInfoBtn ? (
+        // 회원정보 수정중인 상태
         <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
         <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
         {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
-        <InputField defaultValue={'기존의 전화번호'}/>
-        
+        <InputField defaultValue={isLogin.data.phonNumber} onChange={settingOnChange('phonNumber')}/>
+        {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
-        <InputField defaultValue={'기존의 주소'}/>
+        
+
+
+        {visible? 
+              <>
+                <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
+                <DaumPostcode 
+                  onComplete={handleComplete}
+                  onSuccess={newSearchAddress}
+                  style={addressStyle}
+                  height={700}
+                  />
+              </>
+            : null
+            }
+
+            {settingUserinfo.address === '' ? 
+              <AddressInputDiv onClick={() => setVisible(true)} >
+                주소를 검색 해주세요
+              </AddressInputDiv>
+            : <AddressInputDiv onClick={() => setVisible(true)} onChange={settingOnChange('address')} >
+                {settingUserinfo.address}
+              </AddressInputDiv>
+            }
+
         <InputTitle>비밀번호</InputTitle>
-        <InputField onChange={settingOnChange('password')}/>
+        <InputField type='password' onChange={settingOnChange('password')}/>
         {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
         <InputTitle>비밀번호확인</InputTitle>
-        <InputField onChange={settingOnChange('passwordCheck')}/>
+        <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
         {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <EditButton onClick={handleUserEdit}>수정완료</EditButton>
         </MyPageForm>
       ) : (
+        // 기존의 회원정보
         <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
         <Div>{isLogin.data.nickname}</Div>
         <InputTitle>전화번호</InputTitle>
-        <Div>{isLogin.data.phone_number}</Div>
+        <Div>{isLogin.data.phonNumber}</Div>
         <InputTitle>주소</InputTitle>
         <Div>{isLogin.data.address}</Div>
         <InputTitle>비밀번호</InputTitle>
-        <InputField onChange={settingOnChange('password')}/>
-        {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
+        <InputFieldPassWord/>
         <InputTitle>비밀번호확인</InputTitle>
-        <InputField onChange={settingOnChange('passwordCheck')}/>
-        {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
+        <InputFieldPassWord/>
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <EditButton onClick={handleUserEdit}>수정하기</EditButton>
         </MyPageForm>
@@ -204,22 +309,14 @@ height: 150px;
 const MyProfile = styled.div`
 float: left;
 background-color: #737373;
-border-radius: 100%;
+border-radius: 50%;
 border: none;
-width: 90px;
-height: 90px;
+width: 100px;
+height: 100px;
 position: relative;
 top: 25%;
 color: white;
 text-align: center;
-`;
-
-//마이페이지 프로필사진 영역 Div
-const MyProfileDiv = styled.div`
-display: flex;
-position: relative;
-top: 50%;
-left: 1%;
 `;
 
 //마이페이지 닉네임
@@ -276,6 +373,28 @@ width: 500px;
 height: 56px;
 font-size: 18px;
 margin-top: 10px;
+`;            
+
+const InputFieldPassWord = styled.div`
+display: flex;
+flex-direction: column;
+width: 250px;
+height: 56px;
+font-size: 18px;
+margin-top: 10px;
+border: solid #E2E2E2 1px;
+`;
+
+const InputHidden = styled.input`
+color: #999; 
+`;
+
+const ImageLabel = styled.label`
+width: 100px;
+height: 106px;
+font-size: 16px;
+background-color:#525252;
+border: 1px solid;
 `;
 
 const Div = styled.div`
@@ -284,7 +403,6 @@ height: 56px;
 font-size: 16px;
 color: #525252;
 margin-top: 10px;
-
 `;
 
 const EditButton = styled.button`
@@ -310,4 +428,55 @@ color: red;
 margin-top: 2px;
 `;
 
+const FrofileImg = styled.img`
+background-color: #efefef;
+width: 100%;
+height: 100%;
+border-radius: 50%;
+`;
+
+
+const ImageDiv = styled.div`
+
+`;
+
+
+//주소
+const CloseBtn = styled.button`
+display: block;
+position: absolute;
+top: 52px;
+right: 25px;
+z-index: 100;
+padding: 7px;
+width: 100px;
+color: white;
+background-color: #A3A3A3;
+border: none;
+`;
+
+const AddressInputDiv = styled.div`
+background-color: white;
+display: flex;
+align-items: center;
+width: 500px;
+height: 56px;
+font-size: 18px;
+margin: 0 auto;
+margin-top: 20px;
+border: 1px gray solid;
+color: gray;
+`;
+
+// 주소 api css
+const addressStyle = {
+  display: 'block',
+  position: 'absolute',
+  top: '32%',
+  left: '42%',
+  zIndex: '100',
+  padding: '7px',
+  width: '45%',
+  height: '60%'
+}
 export default MyPage;

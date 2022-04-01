@@ -78,7 +78,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
       </Wrapper>
       {/* 회원가입 모달 */}
       {/* {SignUpModal === true ? <SignUp openModalSignUp={openModalSignUp}></SignUp>:null} */}
-
+      {}
       {/* 비밀번호찾기 모달 */}
       {PWConfirmModal === true ? <PWConfirm openModalPWConfirm={openModalPWConfirm}></PWConfirm>:null}
     </ModalBackdrop>
