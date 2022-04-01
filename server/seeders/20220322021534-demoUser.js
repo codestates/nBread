@@ -8,15 +8,22 @@ module.exports = {
         nickname: 'yang',
         password: 'test',
         picture: null,
-        address: 'daejeon',
+        address: '부산 강서구 가덕해안로 3 (성북동)',
         phone_number: '01012345678'
       }, {
         username: 'test',
         nickname: 'test',
         password: 'test',
         picture: null,
-        address: 'seoul',
+        address: '서울특별시 서초구 서초대로74길 11',
         phone_number: '01087654321'
+    }, {
+      username: 'leejiwon',
+      nickname: 'lee',
+      password: 'test',
+      picture: null,
+      address: '서울특별시 서초구 서초대로 397',
+      phone_number: '01012341234'
     }], {});
 
   },

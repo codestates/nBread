@@ -9,8 +9,7 @@ import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 const { kakao } = window;
-
-
+import MyPagePost from '../component/MyPagePost';
 function MyPage() {
 //이미지 미리보기
   const [img, setImg] = useState('이미지없음');
@@ -190,7 +189,7 @@ const handleUserEdit = () => {
       <Navbar/>
       <Wrapper>
         <PostListDiv>
-          목록
+          <MyPagePost/>
         </PostListDiv>
         
         <MapDiv>
@@ -282,9 +281,10 @@ overflow:hidden;
 `;
 const PostListDiv = styled.div`
 float: left;
-background-color: #EEEEEE;
-width: 460px;
+/* background-color: #EEEEEE; */
+width: 400px;
 height: calc(100vh - 120px);
+overFlow : auto;
 `;
 
 const MapDiv = styled.div`

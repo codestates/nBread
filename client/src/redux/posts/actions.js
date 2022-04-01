@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST} from "./types";
+import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST, SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
 
 const showPostSuccess = (post) => {
   const posts = post.data.data
@@ -27,7 +27,17 @@ const showPostDelete = () => {
     payload : null,
   }
 }
-// { params: {contentId: location.state.contentId}}
+
+// const showMyOpenListSuccess = (myPost) => {
+//   const MyPosts = myPost.data.app
+//   console.log('posts',MyPosts)
+//   return {
+//     type : SHOW_MY_OPEN_LIST_SUCCESS,
+//     payload : MyPosts,
+//   }
+// }
+
+
 export const showPostUserDelete = (contentId) => {
   // console.log('contentId',contentId)
   return (dispatch) => {
@@ -56,8 +66,25 @@ export const showPostList = (info) => {
       axios.get(`${process.env.REACT_APP_API_URL}/contents?start=${info.swLatLng.lat},${info.swLatLng.lng}&end=${info.neLatLng.lat},${info.neLatLng.lng}`)
       .then(post => {
 	 // console.log("showPostList console: ",post)
-	dispatch(showPostSuccess(post))})
+      dispatch(showPostSuccess(post))})
       .catch(err=> console.log(err))
     }
   }
 }
+
+// 마이페이지 리스트 불러오기
+// export const showMyPageOpenList = () => {
+//   // console.log('contentId',contentId)
+//   return (dispatch) => {
+//     axios.get(`${process.env.REACT_APP_API_URL}/users`, {withCredentials:true})
+//     .then(res => {
+//       console.log('res-----', res)
+//       if(res.status === 200){
+//         dispatch(showMyOpenListSuccess(res))
+//       }else{
+//         console.log('마이페이지 글 불러오기 실패')
+//       }
+//     })
+//     .catch(err=> console.log(err))
+//   }
+// }

@@ -1,4 +1,4 @@
-const { recruitment_content } = require('../../models');
+const { recruitment_content, user_content } = require('../../models');
 
 module.exports = async (req, res) => {
   const { contentId } = req.params;
@@ -8,7 +8,16 @@ module.exports = async (req, res) => {
   }})
   .then(data => {
     delete data.dataValues.userId
-    res.status(200).send({ data: data.dataValues, message: '글 조회 성공' });
+
+    user_content.count({
+      where: {
+        recruitment_content_id: contentId
+      }
+    })
+    .then(result => {
+      data.dataValues.content_count = result
+      res.status(200).send({ data: data.dataValues, message: '글 조회 성공' });
+    })
   })
   .catch(err => {
     console.log('boardDetailLookup error :', err);

@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
   .then(data => {
     user_content.create({
       user_id: token.id,
-      content_id: data.dataValues.id
+      recruitment_content_id: data.dataValues.id
     })
   })
   .then(_ => {

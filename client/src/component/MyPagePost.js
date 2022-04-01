@@ -4,17 +4,36 @@ import styled from 'styled-components'
 import { showPostList } from '../redux/posts/actions';
 import { showPostDetail } from '../redux/postList/action';
 import PostDetail from './PostDetail';
+import MyOpenList from './MyOpenList';
+import MyApplyList from './MyApplyList';
+import { showMyPageOpenList } from '../redux/myposts/action';
 
 const PostListMenu = styled.div`
-background-color: #EEEEEE;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 70px;
-font-size: 18px;
-font-weight: bold;
-border: 1px solid #C9C9C9;
+  background-color: #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #C9C9C9;
 `
+const PostButtonDiv = styled.div`
+  display: flex;
+`
+
+const PostButton = styled.div`
+  background-color: #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #C9C9C9;
+  width: 50%;
+`
+
 
 const Wrapper = styled.div`
 display: flex;
@@ -45,13 +64,15 @@ const PostListText = styled.div`
 margin-bottom: 10px;
 `
 
-function PostList({}) {
+function MyPagePost(props) {
   const [click, setClick] = useState(false);
-
+  const [listClick, setListClick] = useState(true);
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
   // console.log('post',post)
 
+  const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
+  
   // useEffect(()=>{
   //   dispatch(showPostList())
   // },[])
@@ -63,35 +84,54 @@ function PostList({}) {
     dispatch(showPostDetail(contentId))
   }
 
+  useEffect(() => {
+    handleOpenList()
+  }, [])
+
+  const handleOpenList = () => {
+    setListClick(true)
+    dispatch(showMyPageOpenList())
+  }
+
+  const handleApplyList = () => {
+    // 신청목록에서 보내줘야 할 건? 
+    setListClick(false)
+    // dispatch()
+  }
+
   return (
     <>
-    {!post ? <PostListMenu> 배달 목록 0개 </PostListMenu>
-      : ( click
-          ?  <PostListMenu> 배달 상세보기 </PostListMenu>
-          :  <PostListMenu> 배달 목록 {post.length}개 </PostListMenu>
-        )
+    <PostButtonDiv>
+      <PostButton onClick={handleOpenList}>개설목록</PostButton>
+      <PostButton onClick={handleApplyList}>신청목록</PostButton>
+    </PostButtonDiv>
+    {listClick 
+      ?  <MyOpenList/>
+      :  <MyApplyList/>
     }
 
-    {!post ? '지도를 더 확대해주세요'
+    {/* {!post ? '목록이 없어요!'
       : ( click
         ? <PostDetail click={click} setClick={setClick}/>
         : post.map((li ,i) => {
-          // console.log('category',li.category_food)
           return (
             <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
               <PostListImg src={`/icon/${li.category_food}.png`}/>
               <PostListTextWrapper>
                 <PostListText>식당이름: {li.restaurant_name}</PostListText>
-                <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}명</PostListText>
+                <PostListText>모집인원: {li.recruitment_personnel}</PostListText>
                 <PostListText>배달비: {li.delivery_fee}</PostListText>
               </PostListTextWrapper>
             </Wrapper>
           )
         })
         )
-      }
+      } */}
     </>
   );
 }
 
-export default PostList;
+export default MyPagePost;
+
+
+

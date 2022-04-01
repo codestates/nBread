@@ -86,7 +86,7 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  // console.log('list====',list)
+  console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id
   // console.log('현재postId',postId)
@@ -171,7 +171,7 @@ function PostDetail({click, setClick}) {
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
                   <PostListText>식당이름: {list.restaurant_name}</PostListText>
-                  <PostListText>모집인원: {list.recruitment_personnel}명</PostListText>
+                  <PostListText>모집인원:  / {list.recruitment_personnel}명</PostListText>
                   <PostListText>배달비: {list.delivery_fee}원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>

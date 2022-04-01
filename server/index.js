@@ -11,6 +11,8 @@ const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
+    method: ["GET", "POST"],
+    allowedHeaders: ["*"],
     credentials: true
   }
 });
@@ -52,6 +54,8 @@ app.use(
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 }); 
+
+app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
@@ -62,8 +66,8 @@ app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
 app.get('/contents/:contentId', controllers.boardDetailGet);
 app.get('/contents', controllers.boardGet);
-app.post('/order/:contentId', controllers.order);
-app.delete('/order/:contentId', controllers.cancelOrder);
+app.post('/orders/:contentId', controllers.order);
+app.delete('/orders/:contentId', controllers.cancelOrder);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
 app.get('*', (req, res) => {
@@ -72,11 +76,22 @@ app.get('*', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log("userconnected", socket.id)
-  socket.on('message',(message) => {
-    console.log('--------2---------',message)
-    io.emit('message',(message))
-  })
-})
+
+  socket.on('onJoin',({ roomName: room, userName: user }) => {
+    socket.join(room);
+    io.to(room).emit("onConnect", `${user} 님이 입장했습니다.`)
+    
+    socket.on('onSend',(message) => {
+      console.log('--------2---------', message)
+      io.to(room).emit('onReceive', message)
+    });
+    
+    socket.on('disconnect', () => {
+      socket.leave(room);
+      io.to(room).emit('onDisconnect', `${user} 님이 퇴장하셨습니다.`);
+    });
+  });
+});
 
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)

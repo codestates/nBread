@@ -30,9 +30,9 @@ module.exports = {
     })
     
     await queryInterface.addConstraint('user_content', {
-      fields: ['content_id'],
+      fields: ['recruitment_content_id'],
       type: 'foreign key',
-      name: 'FK_user_content_content_id',
+      name: 'FK_user_content_recruitment_content_id',
       references: {
         table: 'recruitment_content',
         field: 'id'
@@ -43,9 +43,9 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
 
-     await queryInterface.removeConstraint('recruitment_content', 'FK_recruitment_content_user_id')
-     await queryInterface.removeConstraint('user_content', 'FK_user_content_user_id')
-     await queryInterface.removeConstraint('user_content', 'FK_user_content_content_id')
+    //  await queryInterface.removeConstraint('recruitment_content', 'FK_recruitment_content_user_id')
+    //  await queryInterface.removeConstraint('user_content', 'FK_user_content_user_id')
+    //  await queryInterface.removeConstraint('user_content', 'FK_user_content_recruitment_content_id')
     //  await queryInterface.removeColumn('recruitment_content', 'user_id')
     //  await queryInterface.removeColumn('user_content', 'user_id')
     //  await queryInterface.removeColumn('user_content', 'content_id')
