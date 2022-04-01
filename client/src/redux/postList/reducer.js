@@ -47,34 +47,11 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
           address: post.address,
           body: post.body,
       });
-    default: return '';
-    // default: return state; // 원래 코드
+    default: return state;
   }
 }
-
 
 // 글 생성 조회 수정 삭제 실패
 export default postsDetailReducer;
 
 
-// 처음코드
-// const postsDetailReducer = (state=postDetailInitialState, action) => {
-//   console.log('reducerpost',postDetailInitialState)
-//   switch(action.type){
-//     case SHOW_POST_LIST_SUCCESS:
-//       let post = action.payload.data.data;
-//       // console.log('reducerpost',post)
-//       return {
-//         ...state, 
-//         posts: post,
-//       }
-//     case SHOW_POST_EDIT_SUCCESS:
-//       // let post = action.payload.data.data;
-//       // console.log('reducerpost',post)
-//       return {
-//         ...state, 
-//         posts: post,
-//       }
-//     default: return state;
-//   }
-// }
