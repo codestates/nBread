@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
@@ -86,7 +86,7 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  console.log('list====',list)
+  // console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id
   // console.log('현재postId',postId)
@@ -104,6 +104,16 @@ function PostDetail({click, setClick}) {
     address: list.address,
     body: list.body,
   })
+
+  useEffect(()=>{
+    setPostEditInfo({
+      restaurant_name: list.restaurant_name,
+      recruitment_personnel: list.recruitment_personnel,
+      delivery_fee: list.delivery_fee,
+      address: list.address,
+      body: list.body,
+    })
+  },[list])
   
   const handleBack = () => {
     setClick(!click)
