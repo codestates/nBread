@@ -13,7 +13,7 @@ module.exports = {
   isAuthorized: (req, res) => {
 
     let auth = req.headers.cookie;
-
+    console.log("---2---", auth)
     if (!auth) {
       return null;
     }

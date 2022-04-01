@@ -25,7 +25,7 @@ const showPostClosedEditSuccess = (post) => {
 
 export const showPostDetail = (id) => {
   return (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/contents/${id}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/contents/${id}`, { withCredentials: true })
     .then(post => dispatch(showPostDetailSuccess(post)))
     .catch(err=> console.log(err))
   }
