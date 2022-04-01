@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
-import { editPostDetail } from '../redux/postList/action';
+import { editPostDetail, editPostClosed } from '../redux/postList/action';
 
 
 const PostListMenu = styled.div`
@@ -144,6 +144,16 @@ function PostDetail({click, setClick}) {
     setPostEditInfo({ ...postEditInfo, [key]: e.target.value })
   }
 
+  const handlePostClosed = () => {
+    alert('마감하시겠습니까?')
+    dispatch(editPostClosed(list.id))
+    window.location.replace("/MyPage") 
+  }
+
+  const handlePostRecruitment = () => {
+
+  }
+
   return (
     <div>
       {/* <PostListMenu> 배달 상세보기</PostListMenu> */}
@@ -182,7 +192,7 @@ function PostDetail({click, setClick}) {
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
                   <PostListText>식당이름: {list.restaurant_name}</PostListText>
-                  <PostListText>모집인원:  / {list.recruitment_personnel}명</PostListText>
+                  <PostListText>모집인원: {list.content_count} / {list.recruitment_personnel}명</PostListText>
                   <PostListText>배달비: {list.delivery_fee}원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
@@ -216,11 +226,27 @@ function PostDetail({click, setClick}) {
             </>
         }  
       </PostWrapper>
+      {/* 
       {!userInfo ? null
         :( userInfo.id === listUserId 
           ? <PostButton> 마감하기 </PostButton>
           : <PostButton> 신청하기 </PostButton> )
-      }
+      } */}
+
+        {
+          (function ()  {
+            if(!userInfo){
+              return (null)
+            } else if (list.closed === 2){
+              return (<PostButton> 신청마감 </PostButton>)
+            } else if( userInfo.id === listUserId){
+              return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
+            } else if( userInfo.id !== listUserId){
+              return (<PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton>)
+            } 
+          }
+          )()
+        }
     </div>
   );
 }

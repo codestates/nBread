@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
-import { editPostDetail } from '../redux/postList/action';
+import { editPostDetail, editPostClosed } from '../redux/postList/action';
 
 
 const PostListMenu = styled.div`
@@ -130,8 +130,6 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    console.log('클릭시 id',list.id)
-
     setEditText(!editText)
     dispatch(editPostDetail(list.id,postEditInfo))
     alert('글 수정 성공')
@@ -142,6 +140,16 @@ function PostDetail({click, setClick}) {
 
   const handleInputValue = (key) => (e) => {
     setPostEditInfo({ ...postEditInfo, [key]: e.target.value })
+  }
+
+  const handlePostClosed = () => {
+    alert('마감하시겠습니까?')
+    // console.log(list.id)
+    dispatch(editPostClosed(list.id))
+  }
+
+  const handlePostRecruitment = () => {
+
   }
 
   return (
@@ -182,7 +190,7 @@ function PostDetail({click, setClick}) {
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
                   <PostListText>식당이름: {list.restaurant_name}</PostListText>
-                  <PostListText>모집인원:  / {list.recruitment_personnel}명</PostListText>
+                  <PostListText>모집인원: {list.content_count} / {list.recruitment_personnel}명</PostListText>
                   <PostListText>배달비: {list.delivery_fee}원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
@@ -216,11 +224,26 @@ function PostDetail({click, setClick}) {
             </>
         }  
       </PostWrapper>
-      {!userInfo ? null
+      {/* {!userInfo ? null
         :( userInfo.id === listUserId 
-          ? <PostButton> 마감하기 </PostButton>
-          : <PostButton> 신청하기 </PostButton> )
-      }
+          ? <PostButton onClick={handlePostClosed}> 마감하기 </PostButton>
+          : <PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton> )
+      } */}
+
+      {
+          (function ()  {
+            if(!userInfo){
+              return (null)
+            } else if( userInfo.id === listUserId){
+              return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
+            } else if( userInfo.id !== listUserId){
+              return (<PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton>)
+            } else if (list.closed === 2){
+              return (<PostButton onClick={handlePostRecruitment}> 마감 </PostButton>)
+            }
+          }
+          )()
+        }
     </div>
   );
 }
