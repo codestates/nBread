@@ -37,7 +37,7 @@ function Navbar() {
 
       {LoginModal ? <Login setLoginModal={setLoginModal} handleSignupModal={handleSignupModal}></Login>:null}
 
-      {SignUpModal ? <SignUp handleCloseSignupModal={handleCloseSignupModal} handleLoginModal={handleLoginModal}></SignUp>:null}
+      {SignUpModal ? <SignUp handleCloseSignupModal={handleCloseSignupModal} handleLoginModal={handleLoginModal} setLoginModal={setLoginModal}></SignUp>:null}
     </>
   );
 }

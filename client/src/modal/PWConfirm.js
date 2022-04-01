@@ -19,6 +19,7 @@ function PWConfirm() {
         <LoginButton>조회하기</LoginButton>
         <InputField placeholder="문자로 간 코드를 입력해주세요."/>
         <LoginButton>확인</LoginButton>
+        <SignUpToLogin onClick={null}>로그인으로 돌아가기</SignUpToLogin>
       </LoginForm>
     </Wrapper>
     </ModalBackdrop>
@@ -87,5 +88,11 @@ margin-top: 30px;
 font-size: 18px;
 `;
 
+
+const SignUpToLogin = styled.div`
+margin-top: 20px;
+font-size: 14px;
+color: gray;
+`;
 
 export default PWConfirm;
