@@ -7,6 +7,7 @@ import PostDetail from './PostDetail';
 import MyOpenList from './MyOpenList';
 import MyApplyList from './MyApplyList';
 import { showMyPageOpenList } from '../redux/myposts/action';
+import { showMyPageApplyList } from '../redux/myApplyList/action'
 
 const PostListMenu = styled.div`
   background-color: #EEEEEE;
@@ -96,6 +97,7 @@ function MyPagePost(props) {
   const handleApplyList = () => {
     // 신청목록에서 보내줘야 할 건? 
     setListClick(false)
+    dispatch(showMyPageApplyList())
     // dispatch()
   }
 

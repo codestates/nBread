@@ -7,6 +7,7 @@ import loginReducer from "./user/reducer";
 import writingPostsReducer from "./postWriting/reducer";
 import locationReducer from "./location/reducer";
 import myPostsReducer from "./myposts/reducer";
+import myApplyPostsReducer from "./myApplyList/reducer";
 
 const rootReducer = combineReducers({
   subscribersReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   loginReducer,
   writingPostsReducer,
   locationReducer,
-  myPostsReducer
+  myPostsReducer,
+  myApplyPostsReducer
 })
 
 export default rootReducer
