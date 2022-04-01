@@ -76,15 +76,13 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
    // ----test----
   const setNewSearchAddress = () => {
-    // console.log('userInfo.address',userInfo.address)
     const geocoder = new kakao.maps.services.Geocoder();
     
     let callback = function(result, status) {
-      // console.log('result',result)
-      // console.log('status',status)
       if (status === 'OK') {
         const newAddSearch = result[0]
-        // console.log('newAddSearch',newAddSearch)
+        console.log('newAddSearch',newAddSearch)
+        // handleWritingAddress( {lat: newAddSearch.y, lng: newAddSearch.x})
         // handleWritingAddress( {lat: newAddSearch.y, lng: newAddSearch.x})
         setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
       }
@@ -95,17 +93,17 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   // ---- test------
 
   // 글쓰기창에서 주소 검색시 경도 위도 찾아오기
-  const newSearchAddress = () => {
-    const geocoder = new kakao.maps.services.Geocoder();
+  // const newSearchAddress = () => {
+  //   const geocoder = new kakao.maps.services.Geocoder();
     
-    let callback = function(result, status) {
-      if (status === 'OK') {
-        const newAddSearch = result[0]
-        setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
-      }
-    };
-    geocoder.addressSearch(`${writeInfo.address}`, callback);
-  }
+  //   let callback = function(result, status) {
+  //     if (status === 'OK') {
+  //       const newAddSearch = result[0]
+  //       setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
+  //     }
+  //   };
+  //   geocoder.addressSearch(`${writeInfo.address}`, callback);
+  // }
 
   // 글 등록하기 버튼
   const handleWritingBtn = () => {
@@ -196,7 +194,8 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
                 <DaumPostcode 
                   onComplete={handleComplete}
-                  onSuccess={newSearchAddress}
+                  // onSuccess={newSearchAddress}
+                  onSuccess={setNewSearchAddress}
                   style={addressStyle}
                   height={700}
                   />

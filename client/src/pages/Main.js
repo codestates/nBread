@@ -67,8 +67,6 @@ function Main() {
     
     const placesSearchCB = function(data, status, pagination) {
         if (status === kakao.maps.services.Status.OK) {
-            console.log(status);
-            console.log(data);
             const newSearch = data[0]
             SetMainSearchAddressCenter({
               center: { lat: newSearch.y, lng: newSearch.x }
@@ -90,11 +88,10 @@ function Main() {
   }
 
   const [writingAddress, SetWritingAddress] = useState({
-    lat: '', 
-    lng: ''
+    lat: 37.49676871972202, 
+    lng: 127.02474726969814 ,
   });
 
-  // console.log('writingAddress',writingAddress)
   const handleWritingAddress = (e) => {
     SetWritingAddress(e)
   }
