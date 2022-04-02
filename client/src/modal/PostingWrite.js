@@ -81,9 +81,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     let callback = function(result, status) {
       if (status === 'OK') {
         const newAddSearch = result[0]
-        console.log('newAddSearch',newAddSearch)
-        // handleWritingAddress( {lat: newAddSearch.y, lng: newAddSearch.x})
-        // handleWritingAddress( {lat: newAddSearch.y, lng: newAddSearch.x})
         setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
       }
     };

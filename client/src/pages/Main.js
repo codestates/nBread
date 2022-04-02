@@ -38,27 +38,6 @@ function Main() {
     setChattingModal(!ChattingModal)
   }
 
-  // ----------test-------------------
-  // useEffect(()=>{
-  //   userInfoNewSearchAddress()
-  // },[userInfo])
-
-  // const userInfoNewSearchAddress = () => {
-  //   const geocoder = new kakao.maps.services.Geocoder();
-    
-  //   let callback = function(result, status) {
-  //     if (status === 'OK') {
-  //       const newAddSearch = result[0]
-  //       const newAddSearchLng =  newAddSearch.x
-  //       const newAddSearchLat =  newAddSearch.y
-  //       dispatch(locationChange(newAddSearchLat, newAddSearchLng))
-  //     }
-  //   };
-  //   {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
-  //   // geocoder.addressSearch(`${userInfo.data.address}`, callback);
-  // }
-
-
   const [searchAddress, SetSearchAddress] = useState();
   const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
 
@@ -83,7 +62,6 @@ function Main() {
   const onKeyPress = (e) => {
     if(e.key === 'Enter'){
       SearchMap()
-      // window.location.replace('/');
     }
   }
 
@@ -95,7 +73,6 @@ function Main() {
   const handleWritingAddress = (e) => {
     SetWritingAddress(e)
   }
-
 
   return (
     <div>

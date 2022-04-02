@@ -13,6 +13,7 @@ const { kakao } = window;
 function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
   // console.log('현재위치',locationInfo)
 
@@ -62,11 +63,8 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
 
 
   useEffect(()=>{
-    if(userInfo){
       userInfoNewSearchAddress()
-    }
   },[userInfo])
-
 
   const userInfoNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -79,12 +77,9 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
         setLocation({
           lat: newAddSearchLat, lng:  newAddSearchLng 
         })
-        
       }
     };
-    
-    {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
-    // geocoder.addressSearch(`${userInfo.data.address}`, callback);
+    {isLogin && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
   }
 
 
@@ -92,7 +87,6 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
     handleMapInfo()
   }, [map, location])
 
-  // console.log('info',info)
 
   // 지도의 레벨에 맞춰 목록 출력
   useEffect(()=>{
@@ -127,7 +121,7 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
     <div>
       <Map // 지도를 표시할 Container
         center={{ lat: location.lat, lng: location.lng }}
-        isPanto={true}
+        // isPanto={true}
         style={{
           // 지도의 크기
           width: "100%",
