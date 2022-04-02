@@ -1,8 +1,4 @@
-import { SHOW_POST_LIST_SUCCESS, SHOW_POST_EDIT_SUCCESS,SHOW_POST_CLOSED_EDIT_SUCCESS } from "./type";
-
-// const postDetailInitialState = {
-//   posts:[]
-// }
+import { SHOW_POST_LIST_SUCCESS, SHOW_POST_EDIT_SUCCESS,SHOW_POST_CLOSED_EDIT_SUCCESS, SHOW_POST_RECRUITMENT_SUCCESS, SHOW_POST_CANCEL_RECRUITMENT_SUCCESS } from "./type";
 
 const postDetailInitialState = {
     address: null,
@@ -17,7 +13,8 @@ const postDetailInitialState = {
     recruitment_personnel: null,
     restaurant_name: null,
     user_id: null,
-    content_count: null
+    content_count: null,
+    rel: null
 };
 
 const postsDetailReducer = (state=postDetailInitialState, action) => {
@@ -37,7 +34,8 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
         recruitment_personnel: post.recruitment_personnel,
         restaurant_name: post.restaurant_name,
         user_id: post.user_id,
-        content_count: post.content_count
+        content_count: post.content_count,
+        rel: post.rel
       }
       return Object.assign({}, state, newData);
     case SHOW_POST_EDIT_SUCCESS:
@@ -50,6 +48,10 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
           body: post.body,
       });
     case SHOW_POST_CLOSED_EDIT_SUCCESS:
+      return state;
+    case SHOW_POST_RECRUITMENT_SUCCESS:
+      return state;
+    case SHOW_POST_CANCEL_RECRUITMENT_SUCCESS:
       return state;
     default: return state;
   }
