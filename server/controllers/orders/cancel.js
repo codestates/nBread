@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     where: {
       [Op.and]: {
         user_id: token.id,
-        content_id: contentId
+        recruitment_content_id: contentId
       }
     }
   })
