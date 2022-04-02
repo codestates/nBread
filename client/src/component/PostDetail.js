@@ -5,6 +5,7 @@ import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
 import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
+import Swal from 'sweetalert2'
 
 
 const PostListMenu = styled.div`
@@ -128,11 +129,27 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    setEditText(!editText)
-    dispatch(editPostDetail(list.id,postEditInfo))
-    alert('글 수정 성공')
-    // history.push('/')
-    window.location.replace("/") 
+    // setEditText(!editText)
+    // dispatch(editPostDetail(list.id,postEditInfo))
+    // alert('글 수정 성공')
+    Swal.fire({
+      title: '글을 수정하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostDetail(list.id,postEditInfo))
+        setEditText(!editText)
+        window.location.replace("/") 
+      }else{
+        setEditText(!editText)
+      }
+		})
+    // window.location.replace("/") 
   }
   
 
@@ -141,20 +158,64 @@ function PostDetail({click, setClick}) {
   }
 
   const handlePostClosed = () => {
-    alert('마감하시겠습니까?')
-    dispatch(editPostClosed(list.id))
-    window.location.replace("/") 
+    Swal.fire({
+      title: '마감하시겠습니까?',
+      // text: "삭제하시면 다시 복구시킬 수 없습니다.",
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostClosed(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // alert('마감하시겠습니까?')
+    // dispatch(editPostClosed(list.id))
+    // window.location.replace("/") 
   }
 
   const handlePostRecruitment = () => {
-    dispatch(editPostRecruitment(list.id))
-    alert('신청 완료')
-    window.location.replace("/") 
+    Swal.fire({
+      title: '신청하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostRecruitment(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // dispatch(editPostRecruitment(list.id))
+    // alert('신청 완료')
+    // window.location.replace("/") 
   }
 
   const handlePostCancelRecruitment = () => {
-    dispatch(editPostCancelRecruitment(list.id))
-    // alert('신청 완료')
+    Swal.fire({
+      title: '신청을 취소하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostCancelRecruitment(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // dispatch(editPostCancelRecruitment(list.id))
+    // alert('신청 취소 완료')
     // window.location.replace("/") 
   }
 
