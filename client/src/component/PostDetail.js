@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
-import { editPostDetail, editPostClosed } from '../redux/postList/action';
+import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
 
 
 const PostListMenu = styled.div`
@@ -86,11 +86,9 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  // console.log('list====',list)
+  console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
-  const postId = list.id // 글의 id
-  // console.log('현재postId',postId)
-  
+  const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -144,18 +142,24 @@ function PostDetail({click, setClick}) {
 
   const handlePostClosed = () => {
     alert('마감하시겠습니까?')
-    // console.log(list.id)
     dispatch(editPostClosed(list.id))
     window.location.replace("/") 
   }
 
   const handlePostRecruitment = () => {
+    dispatch(editPostRecruitment(list.id))
+    alert('신청 완료')
+    window.location.replace("/") 
+  }
 
+  const handlePostCancelRecruitment = () => {
+    dispatch(editPostCancelRecruitment(list.id))
+    // alert('신청 완료')
+    // window.location.replace("/") 
   }
 
   return (
     <div>
-      {/* <PostListMenu> 배달 상세보기</PostListMenu> */}
       <PostWrapper>
         <PostIconWrapper>
           <svg onClick={handleBack} 
@@ -225,22 +229,18 @@ function PostDetail({click, setClick}) {
             </>
         }  
       </PostWrapper>
-      {/* {!userInfo ? null
-        :( userInfo.id === listUserId 
-          ? <PostButton onClick={handlePostClosed}> 마감하기 </PostButton>
-          : <PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton> )
-      } */}
-
-      {
+        {
           (function ()  {
             if(!userInfo){
               return (null)
+            } else if (list.closed === 2){
+              return (<PostButton> 신청마감 </PostButton>)
             } else if( userInfo.id === listUserId){
               return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
-            } else if( userInfo.id !== listUserId){
+            } else if( list.rel === ''){
               return (<PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton>)
-            } else if (list.closed === 2){
-              return (<PostButton onClick={handlePostRecruitment}> 마감 </PostButton>)
+            } else if( list.rel === '신청자'){
+              return (<PostButton onClick={handlePostCancelRecruitment}> 신청취소 </PostButton>)
             }
           }
           )()

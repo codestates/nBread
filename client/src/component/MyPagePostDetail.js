@@ -88,9 +88,7 @@ function PostDetail({click, setClick}) {
   const list = useSelector((state)=> state.postsDetailReducer)
   // console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
-  const postId = list.id // 글의 id
-  // console.log('현재postId',postId)
-  
+  const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -150,13 +148,8 @@ function PostDetail({click, setClick}) {
     window.location.replace("/MyPage") 
   }
 
-  const handlePostRecruitment = () => {
-
-  }
-
   return (
     <div>
-      {/* <PostListMenu> 배달 상세보기</PostListMenu> */}
       <PostWrapper>
         <PostIconWrapper>
           <svg onClick={handleBack} 
@@ -226,14 +219,7 @@ function PostDetail({click, setClick}) {
             </>
         }  
       </PostWrapper>
-      {/* 
-      {!userInfo ? null
-        :( userInfo.id === listUserId 
-          ? <PostButton> 마감하기 </PostButton>
-          : <PostButton> 신청하기 </PostButton> )
-      } */}
-
-        {
+      {
           (function ()  {
             if(!userInfo){
               return (null)
@@ -241,8 +227,6 @@ function PostDetail({click, setClick}) {
               return (<PostButton> 신청마감 </PostButton>)
             } else if( userInfo.id === listUserId){
               return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
-            } else if( userInfo.id !== listUserId){
-              return (<PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton>)
             } 
           }
           )()
