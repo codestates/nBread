@@ -17,8 +17,7 @@ module.exports = async (req, res) => {
       user_content.count({
         where: {
           recruitment_content_id: contentId
-        },
-        attributes: ['user_id']
+        }
       })
       .then(result => {
         data.dataValues.content_count = result
