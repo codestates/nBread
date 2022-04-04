@@ -8,6 +8,7 @@ import writingPostsReducer from "./postWriting/reducer";
 import locationReducer from "./location/reducer";
 import myPostsReducer from "./myposts/reducer";
 import myApplyPostsReducer from "./myApplyList/reducer";
+import chattingReducer from "./chatting/reducer";
 
 const rootReducer = combineReducers({
   subscribersReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   writingPostsReducer,
   locationReducer,
   myPostsReducer,
-  myApplyPostsReducer
+  myApplyPostsReducer,
+  chattingReducer,
 })
 
 export default rootReducer

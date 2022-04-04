@@ -8,6 +8,8 @@ import MyPage from './pages/MyPage';
 import Comment from './component/Comment';
 import LoginUser from './component/LoginUser';
 import Chatting_test from './modal/Chatting_test';
+import ChattingDetail from './component/ChattingDetail';
+import ProfileImage from './component/ProfileImage';
 
 
 function App() {
@@ -33,6 +35,12 @@ function App() {
         </Route>
         <Route path="/test">
           <Chatting_test/>
+        </Route>
+        <Route path="/ChattingDetail">
+          <ChattingDetail/>
+        </Route>
+        <Route path="/ProfileImage">
+          <ProfileImage/>
         </Route>
     </BrowserRouter>
   );

@@ -9,13 +9,13 @@ import { axiosUserEdit } from '../redux/user/action';
 import { useLocation } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
+import ProfileImage from '../component/ProfileImage';
 
 const { kakao } = window;
 
 function MyPage() {
-//이미지 미리보기
-  const [img, setImg] = useState('이미지없음');
-  const [previewImg, setPreviewImg] = useState(null);
+//프로필사진
+  const [Images, setImages] = useState(null)
 
 //주소
   const [visible, setVisible] = useState(false); 
@@ -24,6 +24,7 @@ function MyPage() {
 //회원탈퇴 테스트
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
+  // console.log('isLogin',isLogin)
   const location = useLocation()
 
   const history = useHistory();
@@ -54,32 +55,6 @@ function MyPage() {
   })
 
   const [changeInfoBtn, setChangeInfoBtn] = useState(false);
-
-//프로필사진
-  const handleFileInput = (e) => {
-    const reader = new FileReader()
-    const file = e.target.files[0];
-    if(file){
-      reader.readAsDataURL(e.target.files[0])
-    }
-    reader.onloadend = () => {
-      const previewImgUrl = reader.result
-      if(previewImgUrl) {
-        setPreviewImg(previewImgUrl)
-      }
-    }
-    const fileExt = file.name.split('.').pop();
-    if(file.type !== 'image/jpeg' || fileExt !=='jpeg'){
-      alert('jpeg 파일만 Upload 가능합니다.');
-      return;
-    }
-    
-  
-  }
-  
-
-  
-
 //마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
     setSettingUserinfo({ ...settingUserinfo, [key]: e.target.value })
@@ -131,7 +106,9 @@ function MyPage() {
   }
 
 const handleUserEdit = () => {
-    if (settingUserinfo.nickname === ''){
+    if (
+    settingUserinfo.nickname === ''
+    ){
       setChangeInfoBtn(!changeInfoBtn)
     }else{
       dispatch(axiosUserEdit(settingUserinfo))
@@ -149,11 +126,6 @@ const handleUserEdit = () => {
     isLogin(false)
     
   }
-
-  const deleteImg = () => {
-    setPreviewImg(null)
-  }
-
     // 주소 검색 api
     const handleComplete = (data) => {
       let fullAddress = data.address;
@@ -184,7 +156,13 @@ const handleUserEdit = () => {
     // console.log('writeInfo',writeInfo)
     geocoder.addressSearch(`${settingUserinfo.address}`, callback);
   }
+  // console.log(settingUserinfo)
 
+
+    //프로필사진
+    const updateImages = (newImages) => {
+      setImages(newImages)
+    }
 
   return (
     <div>
@@ -196,17 +174,8 @@ const handleUserEdit = () => {
         
         <MapDiv>
           <MyPageDiv>
-          <MyPageProfileDiv>
-          <MyProfile>
-          {/* <ProfileImg src={userInfo.img} /> ㅇㅣ러케 사용자 저장 이미지 불ㅓ오기 */}
-          <FrofileImg src={previewImg ? previewImg : <MyProfile></MyProfile> }/>
-          </MyProfile>
-            <ImageLabel center htmlFor="img">
-            <InputHidden id="img" accept="image/*" type="file" onChange={handleFileInput}/>
-            </ImageLabel>
-            <ImageDiv><MyProfileButton onClick={deleteImg}>삭제</MyProfileButton></ImageDiv>
-            <MyProfileName>{isLogin.data.username}</MyProfileName>
-          </MyPageProfileDiv>
+            {/* 프로필사진 */}
+          <ProfileImage updateImages={updateImages}/>
       {/* --------------------------회원정보 수정------------------------- */}
       {changeInfoBtn ? (
         // 회원정보 수정중인 상태
@@ -218,6 +187,7 @@ const handleUserEdit = () => {
         <InputField defaultValue={isLogin.data.phonNumber} onChange={settingOnChange('phonNumber')}/>
         {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
+        
         
 
 
@@ -297,37 +267,6 @@ background-color: #B7CADB;
 width: 100%;
 height: calc(100vh - 120px);
 `;
-//마이페이지 프로필사진 Div
-const MyPageProfileDiv = styled.div`
-float: left;
-margin-bottom: 30px;
-background-color: #A7CADB;
-width: 100%;
-height: 150px;
-`;
-//마이페이지 프로필사진
-const MyProfile = styled.div`
-float: left;
-background-color: #737373;
-border-radius: 50%;
-border: none;
-width: 100px;
-height: 100px;
-position: relative;
-top: 25%;
-color: white;
-text-align: center;
-`;
-
-//마이페이지 닉네임
-const MyProfileName = styled.div`
-
-`;
-
-//마이페이지 닉네임
-const MyProfileButton = styled.button`
-margin-left: 10px;
-`;
 
 const MyPageDiv = styled.div`
 margin: auto;
@@ -385,17 +324,6 @@ margin-top: 10px;
 border: solid #E2E2E2 1px;
 `;
 
-const InputHidden = styled.input`
-color: #999; 
-`;
-
-const ImageLabel = styled.label`
-width: 100px;
-height: 106px;
-font-size: 16px;
-background-color:#525252;
-border: 1px solid;
-`;
 
 const Div = styled.div`
 width: 500px;
@@ -426,18 +354,6 @@ const Err = styled.div`
 font-size: 14px;
 color: red;
 margin-top: 2px;
-`;
-
-const FrofileImg = styled.img`
-background-color: #efefef;
-width: 100%;
-height: 100%;
-border-radius: 50%;
-`;
-
-
-const ImageDiv = styled.div`
-
 `;
 
 
