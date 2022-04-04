@@ -7,9 +7,9 @@ import DaumPostcode from 'react-daum-postcode';
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
 import { locationChange } from "../redux/location/action";
+import io from 'socket.io-client';
 const { kakao } = window;
-
-
+const socket = io.connect('http://localhost');
 
 
 
@@ -19,6 +19,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
   // 로그인한 유저 정보
   const userInfo = useSelector((state)=> state.loginReducer.data)
+  // console.log('...',userInfo)
 
   const [testWriteInfo, setTestWriteInfo] = useState({
     lat: '',
@@ -73,8 +74,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     setNewSearchAddress()  
   },[PostingWriteModal, writeInfo.address])
 
-
-   // ----test----
   const setNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     
@@ -86,21 +85,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     };
     geocoder.addressSearch(`${writeInfo.address}`, callback);
   }
-
-  // ---- test------
-
-  // 글쓰기창에서 주소 검색시 경도 위도 찾아오기
-  // const newSearchAddress = () => {
-  //   const geocoder = new kakao.maps.services.Geocoder();
-    
-  //   let callback = function(result, status) {
-  //     if (status === 'OK') {
-  //       const newAddSearch = result[0]
-  //       setWriteInfo({ ...writeInfo, lat: newAddSearch.y, lng: newAddSearch.x})
-  //     }
-  //   };
-  //   geocoder.addressSearch(`${writeInfo.address}`, callback);
-  // }
 
   // 글 등록하기 버튼
   const handleWritingBtn = () => {
@@ -118,18 +102,36 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     console.log('data',data)
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
       setErrorMessage('모든 항목은 필수입니다')
-    }else if(!userInfo){
-      setErrorMessage('로그인이 필요합니다')
     }else{
       dispatch(writingPost(data))
       // dispatch(locationChange(data.lat, data.lng))
       // history.push('/')
+      let nickname = userInfo.nickname;
+      let roomName = writeInfo.restaurant_name
+      // console.log('nickname',nickname)
+      // console.log('roomName',roomName)
+      socket.emit('createRoom', ({ roomName, nickname }));
       alert('글쓰기가 성공했습니다')
+      // createRoom()
       handleWritingAddress( {lat: data.lat, lng: data.lng})
       // window.location.replace("/") 
       openModalPostingWrite()
     }
   }
+
+  //------------------ 채팅방 생성
+
+  // const createRoom = () => {
+
+  //   let nickname = userInfo.nickname;
+  //   let roomName = writeInfo.restaurant_name
+
+  //   console.log('roomName',roomName)
+  //   socket.emit('createRoom', ({ roomName, nickname }));
+  // };
+
+  //------------------
+
 
   // 주소 api css
   const addressStyle = {
