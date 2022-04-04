@@ -53,6 +53,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
       dispatch(axiosLogin(loginInfo))
       setLoginModal(false)
       alert('로그인')
+      window.location.replace("/") 
     }
   }
 

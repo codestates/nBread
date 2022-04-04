@@ -136,7 +136,7 @@ export const axiosUserSignUp = (data) => {
   }
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
-    console.log('2222',data)
+    console.log('2244445454522',data)
     return (dispatch) => {
     dispatch(userEdit(data))
     

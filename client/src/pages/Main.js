@@ -100,7 +100,7 @@ function Main() {
 
       {/* 채팅 Modal */}
       {ChattingModal === true ?
-      <Chatting onClick={(e) => e.stopPropagation()}>
+      <Chatting setChattingModal={setChattingModal}>
       </Chatting>
       :null}      
     </div>
