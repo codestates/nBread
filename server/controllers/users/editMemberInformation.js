@@ -12,7 +12,7 @@ module.exports = (req, res) => {
   user.update({
     nickname: req.body.nickname,
     password: req.body.password,
-    picture: req.body.picture,
+    // picture: req.body.picture,
     address: req.body.address,
     phone_number: req.body.phone_number
   }, {

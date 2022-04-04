@@ -8,6 +8,7 @@ const path = require('path');
 const app = express();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
+
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
@@ -61,6 +62,7 @@ app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
 app.patch('/users', controllers.editMemberInformation);
+app.patch('/users/picture', controllers.editPicture);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
