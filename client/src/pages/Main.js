@@ -74,6 +74,15 @@ function Main() {
     SetWritingAddress(e)
   }
 
+  const [openPost, setOpenPost] = useState(false);
+
+  const openPostList = () => {
+    console.log('cdcd')
+    setOpenPost(true)
+  }
+
+
+
   return (
     <div>
       <Navbar/>
@@ -92,7 +101,7 @@ function Main() {
         <WritingButton onClick={openModalPostingWrite}>글쓰기</WritingButton>
         {/* 채팅 버튼 */}
         <ChattingButton onClick={openModalChatting}>채팅</ChattingButton>
-
+        <MobileButton onClick={openPostList}>배달 목록 0개</MobileButton>
       </Wrapper>
 
       {/* 글쓰기 Modal */}
@@ -116,6 +125,12 @@ float: left;
 width: 400px;
 height: calc(100vh - 120px);
 overFlow : auto;
+@media (max-width: 768px) {
+  display: none;
+  /* visibility: hidden; */
+  width: 100vw;
+  height: 100vh;
+}  
 `;
 
 const MapDiv = styled.div`
@@ -125,6 +140,11 @@ padding-right: 400px;
 background-color: #B7CADB;
 width: 100%;
 height: calc(100vh - 120px);
+@media (max-width: 768px) {
+  visibility: visible;
+  margin-right: 0px;
+  padding-right: 0px;
+}  
 `;
 
 const WritingButton = styled.button`
@@ -170,6 +190,22 @@ const SearchBtnDiv = styled.button`
   right: 16px;
   z-index: 1;
 `
+
+const MobileButton = styled.button`
+  position: fixed;
+  width: 100%;
+  height: 40px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
+@media (min-width: 768px) {
+  display: none;
+  /* visibility: hidden; */
+  width: 100vw;
+  height: 100vh;
+}  
+`
+
 
 
 export default Main;
