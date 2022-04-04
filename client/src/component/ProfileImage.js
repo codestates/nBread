@@ -42,7 +42,7 @@ function ProfileImage(props) {
     formData.append("file", files[0])
     console.log('44444444',formData)
 
-    axios.patch(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
+    axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
         console.log(response)
         if(response.data.success) {

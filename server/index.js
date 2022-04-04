@@ -6,6 +6,7 @@ const cors = require('cors');
 const controllers = require('./controllers');
 const path = require('path');
 const app = express();
+const router = express.Router();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
 const multer = require('multer');
@@ -28,18 +29,6 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
-
-
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}_${file.originalname}`)
-  }
-})
-
-let upload = multer({ storage: storage }).single("file");
 
 
 
@@ -72,13 +61,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 }); 
 
+
+
+
+
+app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
 app.patch('/users', controllers.editMemberInformation);
-app.patch('/users/picture',upload, controllers.editPicture);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
