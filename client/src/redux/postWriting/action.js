@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { WRITING_POST_SUCCESS, WRITING_POST_FAILURE } from "./types";
 import { useHistory } from 'react-router-dom';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost');
 
 const writingPostSuccess = (post) => {
   // console.log('writingSuccess',post)
@@ -31,9 +34,15 @@ export const writingPost = (post) => {
       lng: post.lng,
     }, {withCredentials: true})
     .then(data => {
-      // console.log('ressss',data.status)
       if(data.status === 201){
         dispatch(writingPostSuccess(post))
+
+        let id = data.data.data.id
+        let roomName = data.data.data.roomName
+        let nickname = post.nickname
+
+        socket.emit('createRoom', ({ id, nickname, roomName }));
+      
       }else{
         console.log('글쓰기 실패')
       }
