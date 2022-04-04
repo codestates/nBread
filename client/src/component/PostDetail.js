@@ -8,80 +8,8 @@ import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecr
 import Swal from 'sweetalert2'
 
 
-const PostListMenu = styled.div`
-background-color: #EEEEEE;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 70px;
-font-size: 18px;
-font-weight: bold;
-border: 1px solid #C9C9C9;
-`
-const Wrapper = styled.div`
-display: flex;
-margin-left: 4px;
-align-items: center;
-width: 98%;
-height: 199px;
-margin-bottom: 8px;
-overFlow : auto;
-`;
 
-const PostWrapper = styled.div`
-padding-left: 30px ;
-padding-right: 30px ;
-padding-top: 10px;
-`
 
-const PostListImg = styled.img`
-
-`
-
-const PostListTextWrapper = styled.div`
-padding-left: 40px;
-`
-
-const PostIconWrapper = styled.div`
-display: flex;
-justify-content: space-between;
-margin-top: 10px;
-`
-
-const PostUpdateDelete = styled.div`
-display: flex;
-`
-
-const PostUpdate = styled.div`
-font-size: 14px;
-color: #B1B1B1;
-`
-const PostDelete = styled.div`
-font-size: 14px;
-color: #B1B1B1;
-margin-left: 4px;
-`
-const PostListText = styled.div`
-margin-bottom: 10px;
-`
-
-const PostListDetailText = styled.div`
-border: 1px solid;
-width: 340px;
-height: 200px;
-overFlow : auto;
-`
-
-const PostButton = styled.button`
-position: fixed;
-bottom: 0px;
-border: none;
-background-color: #B51D29;
-color: white;
-width: 400px;
-height: 56px;
-text-align: center;
-`
 
 function PostDetail({click, setClick}) {
   const history = useHistory();
@@ -252,6 +180,7 @@ function PostDetail({click, setClick}) {
 
         {!editText
           ? <>  
+          <WrapperDiv>
               <Wrapper>
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
@@ -260,33 +189,35 @@ function PostDetail({click, setClick}) {
                   <PostListText>배달비: {list.delivery_fee}원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
-                <PostListText>{newChangeDate}</PostListText>
-                <PostListText>주소: {list.address}</PostListText>
-                <PostListText>설명글</PostListText>
-                <PostListDetailText>
-                  {list.body}
-                </PostListDetailText>
+              
+                <div>
+                  <PostListText>{newChangeDate}</PostListText>
+                  <PostListText>주소: {list.address}</PostListText>
+                  <PostListText>설명글</PostListText>
+                  <PostListDetailText>
+                    {list.body}
+                  </PostListDetailText>
+                </div>
+          </WrapperDiv>
             </>
           :  <>  
+            <WrapperDiv>
               <Wrapper>
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
-                  <PostListText>식당이름: </PostListText> 
-                    <input defaultValue={list.restaurant_name} onChange={handleInputValue('restaurant_name')} />
-                  <PostListText>모집인원: 명</PostListText>
-                    <input type='number' defaultValue={list.recruitment_personnel} onChange={handleInputValue('recruitment_personnel')} />
-                  <PostListText>배달비: 원</PostListText>
-                    <input type='number' defaultValue={list.delivery_fee} onChange={handleInputValue('delivery_fee')} />
+                  <PostListText>식당이름: <PostEditString defaultValue={list.restaurant_name} onChange={handleInputValue('restaurant_name')} /></PostListText> 
+                  <PostListText>모집인원: <PostEditNumber type='number' defaultValue={list.recruitment_personnel} onChange={handleInputValue('recruitment_personnel')} /> 명</PostListText>
+                  <PostListText>배달비: <PostEditNumber type='number' defaultValue={list.delivery_fee} onChange={handleInputValue('delivery_fee')} /> 원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
+              <div>
                 <PostListText>{newChangeDate}</PostListText>
-                <PostListText>주소: </PostListText>
-                  <input defaultValue={list.address} onChange={handleInputValue('address')} />
+                <PostListText>주소: {list.address}</PostListText>
                 <PostListText>설명글</PostListText>
-                  <input defaultValue={list.body} onChange={handleInputValue('body')} />
-                {/* <PostListDetailText>
-                  
-                </PostListDetailText> */}
+                <PostEditDiv defaultValue={list.body} onChange={handleInputValue('body')} />
+
+              </div>
+            </WrapperDiv>
             </>
         }  
       </PostWrapper>
@@ -309,5 +240,156 @@ function PostDetail({click, setClick}) {
     </div>
   );
 }
+
+const PostListMenu = styled.div`
+background-color: #EEEEEE;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 70px;
+font-size: 18px;
+font-weight: bold;
+border: 1px solid #C9C9C9;
+`
+const Wrapper = styled.div`
+display: flex;
+margin-left: 4px;
+align-items: center;
+width: 98%;
+height: 199px;
+margin-bottom: 8px;
+overFlow : auto;
+@media (max-width: 768px) {
+  justify-content:center;
+} 
+`;
+
+const WrapperDiv = styled.div`
+@media (max-width: 768px) {
+  /* justify-content:center; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+} 
+@media (min-height: 1200px) {
+  /* height: 30vh */
+  margin-top: 4vh;
+} 
+`;
+
+const PostWrapper = styled.div`
+padding-left: 30px ;
+padding-right: 30px ;
+padding-top: 10px;
+@media (max-width: 768px) {
+  
+} 
+`
+
+const PostListImg = styled.img`
+
+`
+
+const PostListTextWrapper = styled.div`
+padding-left: 40px;
+/* display: flex; */
+/* flex-direction: row; */
+`
+
+const PostIconWrapper = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 10px;
+@media (max-width: 768px) {
+  
+} 
+`
+
+const PostUpdateDelete = styled.div`
+display: flex;
+`
+
+const PostUpdate = styled.div`
+font-size: 14px;
+color: #B1B1B1;
+`
+const PostDelete = styled.div`
+font-size: 14px;
+color: #B1B1B1;
+margin-left: 4px;
+`
+
+const PostListText = styled.div`
+/* margin-bottom: 10px; */
+margin-bottom: 2vh;
+
+`
+
+const PostListDetailText = styled.div`
+border: 1px solid #D2D1D1;
+width: 340px;
+height: 20vh;
+padding: 5px;
+overFlow : auto;
+@media (min-height: 768px) {
+  height: 30vh
+} 
+
+`
+
+const PostButton = styled.button`
+position: fixed;
+bottom: 0px;
+border: none;
+background-color: #B51D29;
+color: white;
+width: 400px;
+height: 56px;
+text-align: center;
+@media (max-width: 768px) {
+  width: 100%;
+} 
+`
+
+const PostEditString = styled.input`
+  font-size: 16px;
+  width: 120px;
+  border: none;
+  border-bottom: 1px solid #CCC;
+  &:focus {
+    outline: none;    
+    border-bottom: 1px solid dodgerblue;
+  }
+`
+
+const PostEditNumber = styled.input`
+  font-size: 16px;
+  width: 60px;
+  border: none;
+  border-bottom: 1px solid #CCC;
+  &:focus {
+    outline: none;    
+    border-bottom: 1px solid dodgerblue;
+  }
+`
+
+const PostEditDiv = styled.textarea`
+  font-size: 16px;
+  width: 340px;
+  height: 20vh;
+  border: none;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #CCC;
+  &:focus {
+    outline: none;   
+    border-bottom: 1px solid dodgerblue; 
+  }
+  @media (max-width: 768px) {
+  height: 25vh;
+} 
+@media (min-height: 768px) {
+  height: 30vh
+} 
+`
 
 export default PostDetail;
