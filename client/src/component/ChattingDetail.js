@@ -22,7 +22,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   }
   console.log('detail',newRoomName)
 
-  const [roomMessageInfo, setRoomMessageInfo] = useState({ nickname: '', message: '', roomName: '' });
+  const [roomMessageInfo, setRoomMessageInfo] = useState({ nickname: data.nickname, message: '', roomName: newRoomName.chatId });
   const [roomName, setRoomName] = useState('');
   const [messageInfo, setMessageInfo] = useState({ nickname: '', message: '' });
   const [roomChatLog, setRoomChatLog] = useState([]);
@@ -34,7 +34,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
 
   const handleInputValue = (value) => (e) => {
     if (value === 'roomMessage') {
-      setRoomMessageInfo({ ...roomMessageInfo, nickname: data.nickname, message: e.target.value, roomName: newRoomName });
+      setRoomMessageInfo({ ...roomMessageInfo, message: e.target.value});
     }
   };
 
@@ -51,7 +51,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   useEffect(()=>{
     // room 채팅 기록 받기
     socket.emit('joinServer', (data.nickname));
-
+    socket.emit('sendRoomMessage', (roomMessageInfo));
     socket.on('roomChatLog', (log) => {
       console.log('------------2----------', log)
       setRoomChatLog(log);

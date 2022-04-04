@@ -24,27 +24,32 @@ function Chatting({setChattingModal}) {
   const [click, setClick] = useState(false);
 
   useEffect( () => {
-    if (data) {
-      // rooms 정보(roomName, roomUser) 받기
-      socket.emit('joinServer', (data.nickname));
-      socket.on('myRoomList', ({ userRoom, userNickName }) => {
-        console.log('---------1----------',userRoom)
-        console.log('---------1----------',userNickName)
-        if (userNickName === data.nickname) {
-          setRoomList(userRoom);
-        }
-      });
-    }
+    // rooms 정보(roomName, roomUser) 받기
+    socket.emit('joinServer', (data.nickname));
+    socket.on('myRoomList', ({ userRoom, userNickName }) => {
+      console.log('userRoomtest!!!!!',userRoom)
+      if (userNickName === data.nickname) {
+        setRoomList(userRoom);
+      }
+    });
   }, []);
   console.log('roomList',roomList)
 
-  const [newRoomName, setNewRoomName] = useState([]);
+  const [newRoomName, setNewRoomName] = useState({
+    chatId : '',
+    chatName: ''
+  });
 
-  const handleChatList = (e, newRoomName) => {
-    setNewRoomName(newRoomName)
+  const handleChatList = (e, el) => {
+    setNewRoomName({
+      chatId: el.id,
+      chatName: el.roomName
+    })
     setClick(true)
   }
 
+
+  // console.log('newRoomName',newRoomName)
 
 
   return (
@@ -57,10 +62,10 @@ function Chatting({setChattingModal}) {
       {!click 
       ? roomList.map( (el, index) => {
         return (
-        <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, newRoomName)}>
+        <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, el)}>
           <ChattingListImg src={null}/>
             <ChattingListTextWrapper>
-                <ChattingListText>{el}</ChattingListText>
+                <ChattingListText>{el.roomName}</ChattingListText>
             </ChattingListTextWrapper>
         </ChattingWrapper> 
         )
