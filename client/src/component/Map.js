@@ -10,16 +10,20 @@ import { useInterval } from "./useInterval";
 const { kakao } = window;
 
 
-function KaKaoMap({mainSearchAddressCenter}) {
+function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
+  // console.log('현재위치',locationInfo)
 
-  const [state, setState] = useState({
+  const [location, setLocation] = useState({
     // 지도의 초기 위치
-    center: { lat: 37.49676871972202, lng: 127.02474726969814 },
-    // 지도 위치 변경시 panto를 이용할지(부드럽게 이동)
-    isPanto: true,
-  });
+    lat: 37.49676871972202, 
+    lng: 127.02474726969814 ,
+  }
+  );
+
   const [dragMap, setDragMap] = useState();
   const [position, setPosition] = useState();
   const [searchAddress, SetSearchAddress] = useState();
@@ -28,13 +32,15 @@ function KaKaoMap({mainSearchAddressCenter}) {
   // 마커 표시 게시물 데이터
   const MarkerPost = useSelector((state)=> state.postsReducer.posts)
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
-  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
 
   // 주소 검색시 위치로 이동
   const mainSearch = () => {
     {mainSearchAddressCenter&& 
-      setState({
-        center: { lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng }
+      // setState({
+      //   center: { lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng }
+      // })
+      setLocation({
+        lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng
       })
     }
   }
@@ -43,14 +49,21 @@ function KaKaoMap({mainSearchAddressCenter}) {
     mainSearch()
   },[mainSearchAddressCenter])
 
+  const writingSearch = () => {
+    {writingAddress&& 
+      setLocation({
+        lat: writingAddress.lat, lng: writingAddress.lng
+      })
+    }
+  }
 
-  // test ------------
   useEffect(()=>{
-    userInfoNewSearchAddress()
-    setState({
-      center: { lat: locationInfo.posts[0], lng: locationInfo.posts[1] }
-    })
+    writingSearch()
+  },[writingAddress])
 
+
+  useEffect(()=>{
+      userInfoNewSearchAddress()
   },[userInfo])
 
   const userInfoNewSearchAddress = () => {
@@ -61,18 +74,19 @@ function KaKaoMap({mainSearchAddressCenter}) {
         const newAddSearch = result[0]
         const newAddSearchLng =  newAddSearch.x
         const newAddSearchLat =  newAddSearch.y
-        dispatch(locationChange(newAddSearchLat, newAddSearchLng))
+        setLocation({
+          lat: newAddSearchLat, lng:  newAddSearchLng 
+        })
       }
     };
-    {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
-    // geocoder.addressSearch(`${userInfo.data.address}`, callback);
+    {isLogin && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
   }
 
-  // --------------
 
   useEffect(()=>{
     handleMapInfo()
-  }, [map,state])
+  }, [map, location])
+
 
   // 지도의 레벨에 맞춰 목록 출력
   useEffect(()=>{
@@ -106,8 +120,8 @@ function KaKaoMap({mainSearchAddressCenter}) {
   return (
     <div>
       <Map // 지도를 표시할 Container
-        center={state.center}
-        isPanto={state.isPanto}
+        center={{ lat: location.lat, lng: location.lng }}
+        // isPanto={true}
         style={{
           // 지도의 크기
           width: "100%",
@@ -115,8 +129,6 @@ function KaKaoMap({mainSearchAddressCenter}) {
         }}
         level={4} // 지도의 확대 레벨
         onCreate={(map) => setMap(map)}
-        // onZoomChanged={(map) => setLevel(map.getLevel())}
-        // onDragEnd={handleMapInfo}
         onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
       >
 
@@ -150,7 +162,6 @@ function KaKaoMap({mainSearchAddressCenter}) {
           <p>북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}</p>
         </div>
       )} */}
-      {/* <button onClick={handleMapLevel}>클릭</button> */}
     </div>
   );
 }

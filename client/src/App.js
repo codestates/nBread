@@ -10,6 +10,8 @@ import LoginUser from './component/LoginUser';
 import Chatting_test from './modal/Chatting_test';
 import ChattingDetail from './component/ChattingDetail';
 import ProfileImage from './component/ProfileImage';
+import Test from './modal/Test';
+
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
         </Route>
         <Route path="/ProfileImage">
           <ProfileImage/>
+        <Route path="/chat">
+          <Test/>
         </Route>
     </BrowserRouter>
   );

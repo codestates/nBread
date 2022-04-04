@@ -38,27 +38,6 @@ function Main() {
     setChattingModal(!ChattingModal)
   }
 
-  // ----------test-------------------
-  // useEffect(()=>{
-  //   userInfoNewSearchAddress()
-  // },[userInfo])
-
-  // const userInfoNewSearchAddress = () => {
-  //   const geocoder = new kakao.maps.services.Geocoder();
-    
-  //   let callback = function(result, status) {
-  //     if (status === 'OK') {
-  //       const newAddSearch = result[0]
-  //       const newAddSearchLng =  newAddSearch.x
-  //       const newAddSearchLat =  newAddSearch.y
-  //       dispatch(locationChange(newAddSearchLat, newAddSearchLng))
-  //     }
-  //   };
-  //   {userInfo.isLogIn && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
-  //   // geocoder.addressSearch(`${userInfo.data.address}`, callback);
-  // }
-
-
   const [searchAddress, SetSearchAddress] = useState();
   const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
 
@@ -67,8 +46,6 @@ function Main() {
     
     const placesSearchCB = function(data, status, pagination) {
         if (status === kakao.maps.services.Status.OK) {
-            console.log(status);
-            console.log(data);
             const newSearch = data[0]
             SetMainSearchAddressCenter({
               center: { lat: newSearch.y, lng: newSearch.x }
@@ -85,8 +62,16 @@ function Main() {
   const onKeyPress = (e) => {
     if(e.key === 'Enter'){
       SearchMap()
-      // window.location.replace('/');
     }
+  }
+
+  const [writingAddress, SetWritingAddress] = useState({
+    lat: 37.49676871972202, 
+    lng: 127.02474726969814 ,
+  });
+
+  const handleWritingAddress = (e) => {
+    SetWritingAddress(e)
   }
 
   return (
@@ -97,7 +82,7 @@ function Main() {
           <PostList/>
         </PostListDiv>
         <MapDiv>
-          <Map mainSearchAddressCenter={mainSearchAddressCenter}/>
+          <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
         <SearchDiv>
           <SearchInputDiv onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
@@ -111,7 +96,7 @@ function Main() {
       </Wrapper>
 
       {/* 글쓰기 Modal */}
-      {PostingWriteModal === true ?<PostingWrite PostingWriteModal={PostingWriteModal} openModalPostingWrite={openModalPostingWrite}></PostingWrite>:null}
+      {PostingWriteModal === true ?<PostingWrite handleWritingAddress={handleWritingAddress} PostingWriteModal={PostingWriteModal} openModalPostingWrite={openModalPostingWrite}></PostingWrite>:null}
 
       {/* 채팅 Modal */}
       {ChattingModal === true ?

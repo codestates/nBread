@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
-import { editPostDetail } from '../redux/postList/action';
+import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
+import Swal from 'sweetalert2'
 
 
 const PostListMenu = styled.div`
@@ -86,11 +87,9 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  // console.log('list====',list)
+  console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
-  const postId = list.id // 글의 id
-  // console.log('현재postId',postId)
-  
+  const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -130,13 +129,27 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    console.log('클릭시 id',list.id)
-
-    setEditText(!editText)
-    dispatch(editPostDetail(list.id,postEditInfo))
-    alert('글 수정 성공')
-    // history.push('/')
-    window.location.replace("/") 
+    // setEditText(!editText)
+    // dispatch(editPostDetail(list.id,postEditInfo))
+    // alert('글 수정 성공')
+    Swal.fire({
+      title: '글을 수정하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostDetail(list.id,postEditInfo))
+        setEditText(!editText)
+        window.location.replace("/") 
+      }else{
+        setEditText(!editText)
+      }
+		})
+    // window.location.replace("/") 
   }
   
 
@@ -144,9 +157,70 @@ function PostDetail({click, setClick}) {
     setPostEditInfo({ ...postEditInfo, [key]: e.target.value })
   }
 
+  const handlePostClosed = () => {
+    Swal.fire({
+      title: '마감하시겠습니까?',
+      // text: "삭제하시면 다시 복구시킬 수 없습니다.",
+      // icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostClosed(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // alert('마감하시겠습니까?')
+    // dispatch(editPostClosed(list.id))
+    // window.location.replace("/") 
+  }
+
+  const handlePostRecruitment = () => {
+    Swal.fire({
+      title: '신청하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostRecruitment(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // dispatch(editPostRecruitment(list.id))
+    // alert('신청 완료')
+    // window.location.replace("/") 
+  }
+
+  const handlePostCancelRecruitment = () => {
+    Swal.fire({
+      title: '신청을 취소하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(editPostCancelRecruitment(list.id))
+        window.location.replace("/") 
+      }else{
+      }
+		})
+    // dispatch(editPostCancelRecruitment(list.id))
+    // alert('신청 취소 완료')
+    // window.location.replace("/") 
+  }
+
   return (
     <div>
-      {/* <PostListMenu> 배달 상세보기</PostListMenu> */}
       <PostWrapper>
         <PostIconWrapper>
           <svg onClick={handleBack} 
@@ -182,7 +256,7 @@ function PostDetail({click, setClick}) {
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
                   <PostListText>식당이름: {list.restaurant_name}</PostListText>
-                  <PostListText>모집인원:  / {list.recruitment_personnel}명</PostListText>
+                  <PostListText>모집인원: {list.content_count} / {list.recruitment_personnel}명</PostListText>
                   <PostListText>배달비: {list.delivery_fee}원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
@@ -216,11 +290,22 @@ function PostDetail({click, setClick}) {
             </>
         }  
       </PostWrapper>
-      {!userInfo ? null
-        :( userInfo.id === listUserId 
-          ? <PostButton> 마감하기 </PostButton>
-          : <PostButton> 신청하기 </PostButton> )
-      }
+        {
+          (function ()  {
+            if(!userInfo){
+              return (null)
+            } else if (list.closed === 2){
+              return (<PostButton> 신청마감 </PostButton>)
+            } else if( userInfo.id === listUserId){
+              return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
+            } else if( list.rel === ''){
+              return (<PostButton onClick={handlePostRecruitment}> 신청하기 </PostButton>)
+            } else if( list.rel === '신청자'){
+              return (<PostButton onClick={handlePostCancelRecruitment}> 신청취소 </PostButton>)
+            }
+          }
+          )()
+        }
     </div>
   );
 }

@@ -57,34 +57,18 @@ export const showPostUserDelete = (contentId) => {
 
 export const showPostList = (info) => {
  //  console.log('info',info)
- // console.log( `${info.swLatLng.lat},${info.swLatLng.lng}`,
-    // `${info.neLatLng.lat},${info.neLatLng.lng}`)
+//  console.log( `${info.swLatLng.lat},${info.swLatLng.lng}`,
+//     `${info.neLatLng.lat},${info.neLatLng.lng}`)
   return (dispatch) => {
     if(!info){
       dispatch(showPostReset())
     }else{
       axios.get(`${process.env.REACT_APP_API_URL}/contents?start=${info.swLatLng.lat},${info.swLatLng.lng}&end=${info.neLatLng.lat},${info.neLatLng.lng}`)
       .then(post => {
-	 // console.log("showPostList console: ",post)
+	//  console.log("showPostList console: ",post)
       dispatch(showPostSuccess(post))})
       .catch(err=> console.log(err))
     }
   }
 }
 
-// 마이페이지 리스트 불러오기
-// export const showMyPageOpenList = () => {
-//   // console.log('contentId',contentId)
-//   return (dispatch) => {
-//     axios.get(`${process.env.REACT_APP_API_URL}/users`, {withCredentials:true})
-//     .then(res => {
-//       console.log('res-----', res)
-//       if(res.status === 200){
-//         dispatch(showMyOpenListSuccess(res))
-//       }else{
-//         console.log('마이페이지 글 불러오기 실패')
-//       }
-//     })
-//     .catch(err=> console.log(err))
-//   }
-// }

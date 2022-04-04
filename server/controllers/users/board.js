@@ -53,8 +53,10 @@ module.exports = (req, res) => {
           result[i].dataValues.content_count = recruitmentArr[i].content_count
           console.log(contentsIdArr, result)
           if (result[i].dataValues.user_id === token.id) {
+            result[i].dataValues.rel = '모집자'
             recruitment.push(result[i].dataValues)
           } else {
+            result[i].dataValues.rel = '신청자'
             application.push(result[i].dataValues)
           }
         }
