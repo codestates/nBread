@@ -8,7 +8,7 @@ const path = require('path');
 const app = express();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
-
+const multer = require('multer');
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
@@ -28,6 +28,22 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
+
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`)
+  }
+})
+
+let upload = multer({ storage: storage }).single("file");
+
+
+
+
 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
@@ -62,7 +78,7 @@ app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
 app.patch('/users', controllers.editMemberInformation);
-app.patch('/users/picture', controllers.editPicture);
+app.patch('/users/picture',upload, controllers.editPicture);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
