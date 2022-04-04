@@ -256,10 +256,11 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     bottom: 60px;
     right: 18px;
     z-index: 1;
-    /* @media (max-width: 768px) {
-    width: 100vw;
-    height: 100vh;
-  }   */
+    @media (max-width: 768px) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);   
+  }  
   `;
 
   const PostingWriteTitle = styled.div`

@@ -16,6 +16,18 @@ font-weight: bold;
 border: 1px solid #C9C9C9;
 `
 
+const PostListMobile = styled.div`
+background-color: #EEEEEE;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 70px;
+font-size: 18px;
+font-weight: bold;
+border: 1px solid #C9C9C9;
+`
+
+
 const Wrapper = styled.div`
 display: flex;
 margin-left: 4px;
@@ -25,6 +37,9 @@ height: 199px;
 padding: 30px;
 margin-bottom: 8px;
 box-shadow: 0 0 4px #737373;
+@media (max-width: 768px) {
+  /* justify-content:center; */
+} 
 `;
 
 const PostListImg = styled.img`
@@ -38,7 +53,14 @@ const PostListText = styled.div`
 margin-bottom: 10px;
 `
 
-function PostList({}) {
+const PostMobileBack = styled.div`
+  margin-left: 10px;
+@media (min-width: 768px) {
+  visibility: hidden;
+}  
+`
+
+function PostList({openPost, setOpenPost}) {
   const [click, setClick] = useState(false);
 
   const dispatch = useDispatch();
@@ -54,12 +76,33 @@ function PostList({}) {
     dispatch(showPostDetail(contentId))
   }
 
+  const postHandleBack = () => {
+    setOpenPost(!openPost)
+  }
+
   return (
     <>
-    {!post ? <PostListMenu> 배달 목록 0개 </PostListMenu>
+    {!post ? 
+    <PostListMenu> 배달 목록 0개 </PostListMenu>
       : ( click
           ?  <PostListMenu> 배달 상세보기 </PostListMenu>
-          :  <PostListMenu> 배달 목록 {post.length}개 </PostListMenu>
+          :  
+          <PostListMobile> 
+            <PostMobileBack>
+              <svg onClick={postHandleBack} 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24"
+              ><path 
+                d="M16.67 0l2.83 2.829-9.339 
+                9.175 9.339 9.167-2.83 
+                2.829-12.17-11.996z"/>
+              </svg>
+            </PostMobileBack>
+              배달 목록 {post.length}개 
+            <div></div>
+          </PostListMobile>
         )
     }
 

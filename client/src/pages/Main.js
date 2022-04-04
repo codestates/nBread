@@ -15,12 +15,10 @@ const { kakao } = window;
 
 
 function Main() {
+  const post = useSelector((state)=> state.postsReducer.posts)
   const dispatch = useDispatch();
   const history = useHistory();
-
   const userInfo = useSelector((state)=> state.loginReducer)
-  // console.log('userInfo',userInfo)
-
   const [PostingWriteModal, setPostingWriteModal] = useState(false);
   const [ChattingModal, setChattingModal] = useState(false);
 
@@ -82,31 +80,52 @@ function Main() {
   const [openPost, setOpenPost] = useState(false);
 
   const openPostList = () => {
-    console.log('cdcd')
-    setOpenPost(true)
+    setOpenPost(!openPost)
   }
 
+  const closePostList = () => {
+    setOpenPost(false)
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', closePostList);
+    return () => {
+      window.addEventListener('resize', closePostList);
+    }
+  },[])
 
 
   return (
     <div>
       <Navbar/>
       <Wrapper>
-        <PostListDiv>
-          <PostList/>
+        <PostListDiv openPost={openPost}>
+          <PostList setOpenPost={setOpenPost} openPost={openPost} />
         </PostListDiv>
-        <MapDiv>
+        <MapDiv openPost={openPost}>
           <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
-        <SearchDiv>
-          <SearchInputDiv onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
-          <SearchBtnDiv onClick={SearchMap} >주소검색</SearchBtnDiv>
+        <SearchDiv openPost={openPost}>
+          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
+          {/* <SearchBtnDiv onClick={SearchMap} >검색</SearchBtnDiv> */}
+          <SearchBtnDiv onClick={SearchMap} >
+            <svg xmlns="http://www.w3.org/2000/svg" 
+              width="22" height="22" 
+              viewBox="0 0 24 24">
+              <path d="M23.809 21.646l-6.205-6.205c1.167-1.605 
+              1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 
+              0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 
+              0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 
+              3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 
+              6.877c-3.793 0-6.877-3.085-6.877-6.877z"/>
+            </svg>
+          </SearchBtnDiv>
         </SearchDiv>
         {/* 글쓰기 버튼 */}
-        <WritingButton onClick={openModalPostingWrite}>글쓰기</WritingButton>
+        <WritingButton openPost={openPost} onClick={openModalPostingWrite}>글쓰기</WritingButton>
         {/* 채팅 버튼 */}
-        <ChattingButton onClick={openModalChatting}>채팅</ChattingButton>
-        <MobileButton onClick={openPostList}>배달 목록 0개</MobileButton>
+        <ChattingButton openPost={openPost} onClick={openModalChatting}>채팅</ChattingButton>
+        <MobileButton openPost={openPost} onClick={openPostList}>배달 목록 {post.length}개 </MobileButton>
       </Wrapper>
 
       {/* 글쓰기 Modal */}
@@ -120,6 +139,7 @@ function Main() {
     </div>
   );
 }
+
 const Wrapper = styled.div`
 /* display: flex; */
 overflow:hidden; 
@@ -131,8 +151,7 @@ width: 400px;
 height: calc(100vh - 120px);
 overFlow : auto;
 @media (max-width: 768px) {
-  display: none;
-  /* visibility: hidden; */
+  display: ${props => props.openPost ? 'block' : 'none'};
   width: 100vw;
   height: 100vh;
 }  
@@ -146,13 +165,16 @@ background-color: #B7CADB;
 width: 100%;
 height: calc(100vh - 120px);
 @media (max-width: 768px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
   visibility: visible;
   margin-right: 0px;
   padding-right: 0px;
+  
 }  
 `;
 
 const WritingButton = styled.button`
+display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 160px;
 right: 16px;
@@ -163,9 +185,15 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
+@media (max-width: 768px) {
+  width: 70px;
+  height: 70px;
+  bottom: 140px;
+} 
 `;
 
 const ChattingButton = styled.button`
+display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
 right: 16px;
@@ -176,23 +204,42 @@ height: 90px;
 background-color: #B51D29;
 color: white;
 z-index: 1;
+@media (max-width: 768px) {
+  width: 70px;
+  height: 70px;
+}  
 `;
 
 const SearchDiv = styled.div`
+  display: ${props => props.openPost ? 'none' : 'block'};
   position: fixed;
   right: 16px;
   top: 230px;
   z-index: 1;
+  width: 150px;
+  height: 30px;
+  background-color: white;
+  border-radius: 10%;
+  align-items: center;
 `
 const SearchInputDiv = styled.input`
+  border: none;
   position: fixed;
-  right: 16px;
+  width: 100px;
+  height: 25px;
+  top: 233px;
+  right: 50px;
   z-index: 1;
+  &:focus {
+    outline: none;    
+  }
 `
 
-const SearchBtnDiv = styled.button`
+const SearchBtnDiv = styled.div`
+  margin-left: 10px;
   position: fixed;
-  right: 16px;
+  top: 235px;
+  right: 20px;
   z-index: 1;
 `
 
@@ -203,14 +250,14 @@ const MobileButton = styled.button`
   bottom: 0px;
   right: 0px;
   z-index: 1;
-@media (min-width: 768px) {
   display: none;
-  /* visibility: hidden; */
+  background-color: white;
+  border: none;
+@media (max-width: 768px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
   width: 100vw;
-  height: 100vh;
+  height: 40px;
 }  
 `
-
-
 
 export default Main;
