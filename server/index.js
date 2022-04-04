@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
 
           let userRoom = el.userRoom;
           let userNickName = el.nickname;
-
+          console.log('---------a------------',userRoom)
           io.emit('myRoomList', ({ userRoom, userNickName }));
         }
       });

@@ -27,8 +27,12 @@ function Chatting({setChattingModal}) {
     if (data) {
       // rooms 정보(roomName, roomUser) 받기
       socket.emit('joinServer', (data.nickname));
-      socket.on('roomList', (rooms) => {
-        setRoomList(rooms);
+      socket.on('myRoomList', ({ userRoom, userNickName }) => {
+        console.log('---------1----------',userRoom)
+        console.log('---------1----------',userNickName)
+        if (userNickName === data.nickname) {
+          setRoomList(userRoom);
+        }
       });
     }
   }, []);
