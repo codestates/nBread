@@ -1,45 +1,50 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
+import Dropzone from 'react-dropzone';
 
 function ProfileImage(props) {
   const [previewImg, setPreviewImg] = useState(null);
   const [Img, setImg] = useState(null);
 
 //이미지 미리보기
-  const handleFileInput = (e) => {
-    const reader = new FileReader()
-    const file = e.target.files[0];
-    if(file){
-      reader.readAsDataURL(e.target.files[0])
-    }
-    reader.onloadend = () => {
-      const previewImgUrl = reader.result
-      if(previewImgUrl) {
-        setPreviewImg(previewImgUrl)
-      }
-    }
-    const fileExt = file.name.split('.').pop();
-    if(file.type !== 'image/jpeg' || fileExt !=='jpeg'){
-      alert('jpeg 파일만 Upload 가능합니다.');
-      return;
-    }
-  }
+  // const handleFileInput = (e) => {
+  //   const reader = new FileReader()
+  //   const file = e.target.files[0];
+  //   if(file){
+  //     reader.readAsDataURL(e.target.files[0])
+  //   }
+  //   reader.onloadend = () => {
+  //     const previewImgUrl = reader.result
+  //     if(previewImgUrl) {
+  //       setPreviewImg(previewImgUrl)
+  //     }
+  //   }
+  //   const fileExt = file.name.split('.').pop();
+  //   if(file.type !== 'image/jpeg' || fileExt !=='jpeg'){
+  //     alert('jpeg 파일만 Upload 가능합니다.');
+  //     return;
+  //   }
+  // }
   //이미지 삭제
   const deleteImg = () => {
     setPreviewImg(null)
   }
   //이미지적용
   const handleFileUpload = (files) => {
+    console.log(files[0],'33333')
     let formData = new FormData();
 
     const config = {
-      header: {'content-type': 'multipart/fomr-data'}
+      header: {'content-type': 'multipart/form-data'},
+      withCredentials: true
     }
     formData.append("file", files[0])
+    console.log('44444444',formData)
 
-    axios.post('/users/profile/image', formData, config)
+    axios.patch(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
+        console.log(response)
         if(response.data.success) {
           console.log(response.data.filePath)
           setImg([response.data.filePath])
@@ -56,12 +61,31 @@ function ProfileImage(props) {
           <MyProfile> 
           <FrofileImg src={previewImg ? previewImg : <MyProfile></MyProfile> }/>
           </MyProfile>
+
+          <Dropzone onDrop={handleFileUpload}>
+    {({getRootProps, getInputProps}) => (
+      <div
+        style={{
+            width: 300, height: 240, border: '1px solid lightgray',
+            display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}
+          {...getRootProps()}>
+        <input {...getInputProps()} />
+        {/* <i type='plus' style={{fontSize: '3rem'}} /> */}
+      </div>
+    
+    )}
+    </Dropzone>
+
+
+
+
             <ImageLabel center htmlFor="img">파일선택
-            <InputHidden id="img" accept="image/*" type="file" onChange={handleFileInput}/>
+            {/* <InputHidden id="img" accept="image/*" type="file" onChange={handleFileUpload}/> */}
             </ImageLabel>
             
             <ImageDiv><MyProfileButton onClick={deleteImg}>삭제</MyProfileButton></ImageDiv>
-            <ImageDiv><MyProfileButton onClick={handleFileUpload}>사진적용하기</MyProfileButton></ImageDiv>
+            {/* <ImageDiv><MyProfileButton onClick={handleFileUpload}>사진적용하기</MyProfileButton></ImageDiv> */}
             {/* <MyProfileName>{null}</MyProfileName> */}
           </MyPageProfileDiv>
     </div>

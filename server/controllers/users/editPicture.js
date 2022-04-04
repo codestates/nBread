@@ -3,7 +3,6 @@ const { isAuthorized } = require('../tokenFunctions');
 const multer = require('multer');
 
 module.exports = (req, res) => {
-
   let token = isAuthorized(req, res);
 
   if (!token) {
@@ -19,6 +18,7 @@ module.exports = (req, res) => {
       }
     })
     .then(result => {
+      console.log('dfeifeifjie')
       return res.send({ message: "프로필 사진 초기화 완료" })
     })
     .catch(err => {
@@ -26,37 +26,29 @@ module.exports = (req, res) => {
       res.status(500).send({ message: '서버 에러' })
     })
   } else {
-    let storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-      },
-      filename: function (req, file, cb) {
-        cb(null, `${Date.now()}_${file.originalname}`)
-      }
-    })
     
-    let upload = multer({ storage: storage }).single("file");
-
+    
     upload(req, res, (err) => {
+      console.log("123456789",req)
       if (err) {
         console.log('editPicture2 error: ', err);
         return res.status(500).send({ message: '서버 에러' });
       } else {
-
-        user.update({
-          picture: res.req.file.filename
-        }, {
-          where: {
-            id: token.id
-          }
-        })
-        .then(result => {
-          res.status(200).send({ filePath: res.req.file.path, fileName: res.req.file.filename, message: '이미지 업로드 완료' })
-        })
-        .catch(err => {
-          console.log('editPicture3 error: ', err);
-          res.status(500).send({ message: '서버 에러' });
-        })
+        return res.json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
+        // user.update({
+        //   picture: res.req.file.filename
+        // }, {
+        //   where: {
+        //     id: token.id
+        //   }
+        // })
+        // .then(result => {
+        //   res.status(200).send({ filePath: res.req.file.path, fileName: res.req.file.filename, message: '이미지 업로드 완료' })
+        // })
+        // .catch(err => {
+        //   console.log('editPicture3 error: ', err);
+        //   res.status(500).send({ message: '서버 에러' });
+        // })
       }
     })
   }
