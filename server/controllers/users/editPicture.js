@@ -1,12 +1,12 @@
 const { user } = require('../../models');
-const { isAuthorized } = require('../tokenFunctions');
+const { isAuthorized, generateAccessToken, sendAccessToken } = require('../tokenFunctions');
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../uploads/');
+    cb(null, '../client/public/img/');
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}_${file.originalname}`)
@@ -26,15 +26,22 @@ router.post('/picture', upload.single("file"), function(req, res, next) {
     return res.status(204).send({ message: '권한 없음' });
   }
 
+  const picturePath = res.req.file.path.slice(17);
+
   user.update({
-    picture: res.req.file.filename
+    picture: picturePath
   }, {
     where: {
       id: token.id
     }
   })
   .then(result => {
-    res.status(200).send({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename, message: '이미지 업로드 완료' })
+
+    res.clearCookie('nbjwt')
+    token.picture = picturePath    
+    const accessToken = generateAccessToken(token)
+    sendAccessToken(res, accessToken)
+    res.status(200).send({ success: true, data: token, filePath: picturePath, fileName: res.req.file.filename, message: '이미지 업로드 완료' })
   })
   .catch(err => {
     console.log('editPicture3 error: ', err);

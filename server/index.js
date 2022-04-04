@@ -21,6 +21,8 @@ const io = require('socket.io')(httpServer, {
 
 app.use(express.json());
 // app.use(express.static('public'));
+app.use(express.static('uploads'));
+app.get('/uploads', express.static('uploads'));
 app.use(express.static( path.join(__dirname, '../client/build'))) 
 app.use(
   cors({

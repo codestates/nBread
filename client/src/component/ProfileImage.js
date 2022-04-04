@@ -27,6 +27,7 @@ function ProfileImage(props) {
   //   }
   // }
   //이미지 삭제
+
   const deleteImg = () => {
     setPreviewImg(null)
   }
@@ -45,15 +46,14 @@ function ProfileImage(props) {
     axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
         if(response.data.success) {
+          alert('파일저장성공')
           setImg(response.data.filePath)
-          console.log('23232323232323',response.data.filePath)
           props.updateImages(response.data.filePath)
         }else {
           alert ('파일저장실패')
         }
       })
   }
-
   return (
     <div>
         <MyPageProfileDiv>
@@ -61,12 +61,30 @@ function ProfileImage(props) {
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
                 <input {...getInputProps()} />
-                {/* <FrofileImg src={Img ? `../../${Img}` : "" }/> */}
+                <FrofileImg src={Img ? Img : "img/basic.png" }/>
 
 
               </MyProfile>
             )}
           </Dropzone>
+          {/* <div style={{display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}> */}
+
+{/* {
+  Img ? 
+  <div>
+    <img style={{minWidth: '300px', height: '240px'}}
+      src={Img} alt="되라1"
+    />
+  </div>
+  :
+  <div>
+  <img style={{minWidth: '300px', height: '240px'}}
+    src="img/abcd.png" alt="되라2"
+  />
+</div>
+} */}
+
+{/* </div > */}
 
 
 
