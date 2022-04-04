@@ -44,11 +44,10 @@ function ProfileImage(props) {
 
     axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
-        console.log(response)
         if(response.data.success) {
-          console.log(response.data.filePath)
-          setImg([response.data.filePath])
-          props.updateImages([response.data.filePath])
+          setImg(response.data.filePath)
+          console.log('23232323232323',response.data.filePath)
+          props.updateImages(response.data.filePath)
         }else {
           alert ('파일저장실패')
         }
@@ -58,24 +57,16 @@ function ProfileImage(props) {
   return (
     <div>
         <MyPageProfileDiv>
-          <MyProfile> 
-          <FrofileImg src={previewImg ? previewImg : <MyProfile></MyProfile> }/>
-          </MyProfile>
-
           <Dropzone onDrop={handleFileUpload}>
-    {({getRootProps, getInputProps}) => (
-      <div
-        style={{
-            width: 300, height: 240, border: '1px solid lightgray',
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}
-          {...getRootProps()}>
-        <input {...getInputProps()} />
-        {/* <i type='plus' style={{fontSize: '3rem'}} /> */}
-      </div>
-    
-    )}
-    </Dropzone>
+          {({getRootProps, getInputProps}) => (
+              <MyProfile {...getRootProps()}>
+                <input {...getInputProps()} />
+                {/* <FrofileImg src={Img ? `../../${Img}` : "" }/> */}
+
+
+              </MyProfile>
+            )}
+          </Dropzone>
 
 
 
