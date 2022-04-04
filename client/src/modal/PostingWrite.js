@@ -98,6 +98,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       restaurant_name: restaurant_name,
       lat: lat,
       lng: lng,
+      nickname: userInfo.nickname
     }
     console.log('data',data)
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
@@ -106,11 +107,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       dispatch(writingPost(data))
       // dispatch(locationChange(data.lat, data.lng))
       // history.push('/')
-      let nickname = userInfo.nickname;
-      let roomName = writeInfo.restaurant_name
-      // console.log('nickname',nickname)
-      // console.log('roomName',roomName)
-      socket.emit('createRoom', ({ roomName, nickname }));
       alert('글쓰기가 성공했습니다')
       // createRoom()
       handleWritingAddress( {lat: data.lat, lng: data.lng})

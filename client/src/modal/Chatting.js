@@ -36,8 +36,8 @@ function Chatting({setChattingModal}) {
 
   const [newRoomName, setNewRoomName] = useState([]);
 
-  const handleChatList = (e,roomName) => {
-    setNewRoomName(roomName)
+  const handleChatList = (e, newRoomName) => {
+    setNewRoomName(newRoomName)
     setClick(true)
   }
 
@@ -51,12 +51,12 @@ function Chatting({setChattingModal}) {
         <LoginTitle>채팅 <span onClick={closeChattingModal}>&times;</span></LoginTitle>
       
       {!click 
-      ? roomList.map( ({ roomName }, index) => {
+      ? roomList.map( (el, index) => {
         return (
-        <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, roomName)}>
+        <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, newRoomName)}>
           <ChattingListImg src={null}/>
             <ChattingListTextWrapper>
-                <ChattingListText>{roomName}</ChattingListText>
+                <ChattingListText>{el}</ChattingListText>
             </ChattingListTextWrapper>
         </ChattingWrapper> 
         )

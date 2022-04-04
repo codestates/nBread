@@ -30,6 +30,8 @@ function Test () {
       });
       // myRoomList 정보 받기
       socket.on('myRoomList', ({ userRoom, userNickName }) => {
+        console.log('--------1----------', userNickName)
+        console.log('--------2----------', data.nickname)
         if (userNickName === data.nickname) {
           setMyRoomList(userRoom);
         }
