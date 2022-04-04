@@ -1,12 +1,16 @@
 import styled from 'styled-components';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChattingDetail from "../component/ChattingDetail";
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost');
 
 
 function Chatting({setChattingModal}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
+  const data = useSelector((state)=> state.loginReducer.data);
   const LoginModal = useSelector((state)=> state.loginReducer.LoginModal)
 
   const handleChattingList = () => {
@@ -16,6 +20,28 @@ function Chatting({setChattingModal}) {
   const closeChattingModal = () => {
     setChattingModal(false)
   }
+  const [roomList, setRoomList] = useState([]);
+  const [click, setClick] = useState(false);
+
+  useEffect( () => {
+    if (data) {
+      // rooms 정보(roomName, roomUser) 받기
+      socket.emit('joinServer', (data.nickname));
+      socket.on('roomList', (rooms) => {
+        setRoomList(rooms);
+      });
+    }
+  }, []);
+  console.log('roomList',roomList)
+
+  const [newRoomName, setNewRoomName] = useState([]);
+
+  const handleChatList = (e,roomName) => {
+    setNewRoomName(roomName)
+    setClick(true)
+  }
+
+
 
   return (
     <>
@@ -23,12 +49,22 @@ function Chatting({setChattingModal}) {
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         <LoginTitle>채팅 <span onClick={closeChattingModal}>&times;</span></LoginTitle>
-        <ChattingWrapper>
-        <ChattingListImg src={null}/>
-              <ChattingListTextWrapper>
-                <ChattingListText>강남역에서 같이 배달비 나눌사람~</ChattingListText>
-              </ChattingListTextWrapper>
-        </ChattingWrapper>
+      
+      {!click 
+      ? roomList.map( ({ roomName }, index) => {
+        return (
+        <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, roomName)}>
+          <ChattingListImg src={null}/>
+            <ChattingListTextWrapper>
+                <ChattingListText>{roomName}</ChattingListText>
+            </ChattingListTextWrapper>
+        </ChattingWrapper> 
+        )
+      })
+      : <ChattingDetail newRoomName={newRoomName} click={click} setClick={setClick} setChattingModal={setChattingModal}/>
+      }
+
+
         </LoginForm>
       </Wrapper>
 
@@ -104,4 +140,49 @@ const ChattingListText = styled.div`
 margin-top: 35px;
 margin-left: 20px;
 `
+
+const ChattingContents = styled.div`
+width: 200px;
+padding: 15px;
+border-radius:10px ;
+background-color: #D5B483;
+`
+
+const InputField = styled.input`
+width: 350px;
+height: 56px;
+font-size: 18px;
+margin-top: 25px;
+`;
+
+const Button = styled.button`
+
+`
+
+// const ChattingListTextWrapper = styled.div`
+// padding-top: 23px;
+// padding-left: 7px;
+// `
+
+
+const ChattingSendDiv = styled.div`
+width: 375px;
+height: 111px;
+background-color: #ffffff;;
+border-radius: 0px 0 30px 30px;
+border: 1px solid #A3A3A3;
+margin-top: -1px;
+`
+
+
+// {roomList.map( ({ roomName }, index) => {
+//   return (
+//   <ChattingWrapper key={index}>
+//     <ChattingListImg src={null}/>
+//       <ChattingListTextWrapper>
+//           <ChattingListText>{roomName}</ChattingListText>
+//       </ChattingListTextWrapper>
+//   </ChattingWrapper> 
+//   )
+// })}
 export default Chatting;

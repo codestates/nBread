@@ -131,15 +131,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createRoom', ({roomName, nickname}) => {
-
+      console.log('nickname',nickname)
+      console.log('roomName',roomName)
     let room = {
       roomName,
       roomUsers: [nickname]
     };
     let check = rooms.find( (room) => room.roomName === roomName );
-
     if (!check) {
       rooms.push(room);
+      console.log('roomsroomsroomsrooms',rooms)
       users.forEach( (el) => {
         if (el.nickname === nickname) {
           el.userRoom.push(roomName);

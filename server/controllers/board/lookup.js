@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
           contents[i]['content_count'] = result[i].dataValues.content_count
         }
 
-        console.log(contents)
+        // console.log(contents)
         res.status(200).send({ data: contents, message: '글 조회 성공' });
       })
     })
