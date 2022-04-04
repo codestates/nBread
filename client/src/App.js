@@ -43,6 +43,7 @@ function App() {
         </Route>
         <Route path="/ProfileImage">
           <ProfileImage/>
+        </Route>
         <Route path="/chat">
           <Test/>
         </Route>
