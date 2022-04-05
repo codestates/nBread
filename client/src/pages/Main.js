@@ -25,7 +25,7 @@ function Main() {
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){
-      alert('로그인이 필요합니다')
+      Swal.fire('로그인이 필요합니다')
       setPostingWriteModal(false)
     }else{
       setPostingWriteModal(!PostingWriteModal);
@@ -34,8 +34,8 @@ function Main() {
   //채팅
   const openModalChatting = () => {
     if(!userInfo.isLogIn){
-      alert('로그인이 필요합니다')
-      ChattingModal(false)
+      Swal.fire('로그인이 필요합니다')
+      setChattingModal(false)
     }else{
       setChattingModal(!ChattingModal)
     }
@@ -224,6 +224,9 @@ const SearchDiv = styled.div`
   background-color: white;
   border-radius: 10px;
   align-items: center;
+  @media (max-width: 768px) {
+    top: 105px;
+  }  
 `
 const SearchInputDiv = styled.input`
   border: none;
@@ -236,6 +239,9 @@ const SearchInputDiv = styled.input`
   &:focus {
     outline: none;    
   }
+  @media (max-width: 768px) {
+    top: 108px;
+  }  
 `
 
 const SearchBtnDiv = styled.div`
@@ -244,6 +250,9 @@ const SearchBtnDiv = styled.div`
   top: 133px;
   right: 20px;
   z-index: 1;
+  @media (max-width: 768px) {
+    top: 108px;
+  }  
 `
 
 const MobileButton = styled.button`

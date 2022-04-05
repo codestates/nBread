@@ -90,9 +90,9 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
           return (
             <div key={index}>
               <ChattingListText>{nickname}</ChattingListText>
-              <ChattingListTextWrapper>
+              {/* <ChattingListTextWrapper> */}
                 <ChattingContents>{message}</ChattingContents>
-              </ChattingListTextWrapper>
+              {/* </ChattingListTextWrapper> */}
               {/* <h3>{nickname} : <span>{message}</span></h3> */}
             </div>
           )
