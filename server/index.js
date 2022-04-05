@@ -114,6 +114,7 @@ io.on('connection', (socket) => {
 
   console.log('------------socket.id---------', socket.id)
   
+
   socket.on('joinServer', ({ nickname, roomId }) => {
     console.log('------------joinServer----------')
     let user = {
@@ -162,7 +163,6 @@ io.on('connection', (socket) => {
     
     if (!check) {
       rooms.push(room);
-
       users.forEach((el) => {
         if (el.nickname === nickname) {
           let userRoomData = {
@@ -178,7 +178,7 @@ io.on('connection', (socket) => {
   socket.on('sendRoomMessage', (roomMessageInfo) => {
 
     let check = roomChatLog.find((el) => el[0] === roomMessageInfo.roomId);
-   
+
     if (!check) {
       roomChatLog.push([roomMessageInfo.roomId]);
      

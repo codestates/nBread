@@ -34,6 +34,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     let roomId = newRoomName.chatId
     
     socket.emit('joinServer', ({ nickname, roomId }));
+
     socket.on('roomChatLog', (slice) => {
       setRoomChatLog(slice);
     });

@@ -94,12 +94,8 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
-      // dispatch(locationChange(data.lat, data.lng))
-      // history.push('/')
       alert('글쓰기가 성공했습니다')
-      // createRoom()
       handleWritingAddress( {lat: data.lat, lng: data.lng})
-      // window.location.replace("/") 
       openModalPostingWrite()
     }
   }
@@ -164,7 +160,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
                 <DaumPostcode 
                   onComplete={handleComplete}
-                  // onSuccess={newSearchAddress}
                   onSuccess={setNewSearchAddress}
                   style={addressStyle}
                   height={700}
@@ -226,11 +221,12 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     height: 667px;
     display: flex;
     justify-content: center;
-    background-color: #D2D1D1;
+    background-color: #FAFAFA;
     position: fixed;
     bottom: 60px;
     right: 18px;
     z-index: 1;
+    border-radius: 30px;
     @media (max-width: 768px) {
       top: 50%;
       left: 50%;
@@ -272,6 +268,13 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
+    border:solid 1px #C4C4C4;
+    border-radius: 6px;
+    padding-left: 5px;
+    /* &:focus {
+    outline: none;
+    border: 1px solid #C4C4C4 ;   
+      } */
   `;
 
   const CloseBtn = styled.button`
@@ -296,7 +299,12 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
-    border: 1px black solid;
+    border:solid 1px #C4C4C4;
+    border-radius: 6px;
+    /* &:focus {
+    outline: none;
+    border: 1px solid #C4C4C4 ;   
+      } */
   `;
 
   const SelectDiv = styled.div`

@@ -5,14 +5,16 @@ import {
   LOG_OUT_SUCCESS,
   USER_DELETE,USER_SIGNUP,
   USER_EDIT,
-  LOGIN_MODAL
+  LOGIN_MODAL,
+  PROFILE_IMAGE_EDIT
 } from "./types"
 
 const loginInitialState = {
   isLogIn: false,
   data:[],
   SignUp: false,
-  LoginModal: false
+  LoginModal: false,
+  picture: []
 }
 
 
@@ -20,7 +22,7 @@ const loginReducer = (state=loginInitialState, action) => {
   switch(action.type){
     case LOG_IN_SUCCESS:
       let data = action.payload;
-      // console.log('reducerpost',data)
+      // console.log('reducerdddddddpost',data)
       return {
         ...state, 
         data: action.payload,
@@ -66,7 +68,13 @@ const loginReducer = (state=loginInitialState, action) => {
         return {
           ...state, 
           LoginModal: true
-        }       
+        } 
+      //프로필 사진
+      case PROFILE_IMAGE_EDIT:
+        return {
+          ...state, 
+          picture: action.payload
+        }        
     default: return state;
   }
 }

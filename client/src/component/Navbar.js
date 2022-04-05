@@ -49,11 +49,17 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 z-index: 1;
+@media (max-width: 768px) {
+  height: 80px;
+} 
 `;
 
 const Logo = styled.img`
 width: 80px;
 margin-left: 20px;
+@media (max-width: 768px) {
+  width: 70px;
+} 
 `; 
 
 const LoginText = styled.div`

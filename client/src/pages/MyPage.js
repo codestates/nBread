@@ -24,7 +24,7 @@ function MyPage() {
 //회원탈퇴 테스트
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
-  // console.log('isLogin',isLogin)
+  console.log('isLogin44',isLogin)
   const location = useLocation()
 
   const history = useHistory();
@@ -34,11 +34,13 @@ function MyPage() {
 
 
   const [settingUserinfo, setSettingUserinfo] = useState({
-    nickname: '',
-    phonNumber: '',
-    address: '',
-    password: '',
-    passwordCheck: ''
+    id: isLogin.data.id,
+    picture: isLogin.data.picture,
+    nickname: isLogin.data.nickname,
+    phon_number: isLogin.data.phon_number,
+    address: isLogin.data.address,
+    password: isLogin.data.password,
+    passwordCheck: isLogin.data.passwordCheck
   })
   const [message, setMessage] = useState({
     nicknameMessage: '',
@@ -106,16 +108,23 @@ function MyPage() {
   }
 
 const handleUserEdit = () => {
-    if (
-    settingUserinfo.nickname === ''
-    ){
-      setChangeInfoBtn(!changeInfoBtn)
-    }else{
-      dispatch(axiosUserEdit(settingUserinfo))
-      alert('수정완료')
-      setChangeInfoBtn(!changeInfoBtn)
-    }
+  const{nickname, phonNumber, address, password } = settingUserinfo
+    setChangeInfoBtn(!changeInfoBtn)
+      if(changeInfoBtn){
+        if (
+          nickname === '' || phonNumber === '' || address === '' 
+        ){
+          console.log('err')
+        }
+      }
+      
+    // }else{
+    //   dispatch(axiosUserEdit(settingUserinfo))
+    //   alert('수정완료')
+    //   setChangeInfoBtn(!changeInfoBtn)
+    // }
 }
+
 
 //회원탈퇴 테스트 
   const handleUserDelete = () => {  
@@ -163,6 +172,7 @@ const handleUserEdit = () => {
     const updateImages = (newImages) => {
       setImages(newImages)
     }
+    console.log(isLogin.data.phone_number,'5555')
 
   return (
     <div>
@@ -182,10 +192,10 @@ const handleUserEdit = () => {
         <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
         <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
-        {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
+        {/* {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null} */}
         <InputTitle>전화번호</InputTitle>
-        <InputField defaultValue={isLogin.data.phonNumber} onChange={settingOnChange('phonNumber')}/>
-        {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
+        <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phonNumber')}/>
+        {/* {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null} */}
         <InputTitle>주소</InputTitle>
         
         
@@ -211,14 +221,14 @@ const handleUserEdit = () => {
             : <AddressInputDiv onClick={() => setVisible(true)} onChange={settingOnChange('address')} >
                 {settingUserinfo.address}
               </AddressInputDiv>
-            }
-
+            } 
+ 
         <InputTitle>비밀번호</InputTitle>
         <InputField type='password' onChange={settingOnChange('password')}/>
-        {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
+        {/* {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null} */}
         <InputTitle>비밀번호확인</InputTitle>
         <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
-        {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
+        {/* {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null} */}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <EditButton onClick={handleUserEdit}>수정완료</EditButton>
         </MyPageForm>
@@ -228,7 +238,7 @@ const handleUserEdit = () => {
         <InputTitle>닉네임</InputTitle>
         <Div>{isLogin.data.nickname}</Div>
         <InputTitle>전화번호</InputTitle>
-        <Div>{isLogin.data.phonNumber}</Div>
+        <Div>{isLogin.data.phone_number}</Div>
         <InputTitle>주소</InputTitle>
         <Div>{isLogin.data.address}</Div>
         <InputTitle>비밀번호</InputTitle>
@@ -255,7 +265,7 @@ const PostListDiv = styled.div`
 float: left;
 /* background-color: #EEEEEE; */
 width: 400px;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 overFlow : auto;
 `;
 
@@ -265,14 +275,14 @@ margin-right: -460px;
 padding-right: 460px;
 background-color: #B7CADB;
 width: 100%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 `;
 
 const MyPageDiv = styled.div`
 margin: auto;
 background-color: #FFFFFF;
 width: 95%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 `;
 
 
