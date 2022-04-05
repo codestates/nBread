@@ -7,6 +7,18 @@ const controllers = require('./controllers');
 const path = require('path');
 const app = express();
 
+app.all('*', (req, res, next) => {
+  let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  if (protocol === 'https') next()
+  else {
+    let from = `${protocol}://${req.hostname}${req.url}`;
+    let to = `https://${req.hostname}${req.url}`;
+
+    console.log(`[${req.method}]: ${from} -> ${to}`)
+    res.redirect(to)
+  };
+});
+
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
 const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
@@ -34,17 +46,6 @@ const io = require('socket.io')(httpsServer, {
   }
 });
 
-app.all('*', (req, res, next) => {
-  let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  if (protocol === 'https') next()
-  else {
-    let from = `${protocol}://${req.hostname}${req.url}`;
-    let to = `https://${req.hostname}${req.url}`;
-
-    console.log(`[${req.method}]: ${from} -> ${to}`)
-    res.redirect(to)
-  };
-});
 
 app.use(express.json());
 // app.use(express.static('public'));
