@@ -10,6 +10,7 @@ function LoginUser({setLoginModal}) {
   const history = useHistory()
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
   
   const onClick = () => {
     setIsActive(!isActive);
@@ -24,16 +25,19 @@ function LoginUser({setLoginModal}) {
     setLoginModal(true)
   }
 
+  const handleDropDown = () => {
+    setDropdown(!dropdown)
+  }
 
   return (
     <>
     {data ? 
-    <Wrapper> 
+    <Wrapper  onClick={handleDropDown}> 
     <MenuTrigger onClick={onClick}>
     <UserName> {data.nickname + " 님"}</UserName>
           <UserImg className="userImg"/>
       </MenuTrigger>
-      <Svg 
+      <Svg onClick={handleDropDown}
         xmlns="http://www.w3.org/2000/svg" 
         width="24" 
         height="24" 
@@ -43,14 +47,19 @@ function LoginUser({setLoginModal}) {
         >
         <path d="M6 9l6 6 6-6"/>
       </Svg>
-      <LoginMenu ref={dropdownRef}>
+      {dropdown? (
+        <LoginMenu ref={dropdownRef}>
         <Ul>
           <Li onClick={null}><A href="/MyPage">마이페이지</A></Li>
           <Li onClick={handleLogout}><A>로그아웃</A></Li>
         </Ul>
       </LoginMenu>
+      ):(
+        null
+      )}
     </Wrapper>
     : <LoginText onClick={handleLoginButton}>로그인</LoginText>}
+
     </>
   );
 }
@@ -65,7 +74,6 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 20px;
   z-index: 99;
-  background-color: #E1C79C;
 `;
 
 const MenuTrigger = styled.div`

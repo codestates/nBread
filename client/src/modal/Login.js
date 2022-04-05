@@ -63,11 +63,12 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         <LoginTitle>로그인      
-        <span onClick={handleCloseLoginModal}>&times;</span>
+        <Span onClick={handleCloseLoginModal}>&times;</Span>
         </LoginTitle>
-        <InputFieldDiv>
+        
           <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
           <Err></Err>
+        <InputFieldDiv>
           <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
         </InputFieldDiv>
           <Err>{errorMessage}</Err>
@@ -107,24 +108,30 @@ width: 375px;
 height: 667px;
 display: flex;
 justify-content: center;
-background-color: #D2D1D1;
+background-color: #FAFAFA;
 position: fixed;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
+border-radius: 30px;
 `;
 const LoginTitle = styled.div`
 font-size: 28px;
 margin-top: 25px;
-margin-bottom: 25px;
+margin-bottom: 35px;
 `;
+
+const Span = styled.span`
+text-align: right;
+`
+
 const LoginForm = styled.form`
 
 
 `;
 
 const InputFieldDiv = styled.div`
-
+margin-top: 14px;
 `;
 
 
@@ -133,9 +140,17 @@ display: flex;
 flex-direction: column;
 width: 295px;
 height: 56px;
-font-size: 18px;
+font-size: 16px;
 margin-top: 15px;
 margin: 0 auto;
+border:solid 1px;
+border-color: #C4C4C4;
+border-radius: 6px;
+background-color: #ffffff;
+&:focus {
+  outline: none;
+  border: 1px solid #C4C4C4 ;   
+    }
 `;
 
 const LoginButton = styled.button`
@@ -144,8 +159,9 @@ height: 56px;
 background-color: #B51D29;
 color: white;
 border: none;
+border-radius: 6px;
 margin-top: 30px;
-font-size: 18px;
+font-size: 16px;
 `;
 
 

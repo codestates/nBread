@@ -6,9 +6,10 @@ const cors = require('cors');
 const controllers = require('./controllers');
 const path = require('path');
 const app = express();
+const router = express.Router();
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
-
+const multer = require('multer');
 const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
@@ -20,7 +21,9 @@ const io = require('socket.io')(httpServer, {
 
 app.use(express.json());
 // app.use(express.static('public'));
+
 app.use(express.static(path.join(__dirname, '../client/build')))
+
 app.use(
   cors({
     origin: ['http://localhost:3000', 'http://www.nbread.kro.kr', 'https://www.nbread.kro.kr'],
@@ -28,6 +31,10 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
+
+
+
+
 
 // 배포 시 주석 처리 풀어주세요!!
 // app.all('*', (req, res, next) => {
@@ -56,13 +63,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
+
+
+
+
+app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
 app.patch('/users', controllers.editMemberInformation);
-app.patch('/users/picture', controllers.editPicture);
 app.post('/contents', controllers.boardPost);
 app.delete('/contents/:contentId', controllers.boardDelete);
 app.patch('/contents/:contentId', controllers.boardPatch);
