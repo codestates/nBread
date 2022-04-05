@@ -255,7 +255,7 @@ const PostListDiv = styled.div`
 float: left;
 /* background-color: #EEEEEE; */
 width: 400px;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 overFlow : auto;
 `;
 
@@ -265,14 +265,14 @@ margin-right: -460px;
 padding-right: 460px;
 background-color: #B7CADB;
 width: 100%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 `;
 
 const MyPageDiv = styled.div`
 margin: auto;
 background-color: #FFFFFF;
 width: 95%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 `;
 
 
