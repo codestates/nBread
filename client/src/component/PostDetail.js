@@ -4,18 +4,15 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
+import Select from 'react-select'
 import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
 import Swal from 'sweetalert2'
-
-
-
 
 
 function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  console.log('list====',list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
@@ -41,15 +38,43 @@ function PostDetail({click, setClick}) {
       body: list.body,
     })
   },[list])
-  
+
   const handleBack = () => {
     setClick(!click)
   }
 
+  const handleInput = (e) => {
+    const { value } = e.target;
+    if (value.length >= 5) {
+      e.preventDefault();
+      return;
+    }
+  };
+
+  const handleNumberInput = (e) => {
+    const { value } = e.target;
+    if (value.length >= 2) {
+      e.preventDefault();
+      return;
+    }
+  };
+
   const handelPostDelete = () => {
-    alert('삭제하시겠습니까?')
-    dispatch(showPostUserDelete(postId))
-    window.location.replace("/") 
+    Swal.fire({
+      title: '글을 삭제하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(showPostUserDelete(postId))
+        window.location.replace("/") 
+      }else{
+      }
+		})
   }
 
   const handelPostEdit = () => {
@@ -57,9 +82,6 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    // setEditText(!editText)
-    // dispatch(editPostDetail(list.id,postEditInfo))
-    // alert('글 수정 성공')
     Swal.fire({
       title: '글을 수정하시겠습니까?',
       icon: 'warning',
@@ -77,7 +99,6 @@ function PostDetail({click, setClick}) {
         setEditText(!editText)
       }
 		})
-    // window.location.replace("/") 
   }
   
 
@@ -88,8 +109,6 @@ function PostDetail({click, setClick}) {
   const handlePostClosed = () => {
     Swal.fire({
       title: '마감하시겠습니까?',
-      // text: "삭제하시면 다시 복구시킬 수 없습니다.",
-      // icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -102,9 +121,6 @@ function PostDetail({click, setClick}) {
       }else{
       }
 		})
-    // alert('마감하시겠습니까?')
-    // dispatch(editPostClosed(list.id))
-    // window.location.replace("/") 
   }
 
   const handlePostRecruitment = () => {
@@ -122,9 +138,6 @@ function PostDetail({click, setClick}) {
       }else{
       }
 		})
-    // dispatch(editPostRecruitment(list.id))
-    // alert('신청 완료')
-    // window.location.replace("/") 
   }
 
   const handlePostCancelRecruitment = () => {
@@ -141,10 +154,7 @@ function PostDetail({click, setClick}) {
         window.location.replace("/") 
       }else{
       }
-		})
-    // dispatch(editPostCancelRecruitment(list.id))
-    // alert('신청 취소 완료')
-    // window.location.replace("/") 
+		}) 
   }
 
   return (
@@ -205,9 +215,23 @@ function PostDetail({click, setClick}) {
               <Wrapper>
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
-                  <PostListText>식당이름: <PostEditString defaultValue={list.restaurant_name} onChange={handleInputValue('restaurant_name')} /></PostListText> 
-                  <PostListText>모집인원: <PostEditNumber type='number' defaultValue={list.recruitment_personnel} onChange={handleInputValue('recruitment_personnel')} /> 명</PostListText>
-                  <PostListText>배달비: <PostEditNumber type='number' defaultValue={list.delivery_fee} onChange={handleInputValue('delivery_fee')} /> 원</PostListText>
+                  <PostListText>식당이름: <PostEditString  defaultValue={list.restaurant_name} onChange={handleInputValue('restaurant_name')} /></PostListText> 
+                  <PostListText>모집인원: 
+                    <PostEditNumber 
+                      onKeyPress={handleNumberInput} 
+                      type='number' 
+                      onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()} 
+                      defaultValue={list.recruitment_personnel} 
+                      onChange={handleInputValue('recruitment_personnel')} /> 
+                  명</PostListText>
+                  <PostListText>배달비: 
+                    <PostEditNumber 
+                      onKeyPress={handleInput} 
+                      type='number' 
+                      onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()} 
+                      defaultValue={list.delivery_fee} 
+                      onChange={handleInputValue('delivery_fee')} /> 
+                  원</PostListText>
                 </PostListTextWrapper>
               </Wrapper>
               <div>
@@ -241,16 +265,6 @@ function PostDetail({click, setClick}) {
   );
 }
 
-const PostListMenu = styled.div`
-background-color: #EEEEEE;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 70px;
-font-size: 18px;
-font-weight: bold;
-border: 1px solid #C9C9C9;
-`
 const Wrapper = styled.div`
 display: flex;
 margin-left: 4px;
@@ -363,6 +377,14 @@ const PostEditString = styled.input`
 `
 
 const PostEditNumber = styled.input`
+  ::-webkit-inner-spin-button{
+      -webkit-appearance: none; 
+      margin: 0; 
+  }
+  ::-webkit-outer-spin-button{
+      -webkit-appearance: none; 
+      margin: 0; 
+  }  
   font-size: 16px;
   width: 60px;
   border: none;
