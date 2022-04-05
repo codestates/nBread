@@ -30,9 +30,7 @@ module.exports = async (req, res) => {
       user_id: token.id,
       recruitment_content_id: data.dataValues.id
     })
-  })
-  .then(_ => {
-    res.status(201).send({message: '글 작성 성공'});
+    res.status(201).send({data: {id: data.dataValues.id, roomName: data.dataValues.restaurant_name}, message: '글 작성 성공'});
   })
   .catch(err => {
     console.log('boardWriting error :', err);

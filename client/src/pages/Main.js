@@ -35,7 +35,12 @@ function Main() {
   }
   //채팅
   const openModalChatting = () => {
-    setChattingModal(!ChattingModal)
+    if(!userInfo.isLogIn){
+      alert('로그인이 필요합니다')
+      ChattingModal(false)
+    }else{
+      setChattingModal(!ChattingModal)
+    }
   }
 
   const [searchAddress, SetSearchAddress] = useState();
