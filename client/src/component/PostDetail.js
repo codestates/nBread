@@ -35,17 +35,18 @@ function PostDetail({click, setClick}) {
   })
 
   useEffect(()=>{
+    if(userInfo){
+      let nickname = userInfo.nickname;
 
-    let nickname = userInfo.nickname;
-
-    socket.emit('joinServer', ({ nickname }));
-    setPostEditInfo({
-      restaurant_name: list.restaurant_name,
-      recruitment_personnel: list.recruitment_personnel,
-      delivery_fee: list.delivery_fee,
-      address: list.address,
-      body: list.body,
-    })
+      socket.emit('joinServer', ({ nickname }));
+      setPostEditInfo({
+        restaurant_name: list.restaurant_name,
+        recruitment_personnel: list.recruitment_personnel,
+        delivery_fee: list.delivery_fee,
+        address: list.address,
+        body: list.body,
+      })
+    }
   },[list])
 
   const handleBack = () => {
