@@ -103,10 +103,11 @@ const Wrapper = styled.div`
     right: 18px;
     z-index: 1;
     border-radius: 30px;
-    /* @media (max-width: 768px) {
-    width: 100vw;
-    height: 100vh;
-  }   */
+    @media (max-width: 768px) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);   
+  }  
   `;
 const LoginTitle = styled.div`
 font-size: 28px;

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect , useState} from "react";
 import styled from 'styled-components';
-import logo from '../icons/ban_logo.png';
+import logo from '../icons/nBread.png';
 import Login from "../modal/Login";
 import SignUp from "../modal/SignUp";
 import LoginUser from "../component/LoginUser";
@@ -43,8 +43,8 @@ function Navbar() {
 }
 
 const Wrapper = styled.div`
-height: 120px;
-background-color: #D2D1D1;
+height: 100px;
+background-color: #ffffff;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -52,7 +52,8 @@ z-index: 1;
 `;
 
 const Logo = styled.img`
-
+width: 80px;
+margin-left: 20px;
 `; 
 
 const LoginText = styled.div`
