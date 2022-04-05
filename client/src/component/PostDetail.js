@@ -7,6 +7,10 @@ import { useHistory } from 'react-router-dom';
 import Select from 'react-select'
 import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
 import Swal from 'sweetalert2'
+import io from 'socket.io-client';
+
+
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 
 function PostDetail({click, setClick}) {
@@ -15,6 +19,7 @@ function PostDetail({click, setClick}) {
   const list = useSelector((state)=> state.postsDetailReducer)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
+  console.log('-------postId--------', postId)
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -30,6 +35,10 @@ function PostDetail({click, setClick}) {
   })
 
   useEffect(()=>{
+
+    let nickname = userInfo.nickname;
+
+    socket.emit('joinServer', ({ nickname }));
     setPostEditInfo({
       restaurant_name: list.restaurant_name,
       recruitment_personnel: list.recruitment_personnel,
@@ -133,7 +142,7 @@ function PostDetail({click, setClick}) {
       cancelButtonText: '취소'
 		}).then((result) => {
       if (result.value) {
-        dispatch(editPostRecruitment(list.id))
+        dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname))
         window.location.replace("/") 
       }else{
       }

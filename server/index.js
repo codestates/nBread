@@ -108,14 +108,14 @@ app.get('*', (req, res) => {
 
 let users = [];
 let rooms = [];
-let chatLog = [];
 let roomChatLog = [];
 
 io.on('connection', (socket) => {
 
   console.log('------------socket.id---------', socket.id)
   
-  socket.on('joinServer', ({ nickname, chatId }) => {
+
+  socket.on('joinServer', ({ nickname, roomId }) => {
     console.log('------------joinServer----------')
     let user = {
       id: socket.id,
@@ -127,31 +127,31 @@ io.on('connection', (socket) => {
     if (!check) {
       users.push(user);
     }
-
+    
     users.forEach((el) => {
+      
       if (el.nickname === nickname) {
-
+       
         let userRoom = el.userRoom;
         let userNickName = el.nickname;
-
+      
         io.emit('myRoomList', ({ userRoom, userNickName }));
       }
     });
-    
-    // if (chatId) {
-    //   console.log('------chatIdhere--------')
-    //   let check = roomChatLog.find((el) => el[0] === chatId);
 
-    //   if (check) {
-    //     console.log('------checkhere--------')
-    //     let sliceCheck = check.slice(1);
+    if (roomId) {
+     
+      let check = roomChatLog.find((el) => el[0] === roomId);
 
-    //     io.emit('roomChatLog', (sliceCheck));
-    //   }
-    // }
+      if (check) {
+      
+        let slice = check.slice(1);
+        
+        io.emit('roomChatLog', (slice));
+      }
+    }
   });
 
-  // ---------4/4---------
   socket.on('createRoom', ({ id, roomName, nickname }) => {
 
     let room = {
@@ -163,8 +163,6 @@ io.on('connection', (socket) => {
     
     if (!check) {
       rooms.push(room);
-      console.log('----------createRoomid----------', id)
-      console.log('----------createRoomid----------', rooms)
       users.forEach((el) => {
         if (el.nickname === nickname) {
           let userRoomData = {
@@ -174,62 +172,59 @@ io.on('connection', (socket) => {
           el.userRoom.push(userRoomData);
         }
       });
-      socket.join(String(id));
-    } else {
-      console.log('----------이미 존재하는 room id----------')
     }
   });
 
   socket.on('sendRoomMessage', (roomMessageInfo) => {
 
     let check = roomChatLog.find((el) => el[0] === roomMessageInfo.roomId);
-    console.log('-----------out-----------', check)
+
     if (!check) {
       roomChatLog.push([roomMessageInfo.roomId]);
-      console.log('------------in-------------', check)
+     
       let recheck = roomChatLog.find((el) => el[0] === roomMessageInfo.roomId);
-      console.log('--------rechek--------', recheck)
+     
       recheck.push({ nickname: roomMessageInfo.nickname, message: roomMessageInfo.message })
-      console.log('--------push rechek--------', recheck)
+      
       let slice = recheck.slice(1);
-      console.log('---!check-------slice--------', slice)
+      
       io.emit('roomChatLog', (slice));
-  } else {
+    } else {
+
       check.push({ nickname: roomMessageInfo.nickname, message: roomMessageInfo.message });
 
       let slice = check.slice(1);
-      console.log('---check-------slice--------', slice)
+      
       io.emit('roomChatLog', (slice));
-  }
+    }
+  });
+
+  socket.on('joinRoom', ({ id, nickname, roomName }) => {
+
+    let checkRoomId = rooms.find((el) => el.id === id);
+    
+    if (checkRoomId) {
+
+      let checkRoomUsers = checkRoomId.roomUsers.find((el) => el === nickname);
+
+      if (!checkRoomUsers) {
+        checkRoomId.roomUsers.push(nickname);
+        users.forEach((el) => {
+          if (el.nickname === nickname) {
+            let userRoomData = {
+              roomName,
+              id
+            };
+            el.userRoom.push(userRoomData);
+          }
+        });
+      }
+    }
+   
   });
 
   socket.on('disconnect', () => {
     console.log('-----------disconnect-----------')
-  });
-  // ---------4/4---------
-
-
-
-  socket.on('joinRoom', ({ roomName, nickname }) => {
-
-    let index = rooms.findIndex((room) => room.roomName === roomName);
-    let check = rooms[index].roomUsers.find((user) => user === nickname);
-
-    if (!check) {
-      rooms[index].roomUsers.push(nickname);
-      users.forEach((el) => {
-        if (el.nickname === nickname) {
-          el.userRoom.push(roomName);
-          io.to(el.id).emit('myRoomList', (el.userRoom));
-        }
-      });
-      socket.join(rooms[index].roomName);
-    }
-  });
-
-  socket.on('sendMessage', (messageInfo) => {
-    chatLog.push(messageInfo);
-    io.emit('chatLog', (chatLog));
   });
 });
 

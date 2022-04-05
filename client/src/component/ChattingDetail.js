@@ -31,8 +31,10 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   useEffect(()=>{
     // room 채팅 기록 받기
     let nickname = data.nickname;
-    let chatId = newRoomName.chatId
-    // socket.emit('joinServer', ({ nickname, chatId }));
+    let roomId = newRoomName.chatId
+    
+    socket.emit('joinServer', ({ nickname, roomId }));
+
     socket.on('roomChatLog', (slice) => {
       setRoomChatLog(slice);
     });
@@ -81,7 +83,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
           </svg>
-        <LoginTitle>강남역에서 같이 배달비 나눌사람~</LoginTitle>
+        <LoginTitle>{newRoomName.chatName}</LoginTitle>
         <ChattingWrapper>
         {/* <ChattingListImg src={null}/> */}
         {roomChatLog.map( ({ nickname, message }, index) => {
