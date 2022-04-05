@@ -144,10 +144,11 @@ const Wrapper = styled.div`
     z-index: 1;
     border-radius: 30px;
     border: 1px solid #737373;
-    /* @media (max-width: 768px) {
-    width: 100vw;
-    height: 100vh;
-  }   */
+    @media (max-width: 768px) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);   
+  }  
   `;
 
 const LoginTitle = styled.div`
