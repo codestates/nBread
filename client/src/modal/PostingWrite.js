@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Select from 'react-select'
 import { foodList, selectPerson } from './SelectList';
 import DaumPostcode from 'react-daum-postcode';
+import Swal from 'sweetalert2'
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
 import { locationChange } from "../redux/location/action";
@@ -88,7 +89,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
-      alert('글쓰기가 성공했습니다')
+      Swal.fire('글쓰기가 성공했습니다')
       handleWritingAddress( {lat: data.lat, lng: data.lng})
       openModalPostingWrite()
     }

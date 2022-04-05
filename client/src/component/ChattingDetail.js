@@ -81,16 +81,16 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
           </svg>
-        <LoginTitle>강남역에서 같이 배달비 나눌사람~</LoginTitle>
+        <LoginTitle>채팅</LoginTitle>
         <ChattingWrapper>
         {/* <ChattingListImg src={null}/> */}
         {roomChatLog.map( ({ nickname, message }, index) => {
           return (
             <div key={index}>
               <ChattingListText>{nickname}</ChattingListText>
-              <ChattingListTextWrapper>
+              {/* <ChattingListTextWrapper> */}
                 <ChattingContents>{message}</ChattingContents>
-              </ChattingListTextWrapper>
+              {/* </ChattingListTextWrapper> */}
               {/* <h3>{nickname} : <span>{message}</span></h3> */}
             </div>
           )

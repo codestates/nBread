@@ -78,11 +78,6 @@ function PostList({openPost, setOpenPost}) {
 
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
-  // console.log('post',post)
-
-  // useEffect(()=>{
-  //   dispatch(showPostList())
-  // },[])
 
   const handlePostList = (contentId) => {
     setClick(true)
@@ -95,8 +90,34 @@ function PostList({openPost, setOpenPost}) {
 
   return (
     <>
-    {!post ? 
-    <PostListMenu> 배달 목록 0개 </PostListMenu>
+    {!post ?
+      <PostListMobile> 
+      <PostMobileBack>
+        <svg onClick={postHandleBack} 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24"
+        ><path 
+          d="M16.67 0l2.83 2.829-9.339 
+          9.175 9.339 9.167-2.83 
+          2.829-12.17-11.996z"/>
+        </svg>
+      </PostMobileBack>
+        배달 목록 0개
+      <Hidden>
+        <svg onClick={postHandleBack} 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24"
+          ><path 
+            d="M16.67 0l2.83 2.829-9.339 
+            9.175 9.339 9.167-2.83 
+            2.829-12.17-11.996z"/>
+          </svg>
+      </Hidden>
+    </PostListMobile> 
       : ( click
           ?  <PostListMenu> 배달 상세보기 </PostListMenu>
           :  
