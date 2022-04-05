@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 
 
-const socket = io.connect('http://localhost');
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 
 function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
@@ -20,12 +20,23 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   const handleBack = () => {
     setClick(!click)
   }
-  console.log('detail',newRoomName)
 
-  const [roomMessageInfo, setRoomMessageInfo] = useState({ nickname: data.nickname, message: '', roomName: newRoomName.chatId });
-  const [roomName, setRoomName] = useState('');
-  const [messageInfo, setMessageInfo] = useState({ nickname: '', message: '' });
+  const [roomMessageInfo, setRoomMessageInfo] = useState({ 
+    nickname: data.nickname, 
+    message: '', 
+    roomId: newRoomName.chatId 
+  });
   const [roomChatLog, setRoomChatLog] = useState([]);
+  
+  useEffect(()=>{
+    // room 채팅 기록 받기
+    let nickname = data.nickname;
+    let chatId = newRoomName.chatId
+    // socket.emit('joinServer', ({ nickname, chatId }));
+    socket.on('roomChatLog', (slice) => {
+      setRoomChatLog(slice);
+    });
+  }, []) 
 
   const sendRoomMessage = () => {
     socket.emit('sendRoomMessage', (roomMessageInfo));
@@ -38,27 +49,22 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     }
   };
 
+
+  // enterKey입력시 2번 전송되는 문제 발생 + 막았는데 안막아짐
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
+      console.log('---------enter-----------')
       if (value === 'roomMessage') {
         if (roomMessageInfo.message.length !== 0) {
+          console.log('--------!0--sendRoomMessage()------')
           sendRoomMessage();
+        } else {
+          console.log('--------0--------')
         }
       }
     }
   };
 
-  useEffect(()=>{
-    // room 채팅 기록 받기
-    socket.emit('joinServer', (data.nickname));
-    socket.emit('sendRoomMessage', (roomMessageInfo));
-    socket.on('roomChatLog', (log) => {
-      console.log('------------2----------', log)
-      setRoomChatLog(log);
-    });
-  },[])
-
-  console.log('roomChatLog',roomChatLog)
   return (
     <>
     <ModalBackdrop onClick={closeChattingModal}>
@@ -96,9 +102,6 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
         
         </ChattingWrapper>
         <ChattingSendDiv>
-        {/* <InputField placeholder="메세지를 입력해주세요"></InputField>
-        <Button>전송</Button>
-         */}
           <div>
             <InputField placeholder="메세지를 입력해주세요" onChange={handleInputValue('roomMessage')} value={roomMessageInfo.message} onKeyPress={enterKey('roomMessage')} />
             <Button onClick={sendRoomMessage}>send message</Button>
@@ -169,7 +172,8 @@ width: 375px;
 height: 490px;
 background-color: #F4F4F4;
 border: 1px solid #A3A3A3;
-display: flex;
+/* display: flex; */
+/* flex-direction: column; */
 `;
 
 const ChattingListImg = styled.img`

@@ -7,11 +7,8 @@ import DaumPostcode from 'react-daum-postcode';
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
 import { locationChange } from "../redux/location/action";
-import io from 'socket.io-client';
+
 const { kakao } = window;
-const socket = io.connect('http://localhost');
-
-
 
 function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWrite}) {
   const history = useHistory();
@@ -19,14 +16,10 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
   // 로그인한 유저 정보
   const userInfo = useSelector((state)=> state.loginReducer.data)
-  // console.log('...',userInfo)
-
   const [testWriteInfo, setTestWriteInfo] = useState({
     lat: '',
     lng: '',
   })
-
-
   const [writeInfo, setWriteInfo] = useState({
     address: userInfo.address,
     body: '',
@@ -60,19 +53,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     }
   };
 
-  // useEffect(()=>{
-  //   if(writeInfo.address){
-  //     newSearchAddress()
-  //   }
-  // },[userInfo.address])
-
-  // useEffect(()=>{
-  //   userInfoNewSearchAddress()
-  // },[])
-
   useEffect(()=>{
     setNewSearchAddress()  
-  },[PostingWriteModal, writeInfo.address])
+  }, [PostingWriteModal, writeInfo.address])
 
   const setNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -100,7 +83,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       lng: lng,
       nickname: userInfo.nickname
     }
-    console.log('data',data)
+
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
       setErrorMessage('모든 항목은 필수입니다')
     }else{
@@ -114,20 +97,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       openModalPostingWrite()
     }
   }
-
-  //------------------ 채팅방 생성
-
-  // const createRoom = () => {
-
-  //   let nickname = userInfo.nickname;
-  //   let roomName = writeInfo.restaurant_name
-
-  //   console.log('roomName',roomName)
-  //   socket.emit('createRoom', ({ roomName, nickname }));
-  // };
-
-  //------------------
-
 
   // 주소 api css
   const addressStyle = {

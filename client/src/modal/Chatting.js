@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChattingDetail from "../component/ChattingDetail";
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost');
-
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 function Chatting({setChattingModal}) {
   const dispatch = useDispatch();
@@ -22,23 +21,22 @@ function Chatting({setChattingModal}) {
   }
   const [roomList, setRoomList] = useState([]);
   const [click, setClick] = useState(false);
+  const [newRoomName, setNewRoomName] = useState({
+    chatId : '',
+    chatName: ''
+  });
 
   useEffect( () => {
     // rooms 정보(roomName, roomUser) 받기
-    socket.emit('joinServer', (data.nickname));
+    let nickname = data.nickname;
+    
+    socket.emit('joinServer', ({ nickname }));
     socket.on('myRoomList', ({ userRoom, userNickName }) => {
-      console.log('userRoomtest!!!!!',userRoom)
       if (userNickName === data.nickname) {
         setRoomList(userRoom);
       }
     });
   }, []);
-  console.log('roomList',roomList)
-
-  const [newRoomName, setNewRoomName] = useState({
-    chatId : '',
-    chatName: ''
-  });
 
   const handleChatList = (e, el) => {
     setNewRoomName({
@@ -47,10 +45,6 @@ function Chatting({setChattingModal}) {
     })
     setClick(true)
   }
-
-
-  // console.log('newRoomName',newRoomName)
-
 
   return (
     <>

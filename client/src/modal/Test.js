@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 
-const socket = io.connect('http://localhost');
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 function Test () {
 
@@ -38,6 +38,7 @@ function Test () {
       });
       // 채팅 기록 받기
       socket.on('chatLog', (log) => {
+        console.log('--------chatlog-------', log)
         setChatLog(log);
       });
       // room 채팅 기록 받기
@@ -73,6 +74,7 @@ function Test () {
 
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
+      console.log('---------enter-----------')
       if (value === 'roomName') {
         if (roomName.length !== 0) {
           createRoom();   
@@ -80,7 +82,10 @@ function Test () {
       }
       if (value === 'message') {
         if (messageInfo.message.length !== 0) {
+          console.log('--------!0--------')
           sendMessage();
+        } else {
+          console.log('--------0--------')
         }
       }
       if (value === 'roomMessage') {
@@ -99,6 +104,7 @@ function Test () {
   };
 
   const sendMessage = () => {
+    console.log('------------snedMessage-----------')
     socket.emit('sendMessage', (messageInfo));
     setMessageInfo({ nickname: '', message: '' });
   };
