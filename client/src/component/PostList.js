@@ -55,7 +55,7 @@ margin-bottom: 10px;
 
 const PostMobileBack = styled.div`
   margin-left: 10px;
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   visibility: hidden;
 }  
 `

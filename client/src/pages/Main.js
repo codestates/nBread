@@ -152,10 +152,10 @@ float: left;
 width: 400px;
 height: calc(100vh - 100px);
 overFlow : auto;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   display: ${props => props.openPost ? 'block' : 'none'};
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 80px);
 }  
 `;
 
@@ -167,7 +167,7 @@ background-color: #B7CADB;
 width: 100%;
 /* height: 100vh; */
 height: calc(100vh - 100px);
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   visibility: visible;
   margin-right: 0px;
@@ -188,7 +188,7 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   width: 70px;
   height: 70px;
   bottom: 140px;
@@ -207,7 +207,7 @@ height: 90px;
 background-color: #B51D29;
 color: white;
 z-index: 1;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   width: 70px;
   height: 70px;
 }  
@@ -224,7 +224,7 @@ const SearchDiv = styled.div`
   background-color: white;
   border-radius: 10px;
   align-items: center;
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
     top: 105px;
   }  
 `
@@ -239,7 +239,7 @@ const SearchInputDiv = styled.input`
   &:focus {
     outline: none;    
   }
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
     top: 108px;
   }  
 `
@@ -250,14 +250,14 @@ const SearchBtnDiv = styled.div`
   top: 133px;
   right: 20px;
   z-index: 1;
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
     top: 108px;
   }  
 `
 
 const MobileButton = styled.button`
   display: none;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   bottom: 0px;
   right: 0px;

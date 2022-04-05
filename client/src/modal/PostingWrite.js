@@ -179,10 +179,10 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
             }
 
               {/* 주소입력과 기본 주소불러오기 */}
-              <AdressBasicDiv>
+              {/* <AdressBasicDiv>
               <AdressBasic>기본 주소</AdressBasic>
               <AdressCheck type='checkbox'></AdressCheck>
-              </AdressBasicDiv>
+              </AdressBasicDiv> */}
             </AdressDiv>
             <InputField 
               onKeyPress={handleInput}
@@ -228,7 +228,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     right: 18px;
     z-index: 1;
     border-radius: 30px;
-    @media (max-width: 768px) {
+    @media (max-width: 576px) {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -287,15 +287,17 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     padding: 7px;
     width: 100px;
     color: white;
-    background-color: #A3A3A3;
+    background-color: #B51D29;
     border: none;
+    border-radius: 6px;
+
   `;
 
   const AddressInputDiv = styled.div`
     background-color: white;
     display: flex;
     align-items: center;
-    width: 240px;
+    width: 295px;
     height: 50px;
     font-size: 18px;
     margin: 0 auto;
@@ -353,6 +355,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     border: none;
     font-size: 18px;
     margin-top: 7%;
+    border-radius: 6px;
   `;
 
   const StyledMeneSelect = styled(Select)`
