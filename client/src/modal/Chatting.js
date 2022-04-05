@@ -29,7 +29,8 @@ function Chatting({setChattingModal}) {
   useEffect( () => {
     // rooms 정보(roomName, roomUser) 받기
     let nickname = data.nickname;
-    
+
+
     socket.emit('joinServer', ({ nickname }));
     socket.on('myRoomList', ({ userRoom, userNickName }) => {
       if (userNickName === data.nickname) {

@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components'
 import Dropzone from 'react-dropzone';
+import { useDispatch, useSelector } from 'react-redux';
+import { axiosProfileImageEdit } from '../redux/user/action';
+import { Button } from 'antd'
 
 function ProfileImage(props) {
   const [previewImg, setPreviewImg] = useState(null);
   const [Img, setImg] = useState(null);
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state)=> state.loginReducer)
 
+  console.log('isLogin',isLogin)
 //이미지 미리보기
   // const handleFileInput = (e) => {
   //   const reader = new FileReader()
@@ -48,12 +54,15 @@ function ProfileImage(props) {
         if(response.data.success) {
           alert('파일저장성공')
           setImg(response.data.filePath)
+          console.log(Img,'88888888888888')
           props.updateImages(response.data.filePath)
+          dispatch(axiosProfileImageEdit(response.data.filePath))
         }else {
           alert ('파일저장실패')
         }
       })
   }
+console.log(isLogin,'picturepicturepicture')
   return (
     <div>
         <MyPageProfileDiv>
@@ -61,9 +70,7 @@ function ProfileImage(props) {
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
                 <input {...getInputProps()} />
-                <FrofileImg src={Img ? Img : "img/basic.png" }/>
-
-
+                <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
               </MyProfile>
             )}
           </Dropzone>
@@ -88,14 +95,15 @@ function ProfileImage(props) {
 
 
 
-
+            <ButtonDiv>
             <ImageLabel center htmlFor="img">파일선택
             {/* <InputHidden id="img" accept="image/*" type="file" onChange={handleFileUpload}/> */}
             </ImageLabel>
             
-            <ImageDiv><MyProfileButton onClick={deleteImg}>삭제</MyProfileButton></ImageDiv>
+            <Button onClick={deleteImg}>삭제</Button>
             {/* <ImageDiv><MyProfileButton onClick={handleFileUpload}>사진적용하기</MyProfileButton></ImageDiv> */}
             {/* <MyProfileName>{null}</MyProfileName> */}
+            </ButtonDiv>
           </MyPageProfileDiv>
     </div>
   );
@@ -106,7 +114,7 @@ function ProfileImage(props) {
 const MyPageProfileDiv = styled.div`
 float: left;
 margin-bottom: 30px;
-background-color: #A7CADB;
+background-color: #ffffff;
 width: 100%;
 height: 150px;
 `;
@@ -121,6 +129,7 @@ width: 100px;
 height: 100px;
 position: relative;
 top: 25%;
+left: 3%;
 color: white;
 text-align: center;
 `;
@@ -152,6 +161,11 @@ const ImageDiv = styled.div`
 
 `;
 
+const ButtonDiv = styled.div`
+margin-top: 100px;
+margin-left: 120px;
+`
+
 //마이페이지 닉네임
 const MyProfileButton = styled.button`
 margin-left: 10px;
@@ -162,3 +176,4 @@ const MyProfileName = styled.div`
 
 `;
 export default ProfileImage;
+

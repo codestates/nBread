@@ -8,7 +8,9 @@ import Swal from 'sweetalert2'
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
 import { locationChange } from "../redux/location/action";
+import io from 'socket.io-client';
 
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 const { kakao } = window;
 
 function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWrite}) {
@@ -55,7 +57,11 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   };
 
   useEffect(()=>{
+    
+    let nickname = userInfo.nickname;
+
     setNewSearchAddress()  
+    socket.emit('joinServer', ({ nickname }));
   }, [PostingWriteModal, writeInfo.address])
 
   const setNewSearchAddress = () => {
