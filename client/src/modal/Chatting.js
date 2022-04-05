@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChattingDetail from "../component/ChattingDetail";
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost');
+const socket = io.connect('https://www.nbread.kro.kr');
 
 
 function Chatting({setChattingModal}) {

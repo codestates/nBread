@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 
-const socket = io.connect('http://localhost');
+const socket = io.connect('https://www.nbread.kro.kr');
 
 function Test () {
 
