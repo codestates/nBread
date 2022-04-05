@@ -125,7 +125,7 @@ function Main() {
         <WritingButton openPost={openPost} onClick={openModalPostingWrite}>글쓰기</WritingButton>
         {/* 채팅 버튼 */}
         <ChattingButton openPost={openPost} onClick={openModalChatting}>채팅</ChattingButton>
-        <MobileButton openPost={openPost} onClick={openPostList}>배달 목록 {post.length}개 </MobileButton>
+        {/* <MobileButton openPost={openPost} onClick={openPostList}>배달 목록 {post.length}개 </MobileButton> */}
       </Wrapper>
 
       {/* 글쓰기 Modal */}
