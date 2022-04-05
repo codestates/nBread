@@ -154,15 +154,22 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       <SignUpTitle>회원가입   
       <span onClick={handleCloseSignupModal}>&times;</span>    
       </SignUpTitle>
+      <InputFieldDiv>
         <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
         {userInfo.username.length > 0 && validation.idValidation ? <Err>{message.idMessage}</Err> : null}
+      </InputFieldDiv>
+      <InputFieldDiv>
         <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')}/>
         {userInfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
+      </InputFieldDiv>
+      <InputFieldDiv>
         <InputField type='password' placeholder="비밀번호 확인" onChange={handleInputValue('passwordCheck')}/>
         {userInfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
+      </InputFieldDiv>
+      <InputFieldDiv>
         <InputField placeholder="전화번호" onChange={handleInputValue('phonNumber')}/>
         {userInfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
-
+      </InputFieldDiv>
         {visible? 
               <>
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
@@ -175,7 +182,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
               </>
             : null
             }
-
+            <InputFieldDiv>
             {userInfo.address === '' ? 
               <AddressInputDiv onClick={() => setVisible(true)} >
                 주소를 검색 해주세요
@@ -184,11 +191,12 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
                 {userInfo.address}
               </AddressInputDiv>
             }
+            </InputFieldDiv>
 
-
-
+        <InputFieldDiv>
         <InputField placeholder="닉네임" onChange={handleInputValue('nickname')}/>
         {userInfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
+        </InputFieldDiv>
         <Err>{message.errorMessage}</Err>
         <SignUpButton type='submit' onClick={handleSignup} setLoginModal={setLoginModal} >회원가입</SignUpButton>
 
@@ -220,12 +228,14 @@ width: 375px;
 height: 667px;
 display: flex;
 justify-content: center;
-background-color: #D2D1D1;
+background-color: #FAFAFA;
 position: fixed;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
+border-radius: 30px;
 `;
+
 const SignUpTitle = styled.div`
 font-size: 28px;
 margin-top: 25px;
@@ -236,13 +246,26 @@ const SignUpForm = styled.form`
 
 `;
 
+const InputFieldDiv = styled.div`
+margin-top: 14px;
+`;
+
 const InputField = styled.input`
 display: flex;
 flex-direction: column;
 width: 295px;
 height: 56px;
-font-size: 18px;
+font-size: 16px;
 margin-top: 15px;
+margin: 0 auto;
+border:solid 1px;
+border-color: #C4C4C4;
+border-radius: 6px;
+background-color: #ffffff;
+&:focus {
+  outline: none;
+  border: 1px solid #C4C4C4 ;   
+    }
 `;
 
 const SignUpButton = styled.button`
@@ -251,8 +274,9 @@ height: 56px;
 background-color: #B51D29;
 color: white;
 border: none;
+border-radius: 6px;
 margin-top: 30px;
-font-size: 18px;
+font-size: 16px;
 `;
 
 const SignUpToLogin = styled.div`
@@ -283,16 +307,18 @@ border: none;
 `;
 
 const AddressInputDiv = styled.div`
-background-color: white;
+background-color: #ffffff;
 display: flex;
 align-items: center;
 width: 295px;
 height: 56px;
-font-size: 18px;
+font-size: 16px;
+margin-top: 15px;
 margin: 0 auto;
-margin-top: 20px;
-border: 1px gray solid;
-color: gray;
+border:solid 1px;
+border-color: #C4C4C4;
+border-radius: 6px;
+color: #737373;
 `;
 
 // 주소 api css

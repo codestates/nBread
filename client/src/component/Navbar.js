@@ -1,6 +1,6 @@
 import React, { useRef, useEffect , useState} from "react";
 import styled from 'styled-components';
-import logo from '../icons/nBread.png';
+import logo from '../icons/nBreadds.png';
 import Login from "../modal/Login";
 import SignUp from "../modal/SignUp";
 import LoginUser from "../component/LoginUser";

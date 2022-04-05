@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function PWConfirm() {
+function PWConfirm({openModalPWConfirm}) {
 
 
   return (
@@ -10,15 +10,17 @@ function PWConfirm() {
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <LoginForm onSubmit={(e) => e.preventDefault()}>
       <LoginTitle>비밀번호찾기     
-      <span>&times;</span>
+      <span onClick={openModalPWConfirm}>&times;</span>
       </LoginTitle>
-      <InputFieldDiv>
+        <InputFieldDiv>
         <InputField placeholder="아이디"/>
+        </InputFieldDiv>
+        <InputFieldDiv>
         <InputField placeholder="비밀번호"/>
         </InputFieldDiv>
-        <LoginButton>조회하기</LoginButton>
+        <Button>조회하기</Button>
         <InputField placeholder="문자로 간 코드를 입력해주세요."/>
-        <LoginButton>확인</LoginButton>
+        <Button>확인</Button>
         <SignUpToLogin onClick={null}>로그인으로 돌아가기</SignUpToLogin>
       </LoginForm>
     </Wrapper>
@@ -47,12 +49,14 @@ width: 375px;
 height: 667px;
 display: flex;
 justify-content: center;
-background-color: #D2D1D1;
+background-color: #FAFAFA;
 position: fixed;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
+border-radius: 30px;
 `;
+
 const LoginTitle = styled.div`
 font-size: 28px;
 margin-top: 25px;
@@ -63,29 +67,38 @@ const LoginForm = styled.form`
 
 `;
 
+
 const InputFieldDiv = styled.div`
-
+margin-top: 14px;
 `;
-
 
 const InputField = styled.input`
 display: flex;
 flex-direction: column;
 width: 295px;
 height: 56px;
-font-size: 18px;
+font-size: 16px;
 margin-top: 15px;
 margin: 0 auto;
+border:solid 1px;
+border-color: #C4C4C4;
+border-radius: 6px;
+background-color: #ffffff;
+&:focus {
+  outline: none;
+  border: 1px solid #C4C4C4 ;   
+    }
 `;
 
-const LoginButton = styled.button`
+const Button = styled.button`
 width: 295px;
 height: 56px;
 background-color: #B51D29;
 color: white;
 border: none;
+border-radius: 6px;
 margin-top: 30px;
-font-size: 18px;
+font-size: 16px;
 `;
 
 
