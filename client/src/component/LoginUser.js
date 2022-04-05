@@ -7,6 +7,7 @@ import { axiosLogout } from '../redux/user/action';
 function LoginUser({setLoginModal}) {
   const dispatch = useDispatch();  
   const data = useSelector((state)=> state.loginReducer.data)
+  const isLogin = useSelector((state)=> state.loginReducer)
   const history = useHistory()
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -35,7 +36,7 @@ function LoginUser({setLoginModal}) {
     <Wrapper  onClick={handleDropDown}> 
     <MenuTrigger onClick={onClick}>
     <UserName> {data.nickname + " 님"}</UserName>
-          <UserImg className="userImg"/>
+          <UserImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
       </MenuTrigger>
       <Svg onClick={handleDropDown}
         xmlns="http://www.w3.org/2000/svg" 

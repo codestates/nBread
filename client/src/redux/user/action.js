@@ -7,7 +7,8 @@ import {
   USER_SIGNUP,
   USER_EDIT,
   LOGIN_MODAL,
-  PROFILE_IMAGE_EDIT
+  PROFILE_IMAGE_EDIT,
+  PROFILE_IMAGE_DELETE
 } from "./types"
 import axios from "axios"
 
@@ -79,6 +80,13 @@ const ProfileImageEdit = (data) => {
   }
 }
 
+//프로필사진 삭제
+const ProfileImageDelete = (data) => {
+  return {
+    type : PROFILE_IMAGE_DELETE,
+  }
+}
+
 //-----------로그인-------------------
 export const axiosLogin = (user) => {
   console.log('loginInfo',user)
@@ -128,9 +136,10 @@ export const axiosUserDelete = () => {
 export const axiosUserSignUp = (data) => {
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
+    id:data.id,
     username: data.username,
     password: data.password,
-    phoneNumber: data.phoneNumber,
+    phone_number: data.phone_number,
     address: data.address,
     nickname: data.nickname
     },{},{withCredentials: true})
@@ -148,18 +157,21 @@ export const axiosUserSignUp = (data) => {
     console.log('2244445454522',data)
     return (dispatch) => {
     dispatch(userEdit(data))
-    
     axios.patch(`${process.env.REACT_APP_API_URL}/users`, {
-      password: data.password,
-      phone_number: data.phone_number,
-      address: data.address,
-      nickname: data.nickname
+    id:data.id,
+    picture:data.picture,
+    nickname:data.nickname,
+    phone_number:data.phone_number,
+    address:data.address,
+    password:data.password,
+    passwordCheck:data.passwordCheck,
+    username:data.username
       } ,{withCredentials: true})
     .then(data => {
       
       if(data.status===200){
         console.log('수정완료')
-        dispatch(userEdit(data))
+        dispatch(userEdit(data.data.data))
         
       }else{
         console.log('err')
@@ -181,4 +193,16 @@ export const axiosProfileImageEdit = (data) => {
       console.log('err')
     }
   }
+  }
+
+  //-----------프로필사진삭제-------------------
+export const axiosProfileImageDelete = () => {
+  return (dispatch) => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/users/picture`,{withCredentials: true})
+    .then(res => {
+      console.log('res',res)
+    dispatch(ProfileImageDelete())
+    })
+    .catch(err=> console.log(err))
+    }
   }

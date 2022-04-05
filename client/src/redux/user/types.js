@@ -15,3 +15,6 @@ export const LOGIN_MODAL = 'LOGIN_MODAL';
 //프로필사진 변경
 export const PROFILE_IMAGE_EDIT = 'PROFILE_IMAGE_EDIT';
 
+//프로필사진 삭제
+export const PROFILE_IMAGE_DELETE = 'PROFILE_IMAGE_DELETE';
+

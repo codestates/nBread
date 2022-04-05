@@ -24,34 +24,34 @@ function MyPage() {
 //회원탈퇴 테스트
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
-  console.log('isLogin44',isLogin)
   const location = useLocation()
 
   const history = useHistory();
   const nicknameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
   const passwordRegExp = /^[A-Za-z0-9~!@#$%^&*()_+|<>?:{}+]{8,16}$/;
-  const phonNumberRegExp = /^[0-9]{10,11}$/;
+  const phone_numberRegExp = /^[0-9]{10,11}$/;
 
 
   const [settingUserinfo, setSettingUserinfo] = useState({
     id: isLogin.data.id,
     picture: isLogin.data.picture,
     nickname: isLogin.data.nickname,
-    phon_number: isLogin.data.phon_number,
+    phone_number: isLogin.data.phone_number,
     address: isLogin.data.address,
     password: isLogin.data.password,
-    passwordCheck: isLogin.data.passwordCheck
+    passwordCheck: isLogin.data.passwordCheck,
+    username: isLogin.data.username
   })
   const [message, setMessage] = useState({
     nicknameMessage: '',
-    phonNumberMessage: '',
+    phone_numberMessage: '',
     passwordMessage: '',
     passwordCheckMessage: ''
   })
 
   const [validation, setValidation] = useState({
     nicknameValidation: false,
-    phonNumberValidation: false,
+    phone_numberValidation: false,
     passwordValidation: false,
     passwordCheckValidation: false
   })
@@ -71,13 +71,13 @@ function MyPage() {
       }
     }
 
-    if (key === 'phonNumber') {
-      if (e.target.value.length < 10 || e.target.value.length > 11 || !phonNumberRegExp.test(e.target.value)) {
-        setMessage({ ...message, phonNumberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
-        setValidation({ ...validation, phonNumberValidation: true})
+    if (key === 'phone_number') {
+      if (e.target.value.length < 10 || e.target.value.length > 11 || !phone_numberRegExp.test(e.target.value)) {
+        setMessage({ ...message, phone_numberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
+        setValidation({ ...validation, phone_numberValidation: true})
       } else {
-        setValidation({ ...validation, phonNumberValidation: false})
-        setMessage({ ...message, phonNumberMessage: ''})
+        setValidation({ ...validation, phone_numberValidation: false})
+        setMessage({ ...message, phone_numberMessage: ''})
       }
     }
 
@@ -107,22 +107,21 @@ function MyPage() {
     history.push("/")
   }
 
+  //마이페이지 수정
 const handleUserEdit = () => {
-  const{nickname, phonNumber, address, password } = settingUserinfo
+  const{nickname, phone_number, address, password } = settingUserinfo
     setChangeInfoBtn(!changeInfoBtn)
       if(changeInfoBtn){
         if (
-          nickname === '' || phonNumber === '' || address === '' 
+          nickname === '' || phone_number === '' || address === '' 
         ){
           console.log('err')
+        }else{
+          dispatch(axiosUserEdit(settingUserinfo))
+          alert('수정완료')
+          setChangeInfoBtn(!changeInfoBtn)
         }
-      }
-      
-    // }else{
-    //   dispatch(axiosUserEdit(settingUserinfo))
-    //   alert('수정완료')
-    //   setChangeInfoBtn(!changeInfoBtn)
-    // }
+      }   
 }
 
 
@@ -172,7 +171,6 @@ const handleUserEdit = () => {
     const updateImages = (newImages) => {
       setImages(newImages)
     }
-    console.log(isLogin.data.phone_number,'5555')
 
   return (
     <div>
@@ -194,13 +192,9 @@ const handleUserEdit = () => {
         <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
         {/* {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null} */}
         <InputTitle>전화번호</InputTitle>
-        <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phonNumber')}/>
+        <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phone_number')}/>
         {/* {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null} */}
         <InputTitle>주소</InputTitle>
-        
-        
-
-
         {visible? 
               <>
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
@@ -222,7 +216,7 @@ const handleUserEdit = () => {
                 {settingUserinfo.address}
               </AddressInputDiv>
             } 
- 
+
         <InputTitle>비밀번호</InputTitle>
         <InputField type='password' onChange={settingOnChange('password')}/>
         {/* {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null} */}

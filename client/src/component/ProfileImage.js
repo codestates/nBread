@@ -4,38 +4,20 @@ import styled from 'styled-components'
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosProfileImageEdit } from '../redux/user/action';
+import { axiosProfileImageDelete } from '../redux/user/action';
 import { Button } from 'antd'
 
 function ProfileImage(props) {
-  const [previewImg, setPreviewImg] = useState(null);
   const [Img, setImg] = useState(null);
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
 
-  console.log('isLogin',isLogin)
-//이미지 미리보기
-  // const handleFileInput = (e) => {
-  //   const reader = new FileReader()
-  //   const file = e.target.files[0];
-  //   if(file){
-  //     reader.readAsDataURL(e.target.files[0])
-  //   }
-  //   reader.onloadend = () => {
-  //     const previewImgUrl = reader.result
-  //     if(previewImgUrl) {
-  //       setPreviewImg(previewImgUrl)
-  //     }
-  //   }
-  //   const fileExt = file.name.split('.').pop();
-  //   if(file.type !== 'image/jpeg' || fileExt !=='jpeg'){
-  //     alert('jpeg 파일만 Upload 가능합니다.');
-  //     return;
-  //   }
-  // }
   //이미지 삭제
-
   const deleteImg = () => {
-    setPreviewImg(null)
+    alert('사진을 지우겠습니까?')
+  
+    // dispatch(axiosProfileImageDelete())
+    // alert('사진습니다.')
   }
   //이미지적용
   const handleFileUpload = (files) => {
@@ -47,7 +29,6 @@ function ProfileImage(props) {
       withCredentials: true
     }
     formData.append("file", files[0])
-    console.log('44444444',formData)
 
     axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
@@ -62,10 +43,11 @@ function ProfileImage(props) {
         }
       })
   }
-console.log(isLogin,'picturepicturepicture')
   return (
     <div>
-        <MyPageProfileDiv>
+          <MyPageProfileDiv>
+
+          {/* 사진 업로드 */}
           <Dropzone onDrop={handleFileUpload}>
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
@@ -74,35 +56,11 @@ console.log(isLogin,'picturepicturepicture')
               </MyProfile>
             )}
           </Dropzone>
-          {/* <div style={{display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}> */}
-
-{/* {
-  Img ? 
-  <div>
-    <img style={{minWidth: '300px', height: '240px'}}
-      src={Img} alt="되라1"
-    />
-  </div>
-  :
-  <div>
-  <img style={{minWidth: '300px', height: '240px'}}
-    src="img/abcd.png" alt="되라2"
-  />
-</div>
-} */}
-
-{/* </div > */}
-
-
 
             <ButtonDiv>
             <ImageLabel center htmlFor="img">파일선택
-            {/* <InputHidden id="img" accept="image/*" type="file" onChange={handleFileUpload}/> */}
             </ImageLabel>
-            
             <Button onClick={deleteImg}>삭제</Button>
-            {/* <ImageDiv><MyProfileButton onClick={handleFileUpload}>사진적용하기</MyProfileButton></ImageDiv> */}
-            {/* <MyProfileName>{null}</MyProfileName> */}
             </ButtonDiv>
           </MyPageProfileDiv>
     </div>
