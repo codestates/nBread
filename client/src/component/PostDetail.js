@@ -19,7 +19,7 @@ function PostDetail({click, setClick}) {
   const list = useSelector((state)=> state.postsDetailReducer)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
-  console.log('-------postId--------', postId)
+  // console.log('-------postId--------', postId)
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -283,13 +283,13 @@ width: 98%;
 height: 199px;
 margin-bottom: 8px;
 overFlow : auto;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   justify-content:center;
 } 
 `;
 
 const WrapperDiv = styled.div`
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   /* justify-content:center; */
   display: flex;
   align-items: center;
@@ -416,10 +416,10 @@ const PostEditDiv = styled.textarea`
     outline: none;   
     border-bottom: 1px solid dodgerblue; 
   }
-  @media (max-width: 768px) {
+  @media (max-width: 576px) {
   height: 25vh;
 } 
-@media (min-height: 768px) {
+@media (min-height: 576px) {
   height: 30vh
 } 
 `
