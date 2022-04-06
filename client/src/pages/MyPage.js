@@ -11,6 +11,7 @@ import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
 
+
 const { kakao } = window;
 
 function MyPage() {
@@ -42,11 +43,15 @@ function MyPage() {
     passwordCheck: isLogin.data.passwordCheck,
     username: isLogin.data.username
   })
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [message, setMessage] = useState({
     nicknameMessage: '',
     phone_numberMessage: '',
     passwordMessage: '',
-    passwordCheckMessage: ''
+    passwordCheckMessage: '',
+    errorMessage:''
   })
 
   const [validation, setValidation] = useState({
@@ -109,13 +114,14 @@ function MyPage() {
 
   //마이페이지 수정
 const handleUserEdit = () => {
-  const{nickname, phone_number, address, password } = settingUserinfo
+  const{nickname, phone_number, address, password, passwordCheck } = settingUserinfo
     setChangeInfoBtn(!changeInfoBtn)
       if(changeInfoBtn){
         if (
-          nickname === '' || phone_number === '' || address === '' 
+          nickname === '' || phone_number === '' || address === '' || (!password || !passwordCheck) && (password !== passwordCheck)
         ){
           console.log('err')
+          alert('올바로입력바랍니다.')
         }else{
           dispatch(axiosUserEdit(settingUserinfo))
           alert('수정완료')
@@ -190,10 +196,10 @@ const handleUserEdit = () => {
         <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
         <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
-        {/* {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null} */}
+        {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
         <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phone_number')}/>
-        {/* {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null} */}
+        {settingUserinfo.phone_number.length > 0 && validation.phone_numberValidation ? <Err>{message.phone_numberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
         {visible? 
               <>
@@ -219,11 +225,12 @@ const handleUserEdit = () => {
 
         <InputTitle>비밀번호</InputTitle>
         <InputField type='password' onChange={settingOnChange('password')}/>
-        {/* {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null} */}
+        {validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
         <InputTitle>비밀번호확인</InputTitle>
         <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
-        {/* {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null} */}
+        {validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
+        <Err>{errorMessage}</Err>
         <EditButton onClick={handleUserEdit}>수정완료</EditButton>
         </MyPageForm>
       ) : (
@@ -267,9 +274,10 @@ const MapDiv = styled.div`
 float: left;
 margin-right: -460px;
 padding-right: 460px;
-background-color: #B7CADB;
+background-color: #ffffff;
 width: 100%;
 height: calc(100vh - 100px);
+
 `;
 
 const MyPageDiv = styled.div`
@@ -277,6 +285,7 @@ margin: auto;
 background-color: #FFFFFF;
 width: 95%;
 height: calc(100vh - 100px);
+
 `;
 
 
@@ -344,8 +353,9 @@ height: 56px;
 background-color: #B51D29;
 color: white;
 border: none;
+border-radius: 6px;
 margin-top: 30px;
-font-size: 18px;
+font-size: 16px;
 `;
 
 const SignUpToLogin = styled.div`

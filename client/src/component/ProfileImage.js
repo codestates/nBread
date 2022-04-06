@@ -12,13 +12,32 @@ function ProfileImage(props) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
 
-  //이미지 삭제
-  const deleteImg = () => {
-    alert('사진을 지우겠습니까?')
-  
-    // dispatch(axiosProfileImageDelete())
-    // alert('사진습니다.')
-  }
+  // //이미지 삭제
+  // const deleteImg = () => {
+  //   // console.log(files[0],'33333')
+  //   // let formData = new FormData();
+
+  //   // const config = {
+  //   //   header: {'content-type': 'multipart/form-data'},
+  //   //   withCredentials: true
+  //   // }
+  //   // formData.append("file", files[0])
+    
+
+  //   // axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
+  //   //   .then(response => {
+  //   //     if(response.data.success) {
+  //   //       alert('파일저장성공')
+  //   //       setImg(response.data.filePath)
+  //   //       console.log(Img,'88888888888888')
+  //   //       props.updateImages(response.data.filePath)
+  //   //       dispatch(axiosProfileImageEdit(response.data.filePath))
+  //   //     }else {
+  //   //       alert ('파일저장실패')
+  //   //     }
+  //   //   })
+    
+  // }
   //이미지적용
   const handleFileUpload = (files) => {
     console.log(files[0],'33333')
@@ -51,16 +70,16 @@ function ProfileImage(props) {
           <Dropzone onDrop={handleFileUpload}>
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
-                <input {...getInputProps()} />
+                <input {...getInputProps()} id="input-file" />
                 <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
               </MyProfile>
             )}
           </Dropzone>
 
             <ButtonDiv>
-            <ImageLabel center htmlFor="img">파일선택
+            <ImageLabel center htmlFor="img" for="input-file">파일선택
             </ImageLabel>
-            <Button onClick={deleteImg}>삭제</Button>
+            <Button>삭제</Button>
             </ButtonDiv>
           </MyPageProfileDiv>
     </div>
@@ -86,8 +105,8 @@ border: none;
 width: 100px;
 height: 100px;
 position: relative;
-top: 25%;
-left: 3%;
+top: 40px;
+left: 20px;
 color: white;
 text-align: center;
 `;
@@ -102,12 +121,14 @@ border-radius: 50%;
 const ImageLabel = styled.label`
 width: 100px;
 height: 106px;
-font-size: 16px;
+font-size: 14px;
 background-color:#FFFFFF;
 border: 1px solid #C9C9C9;
-padding: 15px;
-/* z-index: 99; */
+padding: 7px;
+margin-left: 5px;
+margin-right: 5px;
 text-align: center;
+border-radius: 3px;
 `;
 
 const InputHidden = styled.input`
