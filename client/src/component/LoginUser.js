@@ -105,6 +105,7 @@ const UserName = styled.p`
   vertical-align: middle;
   transition: box-shadow 0.4s ease;
   margin-left: auto;
+  margin-top: 15px;
 `;
 
 const UserImg = styled.img`
