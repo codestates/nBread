@@ -9,12 +9,9 @@ function MyOpenList(props) {
   const [click, setClick] = useState(false);
 
   const post = useSelector((state)=> state.myPostsReducer.posts)
-  // console.log('post',post)
 
   const handlePostList = (contentId) => {
-    // console.log(contentId);
     setClick(true)
-    // console.log('클릭상태',click)
     dispatch(showPostDetail(contentId))
   }
 

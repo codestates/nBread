@@ -10,12 +10,9 @@ function MyApplyList(props) {
   const [click, setClick] = useState(false);
 
   const post = useSelector((state)=> state.myApplyPostsReducer.posts)
-  // console.log('post',post)
 
   const handlePostList = (contentId) => {
-    // console.log(contentId);
     setClick(true)
-    // console.log('클릭상태',click)
     dispatch(showPostDetail(contentId))
   }
 
@@ -51,9 +48,9 @@ function MyApplyList(props) {
                 <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
                   <PostListImg src={`/icon/${li.category_food}.png`}/>
                   <PostListTextWrapper>
-                    <PostListText>식당이름: {li.restaurant_name}</PostListText>
-                    <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}명</PostListText>
-                    <PostListText>배달비: {li.delivery_fee}</PostListText>
+                      <PostListText>식당이름: {li.restaurant_name}</PostListText>
+                      <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}명</PostListText>
+                      <PostListText>배달비: {li.delivery_fee}</PostListText>
                   </PostListTextWrapper>
                 </Wrapper>
               )
@@ -66,17 +63,6 @@ function MyApplyList(props) {
     </div>
   );
 }
-
-const PostListMenu = styled.div`
-background-color: #EEEEEE;
-display: flex;
-align-items: center;
-justify-content: center;
-height: 70px;
-font-size: 18px;
-font-weight: bold;
-border: 1px solid #C9C9C9;
-`
 
 const Wrapper = styled.div`
 display: flex;
