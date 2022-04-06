@@ -116,7 +116,10 @@ margin-left: 25px;
 margin-right: 5px;
 text-align: center;
 border-radius: 3px;
-
+@media (max-width: 745px) {
+  white-space: nowrap; 
+  overflow: hidden;
+} 
 `;
 
 const InputHidden = styled.input`

@@ -241,12 +241,11 @@ const handleUserEdit = () => {
                 {settingUserinfo.address}
               </AddressInputDiv>
             } 
-
         <InputTitle>비밀번호</InputTitle>
-        <InputField type='password' onChange={settingOnChange('password')}/>
+        <InputFieldPassWordSize type='password' onChange={settingOnChange('password')}/>
         {validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
         <InputTitle>비밀번호확인</InputTitle>
-        <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
+        <InputFieldPassWordSize type='password' onChange={settingOnChange('passwordCheck')}/>
         {validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <Err>{errorMessage}</Err>
@@ -394,6 +393,35 @@ border-radius: 3px;
   margin-top: 1px;
   font-size: 16px;
 } 
+`;
+
+
+const InputFieldPassWordSize = styled.input`
+display: flex;
+flex-direction: column;
+width: 500px;
+height: 56px;
+font-size: 18px;
+margin-top: 10px;
+border: solid #C4C4C4 1px;
+border-radius: 3px;
+&:focus {
+  outline: none;
+  border: 1px solid #D9C6AC;   
+    }
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+  border-radius: 3px;
+} 
+@media (max-width: 400px) {
+  width: 240px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px
+} 
 `;            
 
 const InputFieldPassWord = styled.div`
@@ -404,7 +432,14 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
-
+@media (max-width: 400px) {
+  width: 240px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px;
+} 
 `;
 
 
@@ -414,6 +449,11 @@ height: 56px;
 font-size: 16px;
 color: #525252;
 margin-top: 10px;
+@media (max-width: 400px) {
+  margin-left: -20px;
+  font-size: 16px;
+  margin-bottom: -21px;
+}
 `;
 
 const EditButton = styled.button`
