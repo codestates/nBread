@@ -10,7 +10,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   const dispatch = useDispatch();
   const SignUp = useSelector((state)=> state.loginReducer.SignUp)
   
-
+  
   const [userInfo, setUserInfo] = useState({
     username: '',
     password: '',
@@ -35,7 +35,6 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     nicknameValidation: false,
     errorValidation: false
   })
-
   //주소
   const [visible, setVisible] = useState(false); 
 
@@ -75,7 +74,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       }
     }
 
-    if (key === 'phonNumber') {
+    if (key === 'phone_number') {
       if (!phonNumberRegExp.test(e.target.value)) {
         setMessage({ ...message, phonNumberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
         setValidation({ ...validation, phonNumberValidation: true})
@@ -152,7 +151,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <SignUpForm onSubmit={(e) => e.preventDefault()}>
       <SignUpTitle>회원가입   
-      <span onClick={handleCloseSignupModal}>&times;</span>    
+      <PostSpan onClick={handleCloseSignupModal}>&times;</PostSpan>    
       </SignUpTitle>
       <InputFieldDiv>
         <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
@@ -168,7 +167,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       </InputFieldDiv>
       <InputFieldDiv>
         <InputField placeholder="전화번호" onChange={handleInputValue('phone_number')}/>
-        {userInfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
+        {userInfo.phone_number.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
       </InputFieldDiv>
         {visible? 
               <>
@@ -246,6 +245,11 @@ const SignUpForm = styled.form`
 
 `;
 
+const PostSpan = styled.span`
+position: absolute;
+right: 40px;
+`
+
 const InputFieldDiv = styled.div`
 margin-top: 14px;
 `;
@@ -262,6 +266,7 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 background-color: #ffffff;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #C4C4C4 ;   
@@ -302,7 +307,8 @@ z-index: 100;
 padding: 7px;
 width: 100px;
 color: white;
-background-color: #A3A3A3;
+border-radius: 6px;
+background-color: #B51D29;
 border: none;
 `;
 
@@ -319,13 +325,14 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 color: #737373;
+padding-left: 5px;
 `;
 
 // 주소 api css
 const addressStyle = {
   display: 'block',
   position: 'absolute',
-  top: '75px',
+  top: '80px',
   left: '20px',
   zIndex: '100',
   padding: '7px',

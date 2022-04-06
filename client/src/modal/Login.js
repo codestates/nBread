@@ -6,10 +6,10 @@ import SignUp from "./SignUp";
 import PWConfirm from "./PWConfirm";
 
 
-function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
+function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWConfirmModal}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
-  const LoginModal = useSelector((state)=> state.loginReducer.LoginModal)
+  
   // console.log('login',isLogin)
 
   const [loginInfo, setLoginInfo] = useState({
@@ -18,25 +18,9 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
   })
   const [errorMessage, setErrorMessage] = useState('');
 
-  // //회원가입 모달
-  // const [SignUpModal, setSignUpModal] = useState(false);
-
-
   const handleCloseLoginModal = () => {
     setLoginModal(false)
 
-  }
-
-  
-    
-
-  //비밀번호찾기 모달
-  const [PWConfirmModal, setPWConfirmModal] = useState(false);
-
-  //비밀번호찾기 모달
-  const openModalPWConfirm = () => {
-  setPWConfirmModal(!PWConfirmModal)
-  
   }
 
   const handleInputValue = (key) => (e) => {
@@ -63,7 +47,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         <LoginTitle>로그인      
-        <Span onClick={handleCloseLoginModal}>&times;</Span>
+          <PostSpan onClick={handleCloseLoginModal}>&times;</PostSpan>
         </LoginTitle>
         
           <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
@@ -75,14 +59,9 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
           <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
           <LoginButton type='submit'>카카오 로그인</LoginButton>
             <SignUpButton onClick={handleSignupModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>회원가입</SignUpButton>
-            <PassWorldCheck onClick={openModalPWConfirm}>비밀번호찾기</PassWorldCheck>
+            <PassWorldCheck onClick={handlePWConfirmModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>비밀번호찾기</PassWorldCheck>
         </LoginForm>
       </Wrapper>
-      {/* 회원가입 모달 */}
-      {/* {SignUpModal === true ? <SignUp openModalSignUp={openModalSignUp}></SignUp>:null} */}
-      {}
-      {/* 비밀번호찾기 모달 */}
-      {PWConfirmModal === true ? <PWConfirm openModalPWConfirm={openModalPWConfirm}></PWConfirm>:null}
     </ModalBackdrop>
   </>
   );
@@ -121,8 +100,9 @@ margin-top: 25px;
 margin-bottom: 35px;
 `;
 
-const Span = styled.span`
-text-align: right;
+const PostSpan = styled.span`
+position: absolute;
+right: 40px;
 `
 
 const LoginForm = styled.form`
@@ -147,6 +127,7 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 background-color: #ffffff;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #C4C4C4 ;   
