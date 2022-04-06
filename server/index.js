@@ -7,6 +7,7 @@ const controllers = require('./controllers');
 const path = require('path');
 const app = express();
 
+// https 부분 (배포 시 주석 풀기)
 app.all('*', (req, res, next) => {
   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
   if (protocol === 'https') next()
@@ -29,9 +30,13 @@ const credentials = {
   ca : ca
 };
 
-const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
+// https 부분
 
+//http 부분
+const httpServer = http.createServer(app);
+
+// 밑줄에서 http 적용 시 httpServer, https 적용 시 httpsServer
 const io = require('socket.io')(httpsServer, {
   cors: {
     origin: "*",
@@ -54,12 +59,6 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
-
-
-
-
-
-// 배포 시 주석 처리 풀어주세요!!
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
@@ -213,9 +212,12 @@ io.on('connection', (socket) => {
   });
 });
 
+// http
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
 });
+
+//https
 httpsServer.listen(443, () => {
   console.log('HTTPS Server running on port 443')
 });
