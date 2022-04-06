@@ -10,4 +10,4 @@ export DATABASE_PASSWORD=heejeyang
 export DATABASE_NAME=nbread_development
 export ACCESS_SECRET=dotnbread
 
-authbind --deep pm2 start app.js
+authbind --deep pm2 start index.js
