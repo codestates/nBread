@@ -7,32 +7,37 @@ const controllers = require('./controllers');
 const path = require('path');
 const app = express();
 
-app.all('*', (req, res, next) => {
-  let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  if (protocol === 'https') next()
-  else {
-    let from = `${protocol}://${req.hostname}${req.url}`;
-    let to = `https://${req.hostname}${req.url}`;
+// https 부분 (배포 시 주석 풀기)
+// app.all('*', (req, res, next) => {
+//   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+//   if (protocol === 'https') next()
+//   else {
+//     let from = `${protocol}://${req.hostname}${req.url}`;
+//     let to = `https://${req.hostname}${req.url}`;
 
-    console.log(`[${req.method}]: ${from} -> ${to}`)
-    res.redirect(to)
-  };
-});
+//     console.log(`[${req.method}]: ${from} -> ${to}`)
+//     res.redirect(to)
+//   };
+// });
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
+// const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
 
-const credentials = {
-  key : privateKey,
-  cert : certificate,
-  ca : ca
-};
+// const credentials = {
+//   key : privateKey,
+//   cert : certificate,
+//   ca : ca
+// };
 
+// const httpsServer = https.createServer(credentials, app);
+// https 부분
+
+//http 부분
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
 
-const io = require('socket.io')(httpsServer, {
+// 밑줄에서 http 적용 시 httpServer, https 적용 시 httpsServer
+const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
     method: ["GET", "POST"],
@@ -54,12 +59,6 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   })
 );
-
-
-
-
-
-// 배포 시 주석 처리 풀어주세요!!
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
@@ -213,12 +212,15 @@ io.on('connection', (socket) => {
   });
 });
 
+// http
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
 });
-httpsServer.listen(443, () => {
-  console.log('HTTPS Server running on port 443')
-});
+
+//https
+// httpsServer.listen(443, () => {
+//   console.log('HTTPS Server running on port 443')
+// });
 
 // const express = require('express');
 // const app = express();
