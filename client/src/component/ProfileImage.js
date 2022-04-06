@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosProfileImageEdit } from '../redux/user/action';
 import { axiosProfileImageDelete } from '../redux/user/action';
-import { Button } from 'antd'
+// import { Button } from 'antd'
 
 function ProfileImage(props) {
   const [Img, setImg] = useState(null);
@@ -61,7 +61,7 @@ function ProfileImage(props) {
             <ButtonDiv>
             <ImageLabel center htmlFor='img' for="input-file">파일선택
             </ImageLabel>
-            <Button onClick={deletImage}>삭제</Button>
+            {/* <Button onClick={deletImage}>삭제</Button> */}
             </ButtonDiv>
           </MyPageProfileDiv>
     </div>
