@@ -15,7 +15,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     username: '',
     password: '',
     passwordCheck: '',
-    phonNumber: '',
+    phone_number: '',
     address: '',
     nickname: ''
   })
@@ -95,14 +95,14 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   }
 
   const handleSignup = () => {
-    const { username, password, passwordCheck, phonNumber, nickname, address  } = userInfo;
+    const { username, password, passwordCheck, phone_number, nickname, address  } = userInfo;
 
-    if (!username || !password || !passwordCheck || !nickname || !phonNumber || !address) {
+    if (!username || !password || !passwordCheck || !nickname || !phone_number || !address) {
       setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
       setValidation({ ...validation, errorValidation: true})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
     nicknameRegExp.test(nickname) && password === passwordCheck && 
-    phonNumberRegExp.test(phonNumber) && address){
+    phonNumberRegExp.test(phone_number) && address){
 
       dispatch(axiosUserSignUp(userInfo))
         alert('회원가입 완료되었습니다.')
@@ -167,7 +167,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
         {userInfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
       </InputFieldDiv>
       <InputFieldDiv>
-        <InputField placeholder="전화번호" onChange={handleInputValue('phonNumber')}/>
+        <InputField placeholder="전화번호" onChange={handleInputValue('phone_number')}/>
         {userInfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
       </InputFieldDiv>
         {visible? 
