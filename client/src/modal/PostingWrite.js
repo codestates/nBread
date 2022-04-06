@@ -198,7 +198,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   );
 }
 
-  //모달창이 떳을때 뒷배경 어둡게
+  //모달창 뒷배경 어둡게
   const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
@@ -213,8 +213,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
   const Wrapper = styled.div`
     text-align: center;
-    /* width: 320px;
-    height: 568px; */
     width: 375px;
     height: 667px;
     display: flex;
@@ -294,13 +292,14 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
+    padding-top: 5px;
     padding-left: 5px;
     border:solid 1px #C4C4C4;
     border-radius: 6px;
   `;
 
   const SelectDiv = styled.div`
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
   `;
 
