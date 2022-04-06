@@ -334,7 +334,12 @@ color: white;
 @media (max-width: 576px) {
   width: 70px;
   height: 70px;
-}  
+}
+@media (max-width: 400px) {
+  width: 70px;
+  height: 70px;
+  bottom: 75px;
+}
 `;
 
 
@@ -347,11 +352,20 @@ margin-bottom: 25px;
 const MyPageForm = styled.form`
 float: left;
 margin-left: 50px;
+margin-top: -40px;
 `;
 
 const InputTitle = styled.div`
 margin-top: 10px;
 font-size: 18px;
+@media (max-width: 576px) {
+  margin-top: 3px;
+  font-size: 18px;
+}
+@media (max-width: 400px) {
+  margin-left: -20px;
+  font-size: 16px;
+}
 `;
 
 const InputField = styled.input`
@@ -361,6 +375,25 @@ width: 500px;
 height: 56px;
 font-size: 18px;
 margin-top: 10px;
+border: solid #C4C4C4 1px;
+border-radius: 3px;
+&:focus {
+  outline: none;
+  border: 1px solid #D9C6AC;   
+    }
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+  border-radius: 3px;
+} 
+@media (max-width: 400px) {
+  width: 300px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px;
+} 
 `;            
 
 const InputFieldPassWord = styled.div`
@@ -371,6 +404,7 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
+
 `;
 
 
@@ -392,6 +426,20 @@ border: none;
 border-radius: 6px;
 margin-top: 30px;
 font-size: 16px;
+@media (max-width: 576px) {
+  width: 150px;
+  height: 46px;
+  float: left;
+  margin-left: 20%;
+} 
+@media (max-width: 400px) {
+  width: 140px;
+  height: 40px;
+  float: left;
+  margin-top: -27px;
+  margin-left: 127px;
+  font-size: 16px;
+}
 `;
 
 const SignUpToLogin = styled.div`
@@ -430,20 +478,34 @@ height: 56px;
 font-size: 18px;
 margin: 0 auto;
 margin-top: 20px;
-border: 1px gray solid;
+border: 1px #C4C4C4 solid;
+border-radius: 3px;
 color: gray;
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+} 
+@media (max-width: 400px) {
+  width: 300px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: -5px;
+  font-size: 16px;
+} 
 `;
 
 // 주소 api css
 const addressStyle = {
   display: 'block',
   position: 'absolute',
-  top: '32%',
-  left: '42%',
+  top: '37%',
+  left: '14%',
   zIndex: '100',
   padding: '7px',
-  width: '45%',
+  width: '300px',
   height: '60%'
+  
 }
 
 const ListButton = styled.button`
@@ -464,5 +526,10 @@ z-index: 1;
   height: 70px;
   bottom: 140px;
 } 
+@media (max-width: 400px) {
+  width: 70px;
+  height: 70px;
+  bottom: 150px;
+}
 `;
 export default MyPage;

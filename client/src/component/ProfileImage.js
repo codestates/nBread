@@ -76,6 +76,7 @@ margin-bottom: 30px;
 background-color: #ffffff;
 width: 100%;
 height: 150px;
+
 `;
 
 //마이페이지 프로필사진
@@ -88,9 +89,13 @@ width: 100px;
 height: 100px;
 position: relative;
 top: 40px;
-left: 20px;
+left: 35px;
 color: white;
 text-align: center;
+@media (max-width: 400px) {
+  top: 20px;
+  left: 25px;
+} 
 `;
 
 const FrofileImg = styled.img`
@@ -107,10 +112,11 @@ font-size: 14px;
 background-color:#FFFFFF;
 border: 1px solid #C9C9C9;
 padding: 7px;
-margin-left: 5px;
+margin-left: 25px;
 margin-right: 5px;
 text-align: center;
 border-radius: 3px;
+
 `;
 
 const InputHidden = styled.input`
@@ -125,6 +131,9 @@ const ImageDiv = styled.div`
 const ButtonDiv = styled.div`
 margin-top: 100px;
 margin-left: 120px;
+@media (max-width: 400px) {
+  margin-top: 60px;
+} 
 `
 
 //마이페이지 닉네임
