@@ -10,7 +10,7 @@ import { useLocation } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
-
+import './MyPage.css'
 
 const { kakao } = window;
 
@@ -221,15 +221,23 @@ const handleUserEdit = () => {
         {settingUserinfo.phone_number.length > 0 && validation.phone_numberValidation ? <Err>{message.phone_numberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
         {visible? 
-              <>
+              <div className='test'>
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
+                {/* <StyledDaumPostcode 
+                  onComplete={handleComplete}
+                  onSuccess={newSearchAddress}
+                  height={1000}
+                  style={addressStyle}
+                  width={400}
+                  className='DaumPost'
+                  /> */}
                 <DaumPostcode 
                   onComplete={handleComplete}
                   onSuccess={newSearchAddress}
-                  style={addressStyle}
                   height={700}
+                  className='DaumPost'
                   />
-              </>
+              </div>
             : null
             }
 
@@ -278,6 +286,38 @@ const handleUserEdit = () => {
     </div>
   );
 }
+
+// 주소 api css
+// const addressStyle = {
+//   display: 'block',
+//   position: 'absolute',
+//   // top: '37%',
+//   // left: '14%',
+//   zIndex: '100',
+//   padding: '7px',
+//   width: '500px',
+//   height: '40%'
+// }
+
+
+const CloseBtn = styled.button`
+display: block;
+/* position: absolute;
+top: 52px;
+right: 25px; */
+margin-left: 400px;
+z-index: 100;
+padding: 7px;
+width: 100px;
+color: white;
+background-color: #B51D29;
+border: none;
+border-radius: 6px;
+@media (max-width: 576px) {
+  margin-left: 240px;
+} 
+`;
+
 const Wrapper = styled.div`
 /* display: flex; */
 overflow:hidden; 
@@ -302,6 +342,7 @@ padding-right: 460px;
 background-color: #ffffff;
 width: 100%;
 height: calc(100vh - 100px);
+overflow: auto; /* 스크롤 속성 */
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   visibility: visible;
@@ -456,18 +497,18 @@ margin-top: 2px;
 
 
 //주소
-const CloseBtn = styled.button`
-display: block;
-position: absolute;
-top: 52px;
-right: 25px;
-z-index: 100;
-padding: 7px;
-width: 100px;
-color: white;
-background-color: #A3A3A3;
-border: none;
-`;
+// const CloseBtn = styled.button`
+// display: block;
+// position: absolute;
+// top: 52px;
+// right: 25px;
+// z-index: 100;
+// padding: 7px;
+// width: 100px;
+// color: white;
+// background-color: #A3A3A3;
+// border: none;
+// `;
 
 const AddressInputDiv = styled.div`
 background-color: white;
@@ -494,19 +535,6 @@ color: gray;
   font-size: 16px;
 } 
 `;
-
-// 주소 api css
-const addressStyle = {
-  display: 'block',
-  position: 'absolute',
-  top: '37%',
-  left: '14%',
-  zIndex: '100',
-  padding: '7px',
-  width: '300px',
-  height: '60%'
-  
-}
 
 const ListButton = styled.button`
 display: none;
