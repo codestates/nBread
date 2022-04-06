@@ -62,6 +62,25 @@ function MyPage() {
   })
 
   const [changeInfoBtn, setChangeInfoBtn] = useState(false);
+
+  const [openPost, setOpenPost] = useState(false);
+
+  const openPostList = () => {
+    setOpenPost(!openPost)
+  }
+
+  const closePostList = () => {
+    setOpenPost(false)
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', closePostList);
+    return () => {
+      window.addEventListener('resize', closePostList);
+    }
+  },[])
+
+
 //마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
     setSettingUserinfo({ ...settingUserinfo, [key]: e.target.value })
@@ -182,11 +201,11 @@ const handleUserEdit = () => {
     <div>
       <Navbar/>
       <Wrapper>
-        <PostListDiv>
-          <MyPagePost/>
+        <PostListDiv openPost={openPost}>
+          <MyPagePost openPost={openPost} setOpenPost={setOpenPost}/>
         </PostListDiv>
         
-        <MapDiv>
+        <MapDiv openPost={openPost}>
           <MyPageDiv>
             {/* 프로필사진 */}
           <ProfileImage updateImages={updateImages}/>
@@ -253,7 +272,8 @@ const handleUserEdit = () => {
       
           </MyPageDiv>
         </MapDiv>
-        <HomeButton onClick={clickHomelBtn}>홈으로</HomeButton>
+        <ListButton openPost={openPost} onClick={openPostList}>목록보기</ListButton>
+        <HomeButton openPost={openPost} onClick={clickHomelBtn}>홈으로</HomeButton>
       </Wrapper>
     </div>
   );
@@ -268,6 +288,11 @@ float: left;
 width: 400px;
 height: calc(100vh - 100px);
 overFlow : auto;
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'block' : 'none'};
+  width: 100vw;
+  height: calc(100vh - 80px);
+}  
 `;
 
 const MapDiv = styled.div`
@@ -277,7 +302,13 @@ padding-right: 460px;
 background-color: #ffffff;
 width: 100%;
 height: calc(100vh - 100px);
-
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
+  visibility: visible;
+  margin-right: 0px;
+  padding-right: 0px;
+  
+} 
 `;
 
 const MyPageDiv = styled.div`
@@ -290,6 +321,7 @@ height: calc(100vh - 100px);
 
 
 const HomeButton = styled.button`
+display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
 right: 16px;
@@ -299,6 +331,10 @@ width: 90px;
 height: 90px;
 background-color: #B51D29;
 color: white;
+@media (max-width: 576px) {
+  width: 70px;
+  height: 70px;
+}  
 `;
 
 
@@ -409,4 +445,24 @@ const addressStyle = {
   width: '45%',
   height: '60%'
 }
+
+const ListButton = styled.button`
+display: none;
+position: fixed;
+bottom: 160px;
+right: 16px;
+border-radius: 100%;
+border: none;
+width: 90px;
+height: 90px;
+background-color: #D4AA71;
+color: white;
+z-index: 1;
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
+  width: 70px;
+  height: 70px;
+  bottom: 140px;
+} 
+`;
 export default MyPage;

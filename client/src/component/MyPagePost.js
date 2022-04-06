@@ -34,7 +34,17 @@ const PostButton = styled.div`
   border: 1px solid #C9C9C9;
   width: 50%;
 `
-
+const PostOpenButton = styled.div`
+  background-color: #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #C9C9C9;
+  width: 50%;
+`
 
 const Wrapper = styled.div`
 display: flex;
@@ -65,23 +75,38 @@ const PostListText = styled.div`
 margin-bottom: 10px;
 `
 
-function MyPagePost(props) {
+const PostMobileBack = styled.div`
+  margin-left: 10px;
+  margin-top: 5px;
+@media (min-width: 576px) {
+  visibility: hidden;
+}  
+`
+
+const Hidden = styled.div`
+  visibility: hidden;
+`
+const PostListMobile = styled.div`
+background-color: #EEEEEE;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 70px;
+font-size: 18px;
+font-weight: bold;
+border: 1px solid #C9C9C9;
+`
+
+function MyPagePost({openPost, setOpenPost}) {
   const [click, setClick] = useState(false);
   const [listClick, setListClick] = useState(true);
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
-  // console.log('post',post)
-
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   
-  // useEffect(()=>{
-  //   dispatch(showPostList())
-  // },[])
 
   const handlePostList = (contentId) => {
-    // console.log(contentId);
     setClick(true)
-    // console.log('클릭상태',click)
     dispatch(showPostDetail(contentId))
   }
 
@@ -95,40 +120,52 @@ function MyPagePost(props) {
   }
 
   const handleApplyList = () => {
-    // 신청목록에서 보내줘야 할 건? 
     setListClick(false)
     dispatch(showMyPageApplyList())
-    // dispatch()
+  }
+
+  const myPagePostHandleBack = () => {
+    console.log('cdcdcd')
+    setOpenPost(!openPost)
   }
 
   return (
     <>
     <PostButtonDiv>
-      <PostButton onClick={handleOpenList}>개설목록</PostButton>
+      <PostOpenButton onClick={handleOpenList}>
+      <PostMobileBack>
+        <svg onClick={myPagePostHandleBack}
+          xmlns="http://www.w3.org/2000/svg" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24"
+        ><path 
+          d="M16.67 0l2.83 2.829-9.339 
+          9.175 9.339 9.167-2.83 
+          2.829-12.17-11.996z"/>
+        </svg>
+      </PostMobileBack>
+        개설목록
+        <Hidden>
+        <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24"
+          ><path 
+            d="M16.67 0l2.83 2.829-9.339 
+            9.175 9.339 9.167-2.83 
+            2.829-12.17-11.996z"/>
+          </svg>
+      </Hidden>
+      </PostOpenButton>
+        
       <PostButton onClick={handleApplyList}>신청목록</PostButton>
     </PostButtonDiv>
     {listClick 
       ?  <MyOpenList/>
       :  <MyApplyList/>
     }
-
-    {/* {!post ? '목록이 없어요!'
-      : ( click
-        ? <PostDetail click={click} setClick={setClick}/>
-        : post.map((li ,i) => {
-          return (
-            <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
-              <PostListImg src={`/icon/${li.category_food}.png`}/>
-              <PostListTextWrapper>
-                <PostListText>식당이름: {li.restaurant_name}</PostListText>
-                <PostListText>모집인원: {li.recruitment_personnel}</PostListText>
-                <PostListText>배달비: {li.delivery_fee}</PostListText>
-              </PostListTextWrapper>
-            </Wrapper>
-          )
-        })
-        )
-      } */}
     </>
   );
 }
