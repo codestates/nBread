@@ -152,7 +152,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <SignUpForm onSubmit={(e) => e.preventDefault()}>
       <SignUpTitle>회원가입   
-      <span onClick={handleCloseSignupModal}>&times;</span>    
+        <PostSpan onClick={handleCloseSignupModal}>&times;</PostSpan>    
       </SignUpTitle>
       <InputFieldDiv>
         <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
@@ -236,6 +236,11 @@ transform: translate(-50%, -50%);
 border-radius: 30px;
 `;
 
+const PostSpan = styled.span`
+position: absolute;
+right: 40px;
+`
+
 const SignUpTitle = styled.div`
 font-size: 28px;
 margin-top: 25px;
@@ -262,6 +267,7 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 background-color: #ffffff;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #C4C4C4 ;   
@@ -302,7 +308,8 @@ z-index: 100;
 padding: 7px;
 width: 100px;
 color: white;
-background-color: #A3A3A3;
+background-color: #B51D29;
+border-radius: 6px;
 border: none;
 `;
 
@@ -319,13 +326,14 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 color: #737373;
+padding-left: 5px;
 `;
 
 // 주소 api css
 const addressStyle = {
   display: 'block',
   position: 'absolute',
-  top: '75px',
+  top: '76px',
   left: '20px',
   zIndex: '100',
   padding: '7px',

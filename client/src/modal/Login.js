@@ -47,7 +47,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
         <LoginTitle>로그인      
-        <Span onClick={handleCloseLoginModal}>&times;</Span>
+          <PostSpan onClick={handleCloseLoginModal}>&times;</PostSpan>
         </LoginTitle>
         
           <InputField type='text' placeholder="아이디" onChange={handleInputValue('username')} />
@@ -100,8 +100,9 @@ margin-top: 25px;
 margin-bottom: 35px;
 `;
 
-const Span = styled.span`
-text-align: right;
+const PostSpan = styled.span`
+position: absolute;
+right: 40px;
 `
 
 const LoginForm = styled.form`
@@ -126,6 +127,7 @@ border:solid 1px;
 border-color: #C4C4C4;
 border-radius: 6px;
 background-color: #ffffff;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #C4C4C4 ;   
