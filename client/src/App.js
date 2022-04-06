@@ -11,6 +11,7 @@ import Chatting_test from './modal/Chatting_test';
 import ChattingDetail from './component/ChattingDetail';
 import ProfileImage from './component/ProfileImage';
 import Test from './modal/Test';
+import 'antd/dist/antd.css';
 
 
 
