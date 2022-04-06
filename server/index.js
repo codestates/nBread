@@ -6,11 +6,33 @@ const cors = require('cors');
 const controllers = require('./controllers');
 const path = require('path');
 const app = express();
-const router = express.Router();
+
+app.all('*', (req, res, next) => {
+  let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  if (protocol === 'https') next()
+  else {
+    let from = `${protocol}://${req.hostname}${req.url}`;
+    let to = `https://${req.hostname}${req.url}`;
+
+    console.log(`[${req.method}]: ${from} -> ${to}`)
+    res.redirect(to)
+  };
+});
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
+
+const credentials = {
+  key : privateKey,
+  cert : certificate,
+  ca : ca
+};
+
 const httpServer = http.createServer(app);
-// const httpsServer = https.createServer(credentials, app);
-const multer = require('multer');
-const io = require('socket.io')(httpServer, {
+const httpsServer = https.createServer(credentials, app);
+
+const io = require('socket.io')(httpsServer, {
   cors: {
     origin: "*",
     method: ["GET", "POST"],
@@ -18,6 +40,7 @@ const io = require('socket.io')(httpServer, {
     credentials: true
   }
 });
+
 
 app.use(express.json());
 // app.use(express.static('public'));
@@ -37,31 +60,11 @@ app.use(
 
 
 // 배포 시 주석 처리 풀어주세요!!
-// app.all('*', (req, res, next) => {
-//   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-//   if (protocol === 'https') next()
-//   else {
-//     let from = `${protocol}://${req.hostname}${req.url}`;
-//     let to = `https://${req.hostname}${req.url}`;
-
-//     console.log(`[${req.method}]: ${from} -> ${to}`)
-//     res.redirect(to)
-//   };
-// });
-
-// const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/privkey.pem', 'utf-8');
-// const certificate = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/cert.pem', 'utf-8');
-// const ca = fs.readFileSync('/etc/letsencrypt/live/www.nbread.kro.kr/chain.pem', 'utf-8');
-
-// const credentials = {
-//   key : privateKey,
-//   cert : certificate,
-//   ca : ca
-// };
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
 
 app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
@@ -213,9 +216,9 @@ io.on('connection', (socket) => {
 httpServer.listen(80, () => {
   console.log(`HTTP Server running on port 80`)
 });
-// httpsServer.listen(443, () => {
-//   console.log('HTTPS Server running on port 443')
-// });
+httpsServer.listen(443, () => {
+  console.log('HTTPS Server running on port 443')
+});
 
 // const express = require('express');
 // const app = express();
