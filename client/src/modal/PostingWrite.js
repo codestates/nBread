@@ -7,7 +7,6 @@ import DaumPostcode from 'react-daum-postcode';
 import Swal from 'sweetalert2'
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
-import { locationChange } from "../redux/location/action";
 import io from 'socket.io-client';
 
 const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
@@ -105,7 +104,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   const addressStyle = {
     display: 'block',
     position: 'absolute',
-    top: '85px',
+    top: '97px',
     left: '20px',
     zIndex: '100',
     padding: '7px',
@@ -177,12 +176,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
                 {writeInfo.address}
               </AddressInputDiv>
             }
-
-              {/* 주소입력과 기본 주소불러오기 */}
-              {/* <AdressBasicDiv>
-              <AdressBasic>기본 주소</AdressBasic>
-              <AdressCheck type='checkbox'></AdressCheck>
-              </AdressBasicDiv> */}
             </AdressDiv>
             <InputField 
               onKeyPress={handleInput}
@@ -272,10 +265,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     border:solid 1px #C4C4C4;
     border-radius: 6px;
     padding-left: 5px;
-    /* &:focus {
-    outline: none;
-    border: 1px solid #C4C4C4 ;   
-      } */
   `;
 
   const CloseBtn = styled.button`
@@ -290,7 +279,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     background-color: #B51D29;
     border: none;
     border-radius: 6px;
-
   `;
 
   const AddressInputDiv = styled.div`
@@ -302,12 +290,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
+    padding-left: 5px;
     border:solid 1px #C4C4C4;
     border-radius: 6px;
-    /* &:focus {
-    outline: none;
-    border: 1px solid #C4C4C4 ;   
-      } */
   `;
 
   const SelectDiv = styled.div`
@@ -318,22 +303,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   //주소와 기본주소 Div
   const AdressDiv = styled.div`
     display: flex;
-`;    
-
-  //기본주소 Div
-  const AdressBasicDiv = styled.div`
-    margin-top: 15px;
-`;  
-
-  //'기본주소' 글씨
-  const AdressBasic = styled.div`
-  font-size: 14px;
-`;
-
-  //기본주소 체크박스
-  const AdressCheck = styled.input`
-  width: 35px;
-  height: 35px;
 `;
 
   const Detail = styled(InputField)`
