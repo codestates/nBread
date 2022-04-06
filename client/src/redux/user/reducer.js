@@ -5,22 +5,25 @@ import {
   LOG_OUT_SUCCESS,
   USER_DELETE,USER_SIGNUP,
   USER_EDIT,
-  LOGIN_MODAL
+  LOGIN_MODAL,
+  PROFILE_IMAGE_EDIT,
+  PROFILE_IMAGE_DELETE
 } from "./types"
 
 const loginInitialState = {
   isLogIn: false,
   data:[],
   SignUp: false,
-  LoginModal: false
+  LoginModal: false,
+  picture:[]
 }
 
 
 const loginReducer = (state=loginInitialState, action) => {
   switch(action.type){
     case LOG_IN_SUCCESS:
-      let data = action.payload;
-      // console.log('reducerpost',data)
+      let dato = action.payload;
+      console.log('reducerdddddddpost',dato)
       return {
         ...state, 
         data: action.payload,
@@ -57,16 +60,31 @@ const loginReducer = (state=loginInitialState, action) => {
         }
        //회원수정
       case USER_EDIT:
+        let data = action.payload
+        console.log('reducerdddddddpost',data)
         return {
           ...state, 
-          data: action.payload
+          data: action.payload,
+          isLogIn: true
         }   
       //로그인 모달    
       case LOGIN_MODAL:
         return {
           ...state, 
           LoginModal: true
-        }       
+        } 
+      //프로필 사진
+      case PROFILE_IMAGE_EDIT:
+        return {
+          ...state, 
+          picture: action.payload
+        }
+      //프로필 사진삭제
+      case PROFILE_IMAGE_DELETE:
+        return {
+          ...state, 
+          picture: null
+        }               
     default: return state;
   }
 }

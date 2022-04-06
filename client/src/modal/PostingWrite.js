@@ -4,14 +4,13 @@ import styled from 'styled-components';
 import Select from 'react-select'
 import { foodList, selectPerson } from './SelectList';
 import DaumPostcode from 'react-daum-postcode';
+import Swal from 'sweetalert2'
 import { writingPost } from '../redux/postWriting/action';
 import { useHistory } from 'react-router-dom';
-import { locationChange } from "../redux/location/action";
 import io from 'socket.io-client';
+
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 const { kakao } = window;
-const socket = io.connect('http://localhost');
-
-
 
 function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWrite}) {
   const history = useHistory();
@@ -19,14 +18,10 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
   // 로그인한 유저 정보
   const userInfo = useSelector((state)=> state.loginReducer.data)
-  // console.log('...',userInfo)
-
   const [testWriteInfo, setTestWriteInfo] = useState({
     lat: '',
     lng: '',
   })
-
-
   const [writeInfo, setWriteInfo] = useState({
     address: userInfo.address,
     body: '',
@@ -60,19 +55,17 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     }
   };
 
-  // useEffect(()=>{
-  //   if(writeInfo.address){
-  //     newSearchAddress()
-  //   }
-  // },[userInfo.address])
-
-  // useEffect(()=>{
-  //   userInfoNewSearchAddress()
-  // },[])
-
   useEffect(()=>{
+    
+    let nickname = userInfo.nickname;
+
     setNewSearchAddress()  
-  },[PostingWriteModal, writeInfo.address])
+    socket.emit('joinServer', ({ nickname }));
+
+    return () => {
+      socket.off();
+    }
+  }, [PostingWriteModal, writeInfo.address])
 
   const setNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -100,40 +93,22 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       lng: lng,
       nickname: userInfo.nickname
     }
-    console.log('data',data)
+
     if(address === '' || body === '' || category_food === '' || delivery_fee === '' || recruitment_personnel === '' || restaurant_name === ''){
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
-      // dispatch(locationChange(data.lat, data.lng))
-      // history.push('/')
-      alert('글쓰기가 성공했습니다')
-      // createRoom()
+      Swal.fire('글쓰기가 성공했습니다')
       handleWritingAddress( {lat: data.lat, lng: data.lng})
-      // window.location.replace("/") 
       openModalPostingWrite()
     }
   }
-
-  //------------------ 채팅방 생성
-
-  // const createRoom = () => {
-
-  //   let nickname = userInfo.nickname;
-  //   let roomName = writeInfo.restaurant_name
-
-  //   console.log('roomName',roomName)
-  //   socket.emit('createRoom', ({ roomName, nickname }));
-  // };
-
-  //------------------
-
 
   // 주소 api css
   const addressStyle = {
     display: 'block',
     position: 'absolute',
-    top: '85px',
+    top: '97px',
     left: '20px',
     zIndex: '100',
     padding: '7px',
@@ -189,7 +164,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
                 <DaumPostcode 
                   onComplete={handleComplete}
-                  // onSuccess={newSearchAddress}
                   onSuccess={setNewSearchAddress}
                   style={addressStyle}
                   height={700}
@@ -206,12 +180,6 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
                 {writeInfo.address}
               </AddressInputDiv>
             }
-
-              {/* 주소입력과 기본 주소불러오기 */}
-              <AdressBasicDiv>
-              <AdressBasic>기본 주소</AdressBasic>
-              <AdressCheck type='checkbox'></AdressCheck>
-              </AdressBasicDiv>
             </AdressDiv>
             <InputField 
               onKeyPress={handleInput}
@@ -230,7 +198,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   );
 }
 
-  //모달창이 떳을때 뒷배경 어둡게
+  //모달창 뒷배경 어둡게
   const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
@@ -245,18 +213,17 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
   const Wrapper = styled.div`
     text-align: center;
-    /* width: 320px;
-    height: 568px; */
     width: 375px;
     height: 667px;
     display: flex;
     justify-content: center;
-    background-color: #D2D1D1;
+    background-color: #FAFAFA;
     position: fixed;
     bottom: 60px;
     right: 18px;
     z-index: 1;
-    @media (max-width: 768px) {
+    border-radius: 30px;
+    @media (max-width: 576px) {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -297,6 +264,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
+    border:solid 1px #C4C4C4;
+    border-radius: 6px;
+    padding-left: 5px;
   `;
 
   const CloseBtn = styled.button`
@@ -308,46 +278,34 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     padding: 7px;
     width: 100px;
     color: white;
-    background-color: #A3A3A3;
+    background-color: #B51D29;
     border: none;
+    border-radius: 6px;
   `;
 
   const AddressInputDiv = styled.div`
     background-color: white;
     display: flex;
     align-items: center;
-    width: 240px;
+    width: 295px;
     height: 50px;
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
-    border: 1px black solid;
+    padding-top: 5px;
+    padding-left: 5px;
+    border:solid 1px #C4C4C4;
+    border-radius: 6px;
   `;
 
   const SelectDiv = styled.div`
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
   `;
 
   //주소와 기본주소 Div
   const AdressDiv = styled.div`
     display: flex;
-`;    
-
-  //기본주소 Div
-  const AdressBasicDiv = styled.div`
-    margin-top: 15px;
-`;  
-
-  //'기본주소' 글씨
-  const AdressBasic = styled.div`
-  font-size: 14px;
-`;
-
-  //기본주소 체크박스
-  const AdressCheck = styled.input`
-  width: 35px;
-  height: 35px;
 `;
 
   const Detail = styled(InputField)`
@@ -369,6 +327,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     border: none;
     font-size: 18px;
     margin-top: 7%;
+    border-radius: 6px;
   `;
 
   const StyledMeneSelect = styled(Select)`

@@ -11,6 +11,7 @@ import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
 
+
 const { kakao } = window;
 
 function MyPage() {
@@ -24,37 +25,62 @@ function MyPage() {
 //회원탈퇴 테스트
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
-  // console.log('isLogin',isLogin)
   const location = useLocation()
 
   const history = useHistory();
   const nicknameRegExp = /^[a-zA-Zㄱ-힣0-9]*$/;
   const passwordRegExp = /^[A-Za-z0-9~!@#$%^&*()_+|<>?:{}+]{8,16}$/;
-  const phonNumberRegExp = /^[0-9]{10,11}$/;
+  const phone_numberRegExp = /^[0-9]{10,11}$/;
 
 
   const [settingUserinfo, setSettingUserinfo] = useState({
-    nickname: '',
-    phonNumber: '',
-    address: '',
-    password: '',
-    passwordCheck: ''
+    id: isLogin.data.id,
+    picture: isLogin.data.picture,
+    nickname: isLogin.data.nickname,
+    phone_number: isLogin.data.phone_number,
+    address: isLogin.data.address,
+    password: isLogin.data.password,
+    passwordCheck: isLogin.data.passwordCheck,
+    username: isLogin.data.username
   })
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [message, setMessage] = useState({
     nicknameMessage: '',
-    phonNumberMessage: '',
+    phone_numberMessage: '',
     passwordMessage: '',
-    passwordCheckMessage: ''
+    passwordCheckMessage: '',
+    errorMessage:''
   })
 
   const [validation, setValidation] = useState({
     nicknameValidation: false,
-    phonNumberValidation: false,
+    phone_numberValidation: false,
     passwordValidation: false,
     passwordCheckValidation: false
   })
 
   const [changeInfoBtn, setChangeInfoBtn] = useState(false);
+
+  const [openPost, setOpenPost] = useState(false);
+
+  const openPostList = () => {
+    setOpenPost(!openPost)
+  }
+
+  const closePostList = () => {
+    setOpenPost(false)
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', closePostList);
+    return () => {
+      window.addEventListener('resize', closePostList);
+    }
+  },[])
+
+
 //마이페이지 회원정보 유효성검사 
   const settingOnChange = (key) => (e) => {
     setSettingUserinfo({ ...settingUserinfo, [key]: e.target.value })
@@ -69,13 +95,13 @@ function MyPage() {
       }
     }
 
-    if (key === 'phonNumber') {
-      if (e.target.value.length < 10 || e.target.value.length > 11 || !phonNumberRegExp.test(e.target.value)) {
-        setMessage({ ...message, phonNumberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
-        setValidation({ ...validation, phonNumberValidation: true})
+    if (key === 'phone_number') {
+      if (e.target.value.length < 10 || e.target.value.length > 11 || !phone_numberRegExp.test(e.target.value)) {
+        setMessage({ ...message, phone_numberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
+        setValidation({ ...validation, phone_numberValidation: true})
       } else {
-        setValidation({ ...validation, phonNumberValidation: false})
-        setMessage({ ...message, phonNumberMessage: ''})
+        setValidation({ ...validation, phone_numberValidation: false})
+        setMessage({ ...message, phone_numberMessage: ''})
       }
     }
 
@@ -105,17 +131,24 @@ function MyPage() {
     history.push("/")
   }
 
+  //마이페이지 수정
 const handleUserEdit = () => {
-    if (
-    settingUserinfo.nickname === ''
-    ){
-      setChangeInfoBtn(!changeInfoBtn)
-    }else{
-      dispatch(axiosUserEdit(settingUserinfo))
-      alert('수정완료')
-      setChangeInfoBtn(!changeInfoBtn)
-    }
+  const{nickname, phone_number, address, password, passwordCheck } = settingUserinfo
+    setChangeInfoBtn(!changeInfoBtn)
+      if(changeInfoBtn){
+        if (
+          nickname === '' || phone_number === '' || address === '' || (!password || !passwordCheck) && (password !== passwordCheck)
+        ){
+          console.log('err')
+          alert('올바로입력바랍니다.')
+        }else{
+          dispatch(axiosUserEdit(settingUserinfo))
+          alert('수정완료')
+          setChangeInfoBtn(!changeInfoBtn)
+        }
+      }   
 }
+
 
 //회원탈퇴 테스트 
   const handleUserDelete = () => {  
@@ -168,11 +201,11 @@ const handleUserEdit = () => {
     <div>
       <Navbar/>
       <Wrapper>
-        <PostListDiv>
-          <MyPagePost/>
+        <PostListDiv openPost={openPost}>
+          <MyPagePost openPost={openPost} setOpenPost={setOpenPost}/>
         </PostListDiv>
         
-        <MapDiv>
+        <MapDiv openPost={openPost}>
           <MyPageDiv>
             {/* 프로필사진 */}
           <ProfileImage updateImages={updateImages}/>
@@ -184,13 +217,9 @@ const handleUserEdit = () => {
         <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
         {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
-        <InputField defaultValue={isLogin.data.phonNumber} onChange={settingOnChange('phonNumber')}/>
-        {settingUserinfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
+        <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phone_number')}/>
+        {settingUserinfo.phone_number.length > 0 && validation.phone_numberValidation ? <Err>{message.phone_numberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
-        
-        
-
-
         {visible? 
               <>
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
@@ -211,15 +240,16 @@ const handleUserEdit = () => {
             : <AddressInputDiv onClick={() => setVisible(true)} onChange={settingOnChange('address')} >
                 {settingUserinfo.address}
               </AddressInputDiv>
-            }
+            } 
 
         <InputTitle>비밀번호</InputTitle>
         <InputField type='password' onChange={settingOnChange('password')}/>
-        {settingUserinfo.password.length > 0 && validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
+        {validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
         <InputTitle>비밀번호확인</InputTitle>
         <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
-        {settingUserinfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
+        {validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
+        <Err>{errorMessage}</Err>
         <EditButton onClick={handleUserEdit}>수정완료</EditButton>
         </MyPageForm>
       ) : (
@@ -228,7 +258,7 @@ const handleUserEdit = () => {
         <InputTitle>닉네임</InputTitle>
         <Div>{isLogin.data.nickname}</Div>
         <InputTitle>전화번호</InputTitle>
-        <Div>{isLogin.data.phonNumber}</Div>
+        <Div>{isLogin.data.phone_number}</Div>
         <InputTitle>주소</InputTitle>
         <Div>{isLogin.data.address}</Div>
         <InputTitle>비밀번호</InputTitle>
@@ -242,7 +272,8 @@ const handleUserEdit = () => {
       
           </MyPageDiv>
         </MapDiv>
-        <HomeButton onClick={clickHomelBtn}>홈으로</HomeButton>
+        <ListButton openPost={openPost} onClick={openPostList}>목록보기</ListButton>
+        <HomeButton openPost={openPost} onClick={clickHomelBtn}>홈으로</HomeButton>
       </Wrapper>
     </div>
   );
@@ -255,28 +286,42 @@ const PostListDiv = styled.div`
 float: left;
 /* background-color: #EEEEEE; */
 width: 400px;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 overFlow : auto;
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'block' : 'none'};
+  width: 100vw;
+  height: calc(100vh - 80px);
+}  
 `;
 
 const MapDiv = styled.div`
 float: left;
 margin-right: -460px;
 padding-right: 460px;
-background-color: #B7CADB;
+background-color: #ffffff;
 width: 100%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
+  visibility: visible;
+  margin-right: 0px;
+  padding-right: 0px;
+  
+} 
 `;
 
 const MyPageDiv = styled.div`
 margin: auto;
 background-color: #FFFFFF;
 width: 95%;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
+
 `;
 
 
 const HomeButton = styled.button`
+display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
 right: 16px;
@@ -286,6 +331,15 @@ width: 90px;
 height: 90px;
 background-color: #B51D29;
 color: white;
+@media (max-width: 576px) {
+  width: 70px;
+  height: 70px;
+}
+@media (max-width: 400px) {
+  width: 70px;
+  height: 70px;
+  bottom: 75px;
+}
 `;
 
 
@@ -298,11 +352,20 @@ margin-bottom: 25px;
 const MyPageForm = styled.form`
 float: left;
 margin-left: 50px;
+margin-top: -40px;
 `;
 
 const InputTitle = styled.div`
 margin-top: 10px;
 font-size: 18px;
+@media (max-width: 576px) {
+  margin-top: 3px;
+  font-size: 18px;
+}
+@media (max-width: 400px) {
+  margin-left: -20px;
+  font-size: 16px;
+}
 `;
 
 const InputField = styled.input`
@@ -312,6 +375,25 @@ width: 500px;
 height: 56px;
 font-size: 18px;
 margin-top: 10px;
+border: solid #C4C4C4 1px;
+border-radius: 3px;
+&:focus {
+  outline: none;
+  border: 1px solid #D9C6AC;   
+    }
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+  border-radius: 3px;
+} 
+@media (max-width: 400px) {
+  width: 300px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px;
+} 
 `;            
 
 const InputFieldPassWord = styled.div`
@@ -322,6 +404,7 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
+
 `;
 
 
@@ -340,8 +423,23 @@ height: 56px;
 background-color: #B51D29;
 color: white;
 border: none;
+border-radius: 6px;
 margin-top: 30px;
-font-size: 18px;
+font-size: 16px;
+@media (max-width: 576px) {
+  width: 150px;
+  height: 46px;
+  float: left;
+  margin-left: 20%;
+} 
+@media (max-width: 400px) {
+  width: 140px;
+  height: 40px;
+  float: left;
+  margin-top: -27px;
+  margin-left: 127px;
+  font-size: 16px;
+}
 `;
 
 const SignUpToLogin = styled.div`
@@ -380,19 +478,58 @@ height: 56px;
 font-size: 18px;
 margin: 0 auto;
 margin-top: 20px;
-border: 1px gray solid;
+border: 1px #C4C4C4 solid;
+border-radius: 3px;
 color: gray;
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+} 
+@media (max-width: 400px) {
+  width: 300px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: -5px;
+  font-size: 16px;
+} 
 `;
 
 // 주소 api css
 const addressStyle = {
   display: 'block',
   position: 'absolute',
-  top: '32%',
-  left: '42%',
+  top: '37%',
+  left: '14%',
   zIndex: '100',
   padding: '7px',
-  width: '45%',
+  width: '300px',
   height: '60%'
+  
 }
+
+const ListButton = styled.button`
+display: none;
+position: fixed;
+bottom: 160px;
+right: 16px;
+border-radius: 100%;
+border: none;
+width: 90px;
+height: 90px;
+background-color: #D4AA71;
+color: white;
+z-index: 1;
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
+  width: 70px;
+  height: 70px;
+  bottom: 140px;
+} 
+@media (max-width: 400px) {
+  width: 70px;
+  height: 70px;
+  bottom: 150px;
+}
+`;
 export default MyPage;

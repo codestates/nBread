@@ -49,6 +49,29 @@ router.post('/picture', upload.single("file"), function(req, res, next) {
   })
 })
 
+router.patch('/picture', function(req, res, next) {
+  let token = isAuthorized(req, res);
+
+  if (!token) {
+    return res.status(204).send({ message: '권한 없음' });
+  }
+
+  user.update({
+    picture: null
+  }, {
+    where: {
+      id: token.id
+    }
+  })
+  .then(result => {
+    res.clearCookie('nbjwt')
+    token.picture = null
+    const accessToken = generateAccessToken(token)
+    sendAccessToken(res, accessToken)
+    res.status(200).send({ success: true, data: token, message: '이미지 삭제 완료' })
+  })
+})
+
 module.exports = router;
 // module.exports = (req, res) => {
 //   let token = isAuthorized(req, res);

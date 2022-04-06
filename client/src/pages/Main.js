@@ -6,7 +6,6 @@ import PostList from '../component/PostList';
 import PostingWrite from "../modal/PostingWrite";
 import Chatting from "../modal/Chatting";
 import Map from "../component/Map";
-import { locationChange } from "../redux/location/action";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
@@ -25,7 +24,7 @@ function Main() {
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){
-      alert('로그인이 필요합니다')
+      Swal.fire('로그인이 필요합니다')
       setPostingWriteModal(false)
     }else{
       setPostingWriteModal(!PostingWriteModal);
@@ -34,8 +33,8 @@ function Main() {
   //채팅
   const openModalChatting = () => {
     if(!userInfo.isLogIn){
-      alert('로그인이 필요합니다')
-      ChattingModal(false)
+      Swal.fire('로그인이 필요합니다')
+      setChattingModal(false)
     }else{
       setChattingModal(!ChattingModal)
     }
@@ -125,7 +124,10 @@ function Main() {
         <WritingButton openPost={openPost} onClick={openModalPostingWrite}>글쓰기</WritingButton>
         {/* 채팅 버튼 */}
         <ChattingButton openPost={openPost} onClick={openModalChatting}>채팅</ChattingButton>
-        {/* <MobileButton openPost={openPost} onClick={openPostList}>배달 목록 {post.length}개 </MobileButton> */}
+        {post 
+        ? <MobileButton openPost={openPost} onClick={openPostList}>배달 목록 {post.length}개 </MobileButton>
+        : <MobileButton openPost={openPost} onClick={openPostList}> 지도를 더 확대 해 주세요 </MobileButton>
+        }
       </Wrapper>
 
       {/* 글쓰기 Modal */}
@@ -146,14 +148,13 @@ overflow:hidden;
 `;
 const PostListDiv = styled.div`
 float: left;
-/* background-color: #EEEEEE; */
 width: 400px;
-height: calc(100vh - 120px);
+height: calc(100vh - 100px);
 overFlow : auto;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   display: ${props => props.openPost ? 'block' : 'none'};
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 80px);
 }  
 `;
 
@@ -163,8 +164,9 @@ margin-right: -400px;
 padding-right: 400px;
 background-color: #B7CADB;
 width: 100%;
-height: calc(100vh - 120px);
-@media (max-width: 768px) {
+/* height: 100vh; */
+height: calc(100vh - 100px);
+@media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   visibility: visible;
   margin-right: 0px;
@@ -185,7 +187,7 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   width: 70px;
   height: 70px;
   bottom: 140px;
@@ -204,7 +206,7 @@ height: 90px;
 background-color: #B51D29;
 color: white;
 z-index: 1;
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   width: 70px;
   height: 70px;
 }  
@@ -214,49 +216,57 @@ const SearchDiv = styled.div`
   display: ${props => props.openPost ? 'none' : 'block'};
   position: fixed;
   right: 16px;
-  top: 230px;
+  top: 130px;
   z-index: 1;
   width: 150px;
   height: 30px;
   background-color: white;
-  border-radius: 10%;
+  border-radius: 10px;
   align-items: center;
+  @media (max-width: 576px) {
+    top: 105px;
+  }  
 `
 const SearchInputDiv = styled.input`
   border: none;
   position: fixed;
   width: 100px;
   height: 25px;
-  top: 233px;
+  top: 133px;
   right: 50px;
   z-index: 1;
   &:focus {
     outline: none;    
   }
+  @media (max-width: 576px) {
+    top: 108px;
+  }  
 `
 
 const SearchBtnDiv = styled.div`
   margin-left: 10px;
   position: fixed;
-  top: 235px;
+  top: 133px;
   right: 20px;
   z-index: 1;
+  @media (max-width: 576px) {
+    top: 108px;
+  }  
 `
 
 const MobileButton = styled.button`
-  position: fixed;
-  width: 100%;
-  height: 40px;
+  display: none;
+@media (max-width: 576px) {
+  display: ${props => props.openPost ? 'none' : 'block'};
   bottom: 0px;
   right: 0px;
   z-index: 1;
-  display: none;
-  background-color: white;
+  position: fixed;
   border: none;
-@media (max-width: 768px) {
-  display: ${props => props.openPost ? 'none' : 'block'};
-  width: 100vw;
-  height: 40px;
+  background-color: #B51D29;
+  color: white;
+  width: 100%;
+  height: 50px;
 }  
 `
 

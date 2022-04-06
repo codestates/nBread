@@ -1,5 +1,8 @@
 import axios from "axios";
 import { SHOW_POST_LIST_SUCCESS, SHOW_POST_EDIT_SUCCESS, SHOW_POST_CLOSED_EDIT_SUCCESS, SHOW_POST_RECRUITMENT_SUCCESS, SHOW_POST_CANCEL_RECRUITMENT_SUCCESS } from "./type";
+import io from 'socket.io-client';
+
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 const showPostDetailSuccess = (post) => {
   return {
@@ -85,11 +88,13 @@ export const editPostClosed = (id,data)=> {
 }
 
 // 글 신청
-export const editPostRecruitment = (id)=> {
+export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
+  
+  socket.emit('joinRoom', ({ id, nickname, roomName, categoryFood }))
+
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/orders/${id}`,{},{withCredentials: true})
     .then(post => {
-      console.log('-----p',post)
       if(post.status === 200){
         dispatch(showPostRecruitmentSuccess())
       }else {

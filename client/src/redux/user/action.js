@@ -6,11 +6,14 @@ import {
   USER_DELETE,
   USER_SIGNUP,
   USER_EDIT,
-  LOGIN_MODAL
+  LOGIN_MODAL,
+  PROFILE_IMAGE_EDIT,
+  PROFILE_IMAGE_DELETE
 } from "./types"
 import axios from "axios"
 
 const loginSuccess = (data) => {
+  // console.log('데이타',data)
   //------------------data를 어떻게 받을것인지 회원수정이랑 맞출것
   return {
     type : LOG_IN_SUCCESS,
@@ -69,9 +72,24 @@ const LoginModal = () => {
   }
 }
 
+//프로필사진 수정
+const ProfileImageEdit = (data) => {
+  return {
+    type : PROFILE_IMAGE_EDIT,
+    payload: data
+  }
+}
+
+//프로필사진 삭제
+const ProfileImageDelete = () => {
+  return {
+    type : PROFILE_IMAGE_DELETE
+  }
+}
+
 //-----------로그인-------------------
 export const axiosLogin = (user) => {
-  // console.log('loginInfo',loginInfo)
+  console.log('loginInfo',user)
   return (dispatch) => {
   dispatch(loginRequest())
   axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
@@ -81,7 +99,7 @@ export const axiosLogin = (user) => {
   // .then(data => console.log('data',data))
   .then(data => {
   if(data.data.message === "로그인 성공"){
-  console.log('로그인 성공',data.data.data.nickname )
+  console.log('로그인 성공',data )
   dispatch(loginSuccess(data.data.data))
   }else {
   console.log('로그인 실패', )
@@ -118,14 +136,14 @@ export const axiosUserDelete = () => {
 export const axiosUserSignUp = (data) => {
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
+    id:data.id,
     username: data.username,
     password: data.password,
-    phoneNumber: data.phoneNumber,
+    phone_number: data.phone_number,
     address: data.address,
     nickname: data.nickname
     },{},{withCredentials: true})
   .then(res => {
-    console.log(data,'회원가입시 뭘받았나?')
     if(res.status===200){
       console.log('회원가입완료')
       dispatch(userSignUp(data))
@@ -139,18 +157,21 @@ export const axiosUserSignUp = (data) => {
     console.log('2244445454522',data)
     return (dispatch) => {
     dispatch(userEdit(data))
-    
-    axios.patch(`${process.env.REACT_APP_API_URL}/users/:userId`, {
-      password: data.password,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      nickname: data.nickname
+    axios.patch(`${process.env.REACT_APP_API_URL}/users`, {
+    id:data.id,
+    picture:data.picture,
+    nickname:data.nickname,
+    phone_number:data.phone_number,
+    address:data.address,
+    password:data.password,
+    passwordCheck:data.passwordCheck,
+    username:data.username
       } ,{withCredentials: true})
     .then(data => {
       
       if(data.status===200){
         console.log('수정완료')
-        dispatch(userEdit(data))
+        dispatch(userEdit(data.data.data))
         
       }else{
         console.log('err')
@@ -161,29 +182,27 @@ export const axiosUserSignUp = (data) => {
     }
     }
 
-  //-----------프로필사진변경-------------------
-  // export const axiosUserEdit = (data) => {
-  //   console.log('2222',data)
-  //   return (dispatch) => {
-  //   dispatch(userEdit(data))
-    
-  //   axios.patch(`${process.env.REACT_APP_API_URL}/users/:userId`, {
-  //     password: data.password,
-  //     phoneNumber: data.phoneNumber,
-  //     address: data.address,
-  //     nickname: data.nickname
-  //     } ,{withCredentials: true})
-  //   .then(data => {
-      
-  //     if(data.status===200){
-  //       console.log('수정완료')
-  //       dispatch(userEdit(data))
-        
-  //     }else{
-  //       console.log('err')
-  //     }
-    
-  //   })
-  //   .catch(err=> console.log(err))
-  //   }
-  //   }
+//-----------프로필사진변경-------------------
+export const axiosProfileImageEdit = (data) => {
+  console.log('프로필사진 변경 데이타',data)
+  return (dispatch) => {
+    if(data){
+      console.log('수정완료')
+      dispatch(ProfileImageEdit(data))
+    }else{
+      console.log('err')
+    }
+  }
+  }
+
+  //-----------프로필사진삭제-------------------
+export const axiosProfileImageDelete = () => {
+  return (dispatch) => {
+    axios.patch(`${process.env.REACT_APP_API_URL}/users/picture`,{withCredentials: true})
+    .then(res => {
+      console.log('res',res)
+    dispatch(ProfileImageDelete())
+    })
+    .catch(err=> console.log(err))
+    }
+  }

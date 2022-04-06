@@ -3,10 +3,10 @@ import { WRITING_POST_SUCCESS, WRITING_POST_FAILURE } from "./types";
 import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost');
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 const writingPostSuccess = (post) => {
-  // console.log('writingSuccess',post)
+
   return {
     type : WRITING_POST_SUCCESS,
     payload : post
@@ -21,7 +21,7 @@ const writingPostFailure = (error) => {
 };
 
 export const writingPost = (post) => {
-  //  console.log('actionPost',post.address)
+
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/contents`, {
       address: post.address,
@@ -36,13 +36,14 @@ export const writingPost = (post) => {
     .then(data => {
       if(data.status === 201){
         dispatch(writingPostSuccess(post))
-
+        
         let id = data.data.data.id
         let roomName = data.data.data.roomName
         let nickname = post.nickname
+        let categoryFood = post.category_food
 
-        socket.emit('createRoom', ({ id, nickname, roomName }));
-      
+        socket.emit('createRoom', ({ id, nickname, roomName, categoryFood }));
+        console.log('글쓰기 성공')
       }else{
         console.log('글쓰기 실패')
       }

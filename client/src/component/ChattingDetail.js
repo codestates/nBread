@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 
 
-const socket = io.connect('http://localhost');
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 
 function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
@@ -20,12 +20,35 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   const handleBack = () => {
     setClick(!click)
   }
-  console.log('detail',newRoomName)
 
-  const [roomMessageInfo, setRoomMessageInfo] = useState({ nickname: data.nickname, message: '', roomName: newRoomName.chatId });
-  const [roomName, setRoomName] = useState('');
-  const [messageInfo, setMessageInfo] = useState({ nickname: '', message: '' });
+  const [roomMessageInfo, setRoomMessageInfo] = useState({ 
+    nickname: data.nickname, 
+    message: '', 
+    roomId: newRoomName.chatId 
+  });
   const [roomChatLog, setRoomChatLog] = useState([]);
+  
+  useEffect(()=>{
+    // room 채팅 기록 받기
+    let nickname = data.nickname;
+    let roomId = newRoomName.chatId
+    
+    socket.emit('joinServer', ({ nickname, roomId }));
+    socket.on('roomChatLog', ({slice, roomId}) => {
+      if (newRoomName.chatId === roomId) {
+        setRoomChatLog(slice);
+      }
+    });
+    socket.on('roomChatLog2', ({ slice, roomId }) => {
+      if (newRoomName.chatId === roomId) {
+        setRoomChatLog(slice);
+      }
+    });
+
+    return () => {
+      socket.off();
+    }
+  }, []) 
 
   const sendRoomMessage = () => {
     socket.emit('sendRoomMessage', (roomMessageInfo));
@@ -38,6 +61,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     }
   };
 
+  // enterKey입력시 2번 전송되는 문제 발생 + 막았는데 안막아짐
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
       if (value === 'roomMessage') {
@@ -48,24 +72,13 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     }
   };
 
-  useEffect(()=>{
-    // room 채팅 기록 받기
-    socket.emit('joinServer', (data.nickname));
-    socket.emit('sendRoomMessage', (roomMessageInfo));
-    socket.on('roomChatLog', (log) => {
-      console.log('------------2----------', log)
-      setRoomChatLog(log);
-    });
-  },[])
-
-  console.log('roomChatLog',roomChatLog)
   return (
     <>
     <ModalBackdrop onClick={closeChattingModal}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
-
-        <LoginForm onSubmit={(e) => e.preventDefault()}>
-            <svg onClick={handleBack} 
+        <LoginForm>
+        <PostingWriteTitle>
+          <PostSpan><svg onClick={handleBack} 
             xmlns="http://www.w3.org/2000/svg" 
             width="20" 
             height="20" 
@@ -74,46 +87,50 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
             d="M16.67 0l2.83 2.829-9.339 
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
-          </svg>
-        <LoginTitle>강남역에서 같이 배달비 나눌사람~</LoginTitle>
+          </svg></PostSpan>
+          {newRoomName.chatName}      
+        </PostingWriteTitle>
+
         <ChattingWrapper>
         {/* <ChattingListImg src={null}/> */}
         {roomChatLog.map( ({ nickname, message }, index) => {
           return (
-            <div key={index}>
+            <ChattingListDiv key={index}>
               <ChattingListText>{nickname}</ChattingListText>
-              <ChattingListTextWrapper>
-                <ChattingContents>{message}</ChattingContents>
-              </ChattingListTextWrapper>
-              {/* <h3>{nickname} : <span>{message}</span></h3> */}
-            </div>
+              <ChattingContents>{message}</ChattingContents>
+            </ChattingListDiv>
           )
-        })}
-        {/* <ChattingListText>닉네임</ChattingListText>
-              <ChattingListTextWrapper>
-                <ChattingContents>배달비 4000원인데 5명이서 어떻게 나눌까요?</ChattingContents>
-              </ChattingListTextWrapper> */}
-        
+        })}        
         </ChattingWrapper>
         <ChattingSendDiv>
-        {/* <InputField placeholder="메세지를 입력해주세요"></InputField>
-        <Button>전송</Button>
-         */}
-          <div>
-            <InputField placeholder="메세지를 입력해주세요" onChange={handleInputValue('roomMessage')} value={roomMessageInfo.message} onKeyPress={enterKey('roomMessage')} />
-            <Button onClick={sendRoomMessage}>send message</Button>
-          </div>
+          <InputField placeholder="메세지를 입력해주세요" onChange={handleInputValue('roomMessage')} value={roomMessageInfo.message} onKeyUp={enterKey('roomMessage')} />
+            {/* <InputField placeholder="메세지를 입력해주세요" onChange={handleInputValue('roomMessage')} value={roomMessageInfo.message} onKeyPress={enterKey('roomMessage')} /> */}
+            <Button onClick={sendRoomMessage}>전송</Button>
         </ChattingSendDiv>
-        
         </LoginForm>
-
       </Wrapper>
-
-      
     </ModalBackdrop>
   </>
   );
 }
+
+const PostingWriteTitle = styled.div`
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+`;
+
+const PostSpan = styled.span`
+  position: absolute;
+  right: 330px;
+`
+
+const ChattingListDiv = styled.div`
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+`
+
 const ModalBackdrop = styled.div`
 position: fixed;
 z-index: 999;
@@ -128,6 +145,7 @@ place-items: center;
 
 const Wrapper = styled.div`
     text-align: center;
+    overFlow : hidden;
     /* width: 320px;
     height: 568px; */
     width: 375px;
@@ -139,9 +157,9 @@ const Wrapper = styled.div`
     bottom: 60px;
     right: 18px;
     z-index: 1;
-    border-radius: 30px;
+    border-radius: 20px;
     border: 1px solid #737373;
-    @media (max-width: 768px) {
+    @media (max-width: 576px) {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -155,11 +173,6 @@ margin-top: 25px;
 margin-bottom: 20px;
 `;
 
-// const LoginForm = styled.form`
-
-
-// `;
-
 const LoginForm = styled.div`
 
 
@@ -169,8 +182,10 @@ const ChattingWrapper = styled.div`
 width: 375px;
 height: 490px;
 background-color: #F4F4F4;
+overFlow : auto;
 border: 1px solid #A3A3A3;
-display: flex;
+/* display: flex; */
+/* flex-direction: column; */
 `;
 
 const ChattingListImg = styled.img`
@@ -182,24 +197,21 @@ margin-top: 20px;
 margin-left: 20px;
 `;
 
-const ChattingListTextWrapper = styled.div`
-padding-top: 23px;
-padding-left: 7px;
-`
-
 const ChattingContents = styled.div`
 width: 200px;
 padding: 15px;
 border-radius:10px ;
 background-color: #D5B483;
+margin-left: 10px;
 `
 
 const ChattingListText = styled.div`
-margin-top: 25px;
+/* margin-top: 25px; */
 margin-left: 10px;
 `
 
 const ChattingSendDiv = styled.div`
+display: flex;
 width: 375px;
 height: 111px;
 background-color: #ffffff;;
@@ -209,13 +221,27 @@ margin-top: -1px;
 `
 
 const InputField = styled.input`
-width: 350px;
+width: 300px;
 height: 56px;
 font-size: 18px;
 margin-top: 25px;
+margin-left: 10px;
+border-radius: 6px;
+border:solid 1px #C4C4C4;
+&:focus {
+outline: none;
+border: 1px solid #C4C4C4 ;   
+  }
 `;
 
 const Button = styled.button`
-
+margin-top: 25px;
+width: 50px;
+height: 56px;
+margin-left: 5px;
+border: none;
+background-color: #D5B483;
+color: white;
+border-radius: 6px;
 `
 export default ChattingDetail;

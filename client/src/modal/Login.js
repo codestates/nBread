@@ -27,7 +27,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
 
   }
 
-
+  
     
 
   //비밀번호찾기 모달
@@ -36,6 +36,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
   //비밀번호찾기 모달
   const openModalPWConfirm = () => {
   setPWConfirmModal(!PWConfirmModal)
+  
   }
 
   const handleInputValue = (key) => (e) => {
@@ -52,7 +53,6 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal}) {
     }else{
       dispatch(axiosLogin(loginInfo))
       setLoginModal(false)
-      alert('로그인')
       // window.location.replace("/") 
     }
   }
