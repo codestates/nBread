@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function PWConfirm({openModalPWConfirm}) {
+function PWConfirm({handleClosePWConfirm,setLoginModal}) {
 
+  const handleClose = () => {
+    handleClosePWConfirm();
+  }
 
+  const handleLogin = () => {
+    setLoginModal(true);
+    handleClosePWConfirm();
+  }
   return (
     <>
     <ModalBackdrop>
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <LoginForm onSubmit={(e) => e.preventDefault()}>
       <LoginTitle>비밀번호찾기     
-      <span onClick={openModalPWConfirm}>&times;</span>
+      <span onClick={handleClose}>&times;</span>
       </LoginTitle>
         <InputFieldDiv>
         <InputField placeholder="아이디"/>
@@ -21,7 +28,7 @@ function PWConfirm({openModalPWConfirm}) {
         <Button>조회하기</Button>
         <InputField placeholder="문자로 간 코드를 입력해주세요."/>
         <Button>확인</Button>
-        <SignUpToLogin onClick={null}>로그인으로 돌아가기</SignUpToLogin>
+        <SignUpToLogin onClick={handleLogin}>로그인으로 돌아가기</SignUpToLogin>
       </LoginForm>
     </Wrapper>
     </ModalBackdrop>

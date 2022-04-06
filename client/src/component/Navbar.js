@@ -4,6 +4,7 @@ import logo from '../icons/nBreadds.png';
 import Login from "../modal/Login";
 import SignUp from "../modal/SignUp";
 import LoginUser from "../component/LoginUser";
+import PWConfirm from "../modal/PWConfirm";
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -11,6 +12,7 @@ function Navbar() {
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const [LoginModal, setLoginModal] = useState(false);
   const [SignUpModal, setSignUpModal] = useState(false);
+  const [PWConfirmModal, setPWConfirmModal] = useState(false);
 
 
   const handleLoginModal = () => {
@@ -23,9 +25,18 @@ function Navbar() {
     setLoginModal(!LoginModal);
     }
 
+  const handlePWConfirmModal = () => {
+    setPWConfirmModal(true);
+    setLoginModal(false);
+  }
+
   const handleCloseSignupModal = () => {
     setSignUpModal(false);
     };
+
+  const handleClosePWConfirm = () => {
+    setPWConfirmModal(false);
+  }
   
   return (
     <>
@@ -35,9 +46,11 @@ function Navbar() {
       </Wrapper>
 
 
-      {LoginModal ? <Login setLoginModal={setLoginModal} handleSignupModal={handleSignupModal}></Login>:null}
+      {LoginModal ? <Login setLoginModal={setLoginModal} handleSignupModal={handleSignupModal} handlePWConfirmModal={handlePWConfirmModal}></Login>:null}
 
       {SignUpModal ? <SignUp handleCloseSignupModal={handleCloseSignupModal} handleLoginModal={handleLoginModal} setLoginModal={setLoginModal}></SignUp>:null}
+
+      {PWConfirmModal ? <PWConfirm handleClosePWConfirm={handleClosePWConfirm} handleLoginModal={handleLoginModal} setLoginModal={setLoginModal}></PWConfirm>:null}
     </>
   );
 }

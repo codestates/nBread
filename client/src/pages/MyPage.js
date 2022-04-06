@@ -10,7 +10,7 @@ import { useLocation } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
-
+import './MyPage.css'
 
 const { kakao } = window;
 
@@ -221,15 +221,23 @@ const handleUserEdit = () => {
         {settingUserinfo.phone_number.length > 0 && validation.phone_numberValidation ? <Err>{message.phone_numberMessage}</Err> : null}
         <InputTitle>주소</InputTitle>
         {visible? 
-              <>
+              <div className='test'>
                 <CloseBtn onClick={() => setVisible(false)} >닫기</CloseBtn> 
+                {/* <StyledDaumPostcode 
+                  onComplete={handleComplete}
+                  onSuccess={newSearchAddress}
+                  height={1000}
+                  style={addressStyle}
+                  width={400}
+                  className='DaumPost'
+                  /> */}
                 <DaumPostcode 
                   onComplete={handleComplete}
                   onSuccess={newSearchAddress}
-                  style={addressStyle}
                   height={700}
+                  className='DaumPost'
                   />
-              </>
+              </div>
             : null
             }
 
@@ -241,12 +249,11 @@ const handleUserEdit = () => {
                 {settingUserinfo.address}
               </AddressInputDiv>
             } 
-
         <InputTitle>비밀번호</InputTitle>
-        <InputField type='password' onChange={settingOnChange('password')}/>
+        <InputFieldPassWordSize type='password' onChange={settingOnChange('password')}/>
         {validation.passwordValidation ? <Err>{message.passwordMessage}</Err> : null}
         <InputTitle>비밀번호확인</InputTitle>
-        <InputField type='password' onChange={settingOnChange('passwordCheck')}/>
+        <InputFieldPassWordSize type='password' onChange={settingOnChange('passwordCheck')}/>
         {validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <Err>{errorMessage}</Err>
@@ -278,6 +285,38 @@ const handleUserEdit = () => {
     </div>
   );
 }
+
+// 주소 api css
+// const addressStyle = {
+//   display: 'block',
+//   position: 'absolute',
+//   // top: '37%',
+//   // left: '14%',
+//   zIndex: '100',
+//   padding: '7px',
+//   width: '500px',
+//   height: '40%'
+// }
+
+
+const CloseBtn = styled.button`
+display: block;
+/* position: absolute;
+top: 52px;
+right: 25px; */
+margin-left: 400px;
+z-index: 100;
+padding: 7px;
+width: 100px;
+color: white;
+background-color: #B51D29;
+border: none;
+border-radius: 6px;
+@media (max-width: 576px) {
+  margin-left: 240px;
+} 
+`;
+
 const Wrapper = styled.div`
 /* display: flex; */
 overflow:hidden; 
@@ -302,6 +341,7 @@ padding-right: 460px;
 background-color: #ffffff;
 width: 100%;
 height: calc(100vh - 100px);
+overflow: auto; /* 스크롤 속성 */
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   visibility: visible;
@@ -394,6 +434,35 @@ border-radius: 3px;
   margin-top: 1px;
   font-size: 16px;
 } 
+`;
+
+
+const InputFieldPassWordSize = styled.input`
+display: flex;
+flex-direction: column;
+width: 500px;
+height: 56px;
+font-size: 18px;
+margin-top: 10px;
+border: solid #C4C4C4 1px;
+border-radius: 3px;
+&:focus {
+  outline: none;
+  border: 1px solid #D9C6AC;   
+    }
+@media (max-width: 576px) {
+  width: 340px;
+  height: 46px;
+  border-radius: 3px;
+} 
+@media (max-width: 400px) {
+  width: 240px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px
+} 
 `;            
 
 const InputFieldPassWord = styled.div`
@@ -404,7 +473,14 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
-
+@media (max-width: 400px) {
+  width: 240px;
+  height: 46px;
+  bottom: 140px;
+  margin-left: -21px;
+  margin-top: 1px;
+  font-size: 16px;
+} 
 `;
 
 
@@ -414,6 +490,11 @@ height: 56px;
 font-size: 16px;
 color: #525252;
 margin-top: 10px;
+@media (max-width: 400px) {
+  margin-left: -20px;
+  font-size: 16px;
+  margin-bottom: -21px;
+}
 `;
 
 const EditButton = styled.button`
@@ -456,18 +537,18 @@ margin-top: 2px;
 
 
 //주소
-const CloseBtn = styled.button`
-display: block;
-position: absolute;
-top: 52px;
-right: 25px;
-z-index: 100;
-padding: 7px;
-width: 100px;
-color: white;
-background-color: #A3A3A3;
-border: none;
-`;
+// const CloseBtn = styled.button`
+// display: block;
+// position: absolute;
+// top: 52px;
+// right: 25px;
+// z-index: 100;
+// padding: 7px;
+// width: 100px;
+// color: white;
+// background-color: #A3A3A3;
+// border: none;
+// `;
 
 const AddressInputDiv = styled.div`
 background-color: white;
@@ -494,19 +575,6 @@ color: gray;
   font-size: 16px;
 } 
 `;
-
-// 주소 api css
-const addressStyle = {
-  display: 'block',
-  position: 'absolute',
-  top: '37%',
-  left: '14%',
-  zIndex: '100',
-  padding: '7px',
-  width: '300px',
-  height: '60%'
-  
-}
 
 const ListButton = styled.button`
 display: none;

@@ -375,7 +375,7 @@ const PostEditDiv = styled.textarea`
   height: 25vh;
 } 
 @media (min-height: 768px) {
-  height: 30vh
+  height: 30vh;
 } 
 `
 
