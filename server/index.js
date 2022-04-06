@@ -63,10 +63,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-
-
-
-
 app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
@@ -87,36 +83,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// io.on('connection', (socket) => {
-//   console.log("userconnected", socket.id)
-
-//   socket.on('onJoin',({ roomName: room, userName: user }) => {
-//     socket.join(room);
-//     io.to(room).emit("onConnect", `${user} 님이 입장했습니다.`)
-
-//     socket.on('onSend',(message) => {
-//       console.log('--------2---------', message)
-//       io.to(room).emit('onReceive', message)
-//     });
-
-//     socket.on('disconnect', () => {
-//       socket.leave(room);
-//       io.to(room).emit('onDisconnect', `${user} 님이 퇴장하셨습니다.`);
-//     });
-//   });
-// });
-
 let users = [];
 let rooms = [];
 let roomChatLog = [];
 
 io.on('connection', (socket) => {
 
-  console.log('------------socket.id---------', socket.id)
-  
-
   socket.on('joinServer', ({ nickname, roomId }) => {
-    console.log('------------joinServer----------')
+
     let user = {
       id: socket.id,
       nickname,
@@ -140,23 +114,24 @@ io.on('connection', (socket) => {
     });
 
     if (roomId) {
-     
+
       let check = roomChatLog.find((el) => el[0] === roomId);
 
       if (check) {
-      
+
         let slice = check.slice(1);
         
-        io.emit('roomChatLog', (slice));
+        io.emit('roomChatLog', ({ slice, roomId }));
       }
     }
   });
 
-  socket.on('createRoom', ({ id, roomName, nickname }) => {
+  socket.on('createRoom', ({ id, roomName, nickname, categoryFood }) => {
 
     let room = {
       id,
       roomName,
+      categoryFood,
       roomUsers: [nickname]
     };
     let check = rooms.find((room) => room.id === id);
@@ -165,10 +140,13 @@ io.on('connection', (socket) => {
       rooms.push(room);
       users.forEach((el) => {
         if (el.nickname === nickname) {
+
           let userRoomData = {
             roomName,
-            id
-          }
+            id,
+            categoryFood
+          };
+
           el.userRoom.push(userRoomData);
         }
       });
@@ -177,6 +155,7 @@ io.on('connection', (socket) => {
 
   socket.on('sendRoomMessage', (roomMessageInfo) => {
 
+    let roomId = roomMessageInfo.roomId;
     let check = roomChatLog.find((el) => el[0] === roomMessageInfo.roomId);
 
     if (!check) {
@@ -187,19 +166,19 @@ io.on('connection', (socket) => {
       recheck.push({ nickname: roomMessageInfo.nickname, message: roomMessageInfo.message })
       
       let slice = recheck.slice(1);
-      
-      io.emit('roomChatLog', (slice));
+
+      io.emit('roomChatLog2', ({ slice, roomId }));
     } else {
 
       check.push({ nickname: roomMessageInfo.nickname, message: roomMessageInfo.message });
 
       let slice = check.slice(1);
-      
-      io.emit('roomChatLog', (slice));
+
+      io.emit('roomChatLog2', ({ slice, roomId }));
     }
   });
 
-  socket.on('joinRoom', ({ id, nickname, roomName }) => {
+  socket.on('joinRoom', ({ id, nickname, roomName, categoryFood }) => {
 
     let checkRoomId = rooms.find((el) => el.id === id);
     
@@ -211,10 +190,13 @@ io.on('connection', (socket) => {
         checkRoomId.roomUsers.push(nickname);
         users.forEach((el) => {
           if (el.nickname === nickname) {
+
             let userRoomData = {
               roomName,
-              id
+              id,
+              categoryFood
             };
+            
             el.userRoom.push(userRoomData);
           }
         });
@@ -224,7 +206,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('-----------disconnect-----------')
+    
   });
 });
 

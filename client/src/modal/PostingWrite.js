@@ -62,6 +62,10 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
 
     setNewSearchAddress()  
     socket.emit('joinServer', ({ nickname }));
+
+    return () => {
+      socket.off();
+    }
   }, [PostingWriteModal, writeInfo.address])
 
   const setNewSearchAddress = () => {

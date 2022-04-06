@@ -36,12 +36,13 @@ export const writingPost = (post) => {
     .then(data => {
       if(data.status === 201){
         dispatch(writingPostSuccess(post))
-
+        
         let id = data.data.data.id
         let roomName = data.data.data.roomName
         let nickname = post.nickname
+        let categoryFood = post.category_food
 
-        socket.emit('createRoom', ({ id, nickname, roomName }));
+        socket.emit('createRoom', ({ id, nickname, roomName, categoryFood }));
         console.log('글쓰기 성공')
       }else{
         console.log('글쓰기 실패')

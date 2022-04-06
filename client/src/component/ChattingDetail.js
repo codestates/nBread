@@ -34,34 +34,21 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     let roomId = newRoomName.chatId
     
     socket.emit('joinServer', ({ nickname, roomId }));
-
-    socket.on('roomChatLog', (slice) => {
-      setRoomChatLog(slice);
+    socket.on('roomChatLog', ({slice, roomId}) => {
+      if (newRoomName.chatId === roomId) {
+        setRoomChatLog(slice);
+      }
     });
-    return()=>{
+    socket.on('roomChatLog2', ({ slice, roomId }) => {
+      if (newRoomName.chatId === roomId) {
+        setRoomChatLog(slice);
+      }
+    });
 
+    return () => {
+      socket.off();
     }
   }, []) 
-
-  useEffect(() => {
-    let isCleanUp = true;
-    let nickname = data.nickname;
-    let roomId = newRoomName.chatId
-    const fetchData = async() => {
-      await socket.emit('joinServer', ({ nickname, roomId }));
-      await socket.on('roomChatLog', (slice) => {
-        setRoomChatLog(slice);
-      });
-    }
-    if(isCleanUp){
-      fetchData();
-    }
-    return () => isCleanUp = false;
-  },[]);
-
-
-
-
 
   const sendRoomMessage = () => {
     socket.emit('sendRoomMessage', (roomMessageInfo));
@@ -77,13 +64,9 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   // enterKey입력시 2번 전송되는 문제 발생 + 막았는데 안막아짐
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
-      console.log('---------enter-----------')
       if (value === 'roomMessage') {
         if (roomMessageInfo.message.length !== 0) {
-          console.log('--------!0--sendRoomMessage()------')
           sendRoomMessage();
-        } else {
-          console.log('--------0--------')
         }
       }
     }
