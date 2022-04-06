@@ -37,6 +37,9 @@ function Chatting({setChattingModal}) {
       }
     });
 
+    return () => {
+      socket.off();
+    }
   }, []);
 
   const handleChatList = (e, el) => {
@@ -70,7 +73,7 @@ function Chatting({setChattingModal}) {
               roomList.map( (el, index) => {
                 return (
                 <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, el)}>
-                  <ChattingListImg src={null}/>
+                  <ChattingListImg src={`/icon/${el.categoryFood}.png`}/>
                     <ChattingListTextWrapper>
                         <ChattingListText>{el.roomName}</ChattingListText>
                     </ChattingListTextWrapper>
@@ -153,7 +156,7 @@ const Wrapper = styled.div`
   }
   `;
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
 
 `;
 

@@ -19,7 +19,6 @@ function PostDetail({click, setClick}) {
   const list = useSelector((state)=> state.postsDetailReducer)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
-  // console.log('-------postId--------', postId)
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
   // 데이터 날짜 변경
   const changeDate = new Date(list.created_at) 
@@ -46,6 +45,10 @@ function PostDetail({click, setClick}) {
         address: list.address,
         body: list.body,
       })
+
+      return () => {
+        socket.off();
+      }
     }
   },[list])
 
@@ -143,7 +146,7 @@ function PostDetail({click, setClick}) {
       cancelButtonText: '취소'
 		}).then((result) => {
       if (result.value) {
-        dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname))
+        dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname, list.category_food))
         window.location.replace("/") 
       }else{
       }

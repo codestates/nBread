@@ -88,9 +88,9 @@ export const editPostClosed = (id,data)=> {
 }
 
 // 글 신청
-export const editPostRecruitment = (id, roomName, nickname)=> {
+export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
   
-  socket.emit('joinRoom', ({ id, nickname, roomName }))
+  socket.emit('joinRoom', ({ id, nickname, roomName, categoryFood }))
 
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/orders/${id}`,{},{withCredentials: true})
