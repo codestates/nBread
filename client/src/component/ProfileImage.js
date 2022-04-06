@@ -12,32 +12,6 @@ function ProfileImage(props) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer)
 
-  // //이미지 삭제
-  // const deleteImg = () => {
-  //   // console.log(files[0],'33333')
-  //   // let formData = new FormData();
-
-  //   // const config = {
-  //   //   header: {'content-type': 'multipart/form-data'},
-  //   //   withCredentials: true
-  //   // }
-  //   // formData.append("file", files[0])
-    
-
-  //   // axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
-  //   //   .then(response => {
-  //   //     if(response.data.success) {
-  //   //       alert('파일저장성공')
-  //   //       setImg(response.data.filePath)
-  //   //       console.log(Img,'88888888888888')
-  //   //       props.updateImages(response.data.filePath)
-  //   //       dispatch(axiosProfileImageEdit(response.data.filePath))
-  //   //     }else {
-  //   //       alert ('파일저장실패')
-  //   //     }
-  //   //   })
-    
-  // }
   //이미지적용
   const handleFileUpload = (files) => {
     console.log(files[0],'33333')
@@ -62,6 +36,14 @@ function ProfileImage(props) {
         }
       })
   }
+  //이미지삭제
+  const deletImage = () => {
+    alert('삭제됩니다.')
+    dispatch(axiosProfileImageDelete())
+    alert ('삭제?')
+    setImg(null)
+  }
+
   return (
     <div>
           <MyPageProfileDiv>
@@ -77,9 +59,9 @@ function ProfileImage(props) {
           </Dropzone>
 
             <ButtonDiv>
-            <ImageLabel center htmlFor="img" for="input-file">파일선택
+            <ImageLabel center htmlFor='img' for="input-file">파일선택
             </ImageLabel>
-            <Button>삭제</Button>
+            <Button onClick={deletImage}>삭제</Button>
             </ButtonDiv>
           </MyPageProfileDiv>
     </div>
