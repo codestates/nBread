@@ -6,7 +6,6 @@ const cors = require('cors');
 const controllers = require('./controllers');
 const path = require('path');
 const app = express();
-const router = express.Router();
 
 app.all('*', (req, res, next) => {
   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -42,6 +41,7 @@ const io = require('socket.io')(httpsServer, {
   }
 });
 
+
 app.use(express.json());
 // app.use(express.static('public'));
 
@@ -64,6 +64,7 @@ app.use(
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
 
 app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);

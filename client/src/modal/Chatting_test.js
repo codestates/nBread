@@ -8,7 +8,7 @@ function Chatting_test () {
   const [chat, setChat] =useState([])
 
   useEffect(() => {
-    setCurrentSocket(io("http://localhost"));
+    setCurrentSocket(io("https://www.nbread.kro.kr"));
   }, []);
 
   useEffect(() => {
