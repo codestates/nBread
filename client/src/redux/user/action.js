@@ -81,9 +81,9 @@ const ProfileImageEdit = (data) => {
 }
 
 //프로필사진 삭제
-const ProfileImageDelete = (data) => {
+const ProfileImageDelete = () => {
   return {
-    type : PROFILE_IMAGE_DELETE,
+    type : PROFILE_IMAGE_DELETE
   }
 }
 
@@ -198,7 +198,7 @@ export const axiosProfileImageEdit = (data) => {
   //-----------프로필사진삭제-------------------
 export const axiosProfileImageDelete = () => {
   return (dispatch) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/users/picture`,{withCredentials: true})
+    axios.patch(`${process.env.REACT_APP_API_URL}/users/picture`,{withCredentials: true})
     .then(res => {
       console.log('res',res)
     dispatch(ProfileImageDelete())
