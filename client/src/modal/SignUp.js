@@ -10,12 +10,12 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   const dispatch = useDispatch();
   const SignUp = useSelector((state)=> state.loginReducer.SignUp)
   
-
+  
   const [userInfo, setUserInfo] = useState({
     username: '',
     password: '',
     passwordCheck: '',
-    phonNumber: '',
+    phone_number: '',
     address: '',
     nickname: ''
   })
@@ -35,7 +35,6 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     nicknameValidation: false,
     errorValidation: false
   })
-
   //주소
   const [visible, setVisible] = useState(false); 
 
@@ -75,7 +74,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       }
     }
 
-    if (key === 'phonNumber') {
+    if (key === 'phone_number') {
       if (!phonNumberRegExp.test(e.target.value)) {
         setMessage({ ...message, phonNumberMessage: '"-" 하이픈 없이 번호만 입력해주세요.'})
         setValidation({ ...validation, phonNumberValidation: true})
@@ -95,14 +94,14 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   }
 
   const handleSignup = () => {
-    const { username, password, passwordCheck, phonNumber, nickname, address  } = userInfo;
+    const { username, password, passwordCheck, phone_number, nickname, address  } = userInfo;
 
-    if (!username || !password || !passwordCheck || !nickname || !phonNumber || !address) {
+    if (!username || !password || !passwordCheck || !nickname || !phone_number || !address) {
       setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
       setValidation({ ...validation, errorValidation: true})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
     nicknameRegExp.test(nickname) && password === passwordCheck && 
-    phonNumberRegExp.test(phonNumber) && address){
+    phonNumberRegExp.test(phone_number) && address){
 
       dispatch(axiosUserSignUp(userInfo))
         alert('회원가입 완료되었습니다.')
@@ -152,7 +151,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     <Wrapper onClick={(e) => e.stopPropagation()}>
       <SignUpForm onSubmit={(e) => e.preventDefault()}>
       <SignUpTitle>회원가입   
-        <PostSpan onClick={handleCloseSignupModal}>&times;</PostSpan>    
+      <PostSpan onClick={handleCloseSignupModal}>&times;</PostSpan>    
       </SignUpTitle>
       <InputFieldDiv>
         <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
@@ -167,8 +166,8 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
         {userInfo.passwordCheck.length > 0 && validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
       </InputFieldDiv>
       <InputFieldDiv>
-        <InputField placeholder="전화번호" onChange={handleInputValue('phonNumber')}/>
-        {userInfo.phonNumber.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
+        <InputField placeholder="전화번호" onChange={handleInputValue('phone_number')}/>
+        {userInfo.phone_number.length > 0 && validation.phonNumberValidation ? <Err>{message.phonNumberMessage}</Err> : null}
       </InputFieldDiv>
         {visible? 
               <>
@@ -236,11 +235,6 @@ transform: translate(-50%, -50%);
 border-radius: 30px;
 `;
 
-const PostSpan = styled.span`
-position: absolute;
-right: 40px;
-`
-
 const SignUpTitle = styled.div`
 font-size: 28px;
 margin-top: 25px;
@@ -250,6 +244,11 @@ const SignUpForm = styled.form`
 
 
 `;
+
+const PostSpan = styled.span`
+position: absolute;
+right: 40px;
+`
 
 const InputFieldDiv = styled.div`
 margin-top: 14px;
@@ -308,8 +307,8 @@ z-index: 100;
 padding: 7px;
 width: 100px;
 color: white;
-background-color: #B51D29;
 border-radius: 6px;
+background-color: #B51D29;
 border: none;
 `;
 
@@ -333,7 +332,7 @@ padding-left: 5px;
 const addressStyle = {
   display: 'block',
   position: 'absolute',
-  top: '76px',
+  top: '80px',
   left: '20px',
   zIndex: '100',
   padding: '7px',
