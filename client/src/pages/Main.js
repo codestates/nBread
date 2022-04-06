@@ -6,7 +6,6 @@ import PostList from '../component/PostList';
 import PostingWrite from "../modal/PostingWrite";
 import Chatting from "../modal/Chatting";
 import Map from "../component/Map";
-import { locationChange } from "../redux/location/action";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2'
 

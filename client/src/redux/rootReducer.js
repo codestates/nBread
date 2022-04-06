@@ -5,7 +5,6 @@ import postsReducer from "./posts/reducer";
 import postsDetailReducer from "./postList/reducer";
 import loginReducer from "./user/reducer";
 import writingPostsReducer from "./postWriting/reducer";
-import locationReducer from "./location/reducer";
 import myPostsReducer from "./myposts/reducer";
 import myApplyPostsReducer from "./myApplyList/reducer";
 import chattingReducer from "./chatting/reducer";
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   postsDetailReducer,
   loginReducer,
   writingPostsReducer,
-  locationReducer,
   myPostsReducer,
   myApplyPostsReducer,
   chattingReducer,

@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { showPostList, showPostReset } from "../redux/posts/actions";
 import { useHistory } from 'react-router-dom';
-import { debounce } from 'lodash';
-import { locationChange } from "../redux/location/action";
-import { useInterval } from "./useInterval";
 
 const { kakao } = window;
 
@@ -15,30 +12,23 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const dispatch = useDispatch();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
-  // console.log('현재위치',locationInfo)
-
   const [location, setLocation] = useState({
     // 지도의 초기 위치
     lat: 37.49676871972202, 
     lng: 127.02474726969814 ,
   }
   );
-
   const [dragMap, setDragMap] = useState();
   const [position, setPosition] = useState();
   const [searchAddress, SetSearchAddress] = useState();
   const [map, setMap] = useState();
   const [info, setInfo] = useState();
-  // 마커 표시 게시물 데이터
-  const MarkerPost = useSelector((state)=> state.postsReducer.posts)
+  const MarkerPost = useSelector((state)=> state.postsReducer.posts) // 마커 표시 게시물 데이터
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
 
   // 주소 검색시 위치로 이동
   const mainSearch = () => {
     {mainSearchAddressCenter&& 
-      // setState({
-      //   center: { lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng }
-      // })
       setLocation({
         lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng
       })
@@ -121,7 +111,6 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
     <div>
       <Map // 지도를 표시할 Container
         center={{ lat: location.lat, lng: location.lng }}
-        // isPanto={true}
         style={{
           // 지도의 크기
           width: "100%",
@@ -135,33 +124,19 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
       {MarkerPost && 
         MarkerPost.map((el, index) => (
           <MapMarker
-            // key={`${position.title}-${position.latlng}`}
             key={index}
             position={{ lat: el.lat, lng: el.lng }} // 마커 표시 위치
             image={{
-              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지 주소
+              src:`/icon/${el.category_food}.png`,
               size: {
                 widht: 24,
-                height: 35
+                height: 30
               }, // 마커이미지의 크기
             }}
-            // title={position.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           />
         ))
       }
     </Map>
-      {/* {level && <p>{'현재 지도 레벨은 ' + level + ' 입니다'}</p>} */}
-
-      {/* {info && (
-        <div>
-          <p>위도 : {info.center.lat}</p>
-          <p>경도 : {info.center.lng}</p>
-          <p>레벨 : {info.level}</p>
-          <p>타입 : {info.typeId}</p>
-          <p>남서쪽 좌표 : {info.swLatLng.lat}, {info.swLatLng.lng}</p>
-          <p>북동쪽 좌표 : {info.neLatLng.lat}, {info.neLatLng.lng}</p>
-        </div>
-      )} */}
     </div>
   );
 }
