@@ -349,7 +349,8 @@ color: gray;
 const Err = styled.div`
 font-size: 14px;
 color: red;
-margin-top: 2px;
+/* margin-top: 1px; */
+margin-bottom: -10px;
 `;
 
 
