@@ -104,7 +104,6 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
         setMessage({ ...message, idMessage: '4~12자의 영문 대 소문자, 숫자만 사용 가능합니다'})
         setValidation({ ...validation, idValidation: true})
       } else if(res.data.message === '이미 사용중인 아이디 입니다'){
-        console.log('확인')
         setMessage({ ...message, idMessage: '이미 존재하는 아이디입니다'})
         setValidation({ ...validation, idValidation: true})
       }else{
@@ -117,18 +116,22 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   }
 
   const handleOnBlurNickName = (e) => {
-    console.log('닉네임')
-    console.log('e', e.target.value)
-    // axios.post('http://localhost:4000/users/verifyNickname', {nickname : e.target.value})
-    // .then( (res) => {
-    //   setMessage({ ...message, nicknameMessage: '이미 존재하는 닉네임입니다'})
-    //   setValidation({ ...validation, nicknameValidation: true})
-    //   if (res.data.data.data[0].count === 0) {
-    //     setValidation({ ...validation, nicknameValidation: false})
-    //   }
-    // }).catch( (err) => {
-    //   console.log(err)
-    // }) 
+    axios.post(`${process.env.REACT_APP_API_URL}/users/checkNickname`,{ nickname: e.target.value },{withCredentials: true})
+    .then( (res) => {
+      if (e.target.value.length < 2 || e.target.value.length > 10 || !nicknameRegExp.test(e.target.value)) {
+        setMessage({ ...message, nicknameMessage: '2~10자 한글, 영어 , 숫자만 사용 가능 합니다'})
+        setValidation({ ...validation, nicknameValidation: true})
+      } else if(res.data.message === '이미 사용중인 닉네임 입니다') {
+        setMessage({ ...message, nicknameMessage: '이미 존재하는 닉네임입니다'})
+        setValidation({ ...validation, nicknameValidation: true})
+      }
+      else {
+        setValidation({ ...validation, nicknameValidation: false})
+        setMessage({ ...message, nicknameMessage: ''})
+      }
+    }).catch( (err) => {
+      console.log(err)
+    }) 
   }
 
   const handleSignup = () => {
@@ -139,7 +142,9 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       setValidation({ ...validation, errorValidation: true})
     } else if(message.idMessage === '이미 존재하는 아이디입니다'){
       setMessage({ ...message, errorMessage: '다시 확인 해주세요'})
-    }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
+    } else if(message.nicknameMessage === '이미 존재하는 닉네임입니다'){
+      setMessage({ ...message, errorMessage: '다시 확인 해주세요'})
+    } else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
     nicknameRegExp.test(nickname) && password === passwordCheck && 
     phonNumberRegExp.test(phone_number) && address){
       dispatch(axiosUserSignUp(userInfo))
