@@ -1,5 +1,6 @@
 import React, { useRef, useEffect , useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { axiosLogin } from '../redux/user/action';
 import { axiosLogout } from '../redux/user/action';
 import Navbar from '../component/Navbar'
@@ -10,8 +11,7 @@ import Chatting from "../modal/Chatting";
 import Map from "../component/Map";
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2'
-const dispatch = useDispatch();
-const isLogin = useSelector((state)=> state.loginReducer)
+
 
 
 const { kakao } = window;
@@ -21,22 +21,23 @@ function Main() {
   const post = useSelector((state)=> state.postsReducer.posts)
   const dispatch = useDispatch();
   const history = useHistory();
-  const isLogin = useSelector((state)=> state.loginReducer)
+  const userInfo = useSelector((state)=> state.loginReducer)
   const [PostingWriteModal, setPostingWriteModal] = useState(false);
   const [ChattingModal, setChattingModal] = useState(false);
 
-  // const isAuthenticated = () => {
-  //   axios.get(`${process.env.REACT_APP_API_URL}/users/auth`)
-  //   .then(response => {
-  //     if (!response.data.success) {
-  //       // dispatch(axiosLogin())
-  //       dispatch(axiosLogout())
-  //     }
-  //   })
-  //   .catch(err => console.log("주 에러 : ",err))
-  // };
+  const isAuthenticated = () => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/auth`,{withCredentials: true})
+    .then(response => {
+      console.log(response.data,'res')
+      if (!response.data.success) {
+        // dispatch(axiosLogin())
+        dispatch(axiosLogout())
+      }
+    })
+    .catch(err => console.log("주 에러 : ",err))
+  };
 
-  // //토큰
+  //토큰
   // useEffect(() => {
   //   isAuthenticated()
   // }, []);
@@ -108,6 +109,7 @@ function Main() {
   }
 
   useEffect(()=>{
+    isAuthenticated()
     window.addEventListener('resize', closePostList);
     return () => {
       window.addEventListener('resize', closePostList);
