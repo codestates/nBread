@@ -6,11 +6,21 @@ body {
   -moz-osx-font-smoothing: grayscale; */
 }
 
-* {
+/* * {
   font-family: 'NanumBarunGothic';
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
-}
+} */
 
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
+ .notosanskr * { 
+  font-family: 'Noto Sans KR', sans-serif;
+}  
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+} 

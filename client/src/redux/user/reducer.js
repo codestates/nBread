@@ -15,7 +15,7 @@ const loginInitialState = {
   data:[],
   SignUp: false,
   LoginModal: false,
-  picture:[]
+  picture:null
 }
 
 
