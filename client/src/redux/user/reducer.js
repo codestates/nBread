@@ -23,7 +23,6 @@ const loginReducer = (state=loginInitialState, action) => {
   switch(action.type){
     case LOG_IN_SUCCESS:
       let dato = action.payload;
-      console.log('reducerdddddddpost',dato)
       return {
         ...state, 
         data: action.payload,
@@ -64,7 +63,6 @@ const loginReducer = (state=loginInitialState, action) => {
        //회원수정
       case USER_EDIT:
         let data = action.payload
-        console.log('reducerdddddddpost',data)
         return {
           ...state, 
           data: action.payload,
