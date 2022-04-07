@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2'
+
 import { 
   LOG_IN_SUCCESS,
   LOG_IN_REQUEST,
@@ -91,17 +93,15 @@ const ProfileImageDelete = () => {
 export const axiosLogin = (user) => {
   console.log('loginInfo',user)
   return (dispatch) => {
-  dispatch(loginRequest())
   axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
   username: user.username,
   password: user.password
   },{withCredentials: true})
-  // .then(data => console.log('data',data))
   .then(data => {
   if(data.data.message === "로그인 성공"){
-  console.log('로그인 성공',data )
   dispatch(loginSuccess(data.data.data))
   } else if(data.data.message === '아이디 또는 비밀번호가 일치하지 않습니다'){
+    Swal.fire('아이디 또는 비밀번호가 일치하지 않습니다')
   }
   else {
   console.log('로그인 실패', )
