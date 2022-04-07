@@ -97,18 +97,23 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
   }
 
   const handleOnBlurId = (e) => {
-    console.log('포커스아웃')
-    console.log('e', e.target.value)
-    // axios.post('http://localhost:4000/users/verifyUsername', {username : e.target.value})
-    // .then( (res) => {
-    //   setMessage({ ...message, idMessage: '이미 존재하는 아이디입니다'})
-    //   setValidation({ ...validation, idValidation: true})
-    //   if (res.data.data.data[0].count === 0) {
-    //     setValidation({ ...validation, idValidation: false})
-    //   }
-    // }).catch( (err) => {
-    //   console.log(err);
-    // })
+    setUserInfo({ ...userInfo, username : e.target.value })
+    axios.post(`${process.env.REACT_APP_API_URL}/users/checkId`,{ username: e.target.value },{withCredentials: true})
+    .then( (res) => {
+      if (!usernameRegExp.test(e.target.value)) {
+        setMessage({ ...message, idMessage: '4~12자의 영문 대 소문자, 숫자만 사용 가능합니다'})
+        setValidation({ ...validation, idValidation: true})
+      } else if(res.data.message === '이미 사용중인 아이디 입니다'){
+        console.log('확인')
+        setMessage({ ...message, idMessage: '이미 존재하는 아이디입니다'})
+        setValidation({ ...validation, idValidation: true})
+      }else{
+        setValidation({ ...validation, idValidation: false})
+        setMessage({ ...message, idMessage: ''})
+      }
+    }).catch( (err) => {
+      console.log(err);
+    })
   }
 
   const handleOnBlurNickName = (e) => {
@@ -132,10 +137,11 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     if (!username || !password || !passwordCheck || !nickname || !phone_number || !address) {
       setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
       setValidation({ ...validation, errorValidation: true})
+    } else if(message.idMessage === '이미 존재하는 아이디입니다'){
+      setMessage({ ...message, errorMessage: '다시 확인 해주세요'})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
     nicknameRegExp.test(nickname) && password === passwordCheck && 
     phonNumberRegExp.test(phone_number) && address){
-
       dispatch(axiosUserSignUp(userInfo))
       Swal.fire({
         title: '회원가입 완료',
