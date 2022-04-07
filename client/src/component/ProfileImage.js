@@ -30,8 +30,7 @@ function ProfileImage(props) {
           setImg(response.data.filePath)
           console.log(Img,'88888888888888')
           props.updateImages(response.data.filePath)
-          dispatch(axiosProfileImageEdit(`../../public/${response.data.filePath}`))
-          console.log("--1--", __dirname)
+          dispatch(axiosProfileImageEdit(response.data.filePath))
         }else {
           alert ('파일저장실패')
         }
