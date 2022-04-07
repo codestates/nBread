@@ -228,6 +228,7 @@ margin-top: 25px;
 margin-left: 10px;
 border-radius: 6px;
 border:solid 1px #C4C4C4;
+padding-left: 5px;
 &:focus {
 outline: none;
 border: 1px solid #C4C4C4 ;   
