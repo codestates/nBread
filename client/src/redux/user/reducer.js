@@ -44,6 +44,7 @@ const loginReducer = (state=loginInitialState, action) => {
         return {
           ...state, 
           isLogIn: false,
+          picture:null,
           data:null
         }
       //회원탈퇴 테스트
