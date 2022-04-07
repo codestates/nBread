@@ -42,14 +42,14 @@ export const TextDiv = styled.div`
 
 
 export const Text = styled.div`
-  font-size: 56px;
+  font-size: 46px;
   font-weight: 700;
   margin-bottom: 5px;
 `;
 
 export const GoButton = styled.button`
   width: 200px;
-  font-size: 36px;
+  font-size: 24px;
   padding: 10px;
   border-radius: 20px;
   

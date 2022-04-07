@@ -15,7 +15,7 @@ const loginInitialState = {
   data:[],
   SignUp: false,
   LoginModal: false,
-  picture:[]
+  picture:null
 }
 
 
@@ -28,7 +28,8 @@ const loginReducer = (state=loginInitialState, action) => {
         ...state, 
         data: action.payload,
         //리듀서 참고
-        isLogIn: true
+        isLogIn: true,
+        picture: action.payload.picture
       }
       case LOG_IN_REQUEST:
         return {
@@ -44,6 +45,7 @@ const loginReducer = (state=loginInitialState, action) => {
         return {
           ...state, 
           isLogIn: false,
+          picture:null,
           data:null
         }
       //회원탈퇴 테스트
