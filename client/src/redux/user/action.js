@@ -101,7 +101,9 @@ export const axiosLogin = (user) => {
   if(data.data.message === "로그인 성공"){
   console.log('로그인 성공',data )
   dispatch(loginSuccess(data.data.data))
-  }else {
+  } else if(data.data.message === '아이디 또는 비밀번호가 일치하지 않습니다'){
+  }
+  else {
   console.log('로그인 실패', )
   }
   })
@@ -111,10 +113,8 @@ export const axiosLogin = (user) => {
 //-----------로그아웃-------------------
   export const axiosLogout = () => {
     return (dispatch) => {
-      console.log('dkanrjsk')
     axios.post(`${process.env.REACT_APP_API_URL}/users/logout`,{},{withCredentials: true})
     .then(res => {
-      console.log('res222222',res)
     dispatch(logoutSuccess())
     })
     .catch(err=> console.log(err))
