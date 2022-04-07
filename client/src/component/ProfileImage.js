@@ -31,6 +31,7 @@ function ProfileImage(props) {
           console.log(Img,'88888888888888')
           props.updateImages(response.data.filePath)
           dispatch(axiosProfileImageEdit(response.data.filePath))
+          console.log(isLogin.picture)
         }else {
           alert ('파일저장실패')
         }
