@@ -52,7 +52,7 @@ function MyOpenList(props) {
                     <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}</PostListText>
                     <PostListText>배달비: {li.delivery_fee}</PostListText> 
                   </Test>
-                  {li.closed === 2 && <PostClosedText> 마감 </PostClosedText>}
+                  {li.closed === 2 && <PostClosedImg src={'icon/12.png'} />}
                 </PostListTextWrapper>
               </Wrapper>
               )
@@ -78,6 +78,7 @@ const Wrapper = styled.div`
 `;
 
 const PostListImg = styled.img`
+width: 90px;
 `;
 
 const PostListTextWrapper = styled.div`
@@ -96,10 +97,11 @@ const PostListText = styled.div`
 const Test = styled.div`
   width: 150px;
 `
-const PostClosedText = styled.div`
-  color: red;
-  margin-left: 6px;
+
+const PostClosedImg = styled.img`
+  width: 40px;
 `
+
 const PostNone = styled.div`
   margin-top: 10px;
 `

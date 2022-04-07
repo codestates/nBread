@@ -74,11 +74,12 @@ function PostDetail({click, setClick}) {
 
   const handelPostDelete = () => {
     Swal.fire({
-      title: '글을 삭제하시겠습니까?',
-      icon: 'warning',
+      title: '삭제하시겠습니까?',
+      padding: '1.5em',
+      height: 700,
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -96,11 +97,11 @@ function PostDetail({click, setClick}) {
 
   const handelPostEditComplete = () => {
     Swal.fire({
-      title: '글을 수정하시겠습니까?',
-      icon: 'warning',
+      title: '수정하시겠습니까?',
+      padding: '1.5em',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -122,9 +123,10 @@ function PostDetail({click, setClick}) {
   const handlePostClosed = () => {
     Swal.fire({
       title: '마감하시겠습니까?',
+      padding: '1.5em',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -139,9 +141,10 @@ function PostDetail({click, setClick}) {
   const handlePostRecruitment = () => {
     Swal.fire({
       title: '신청하시겠습니까?',
+      padding: '1.5em',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -155,10 +158,11 @@ function PostDetail({click, setClick}) {
 
   const handlePostCancelRecruitment = () => {
     Swal.fire({
-      title: '신청을 취소하시겠습니까?',
+      title: '취소하시겠습니까?',
+      padding: '1.5em',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -279,6 +283,7 @@ function PostDetail({click, setClick}) {
 }
 
 const Wrapper = styled.div`
+overflow: auto; 
 display: flex;
 margin-left: 4px;
 align-items: center;
@@ -382,6 +387,8 @@ const PostEditString = styled.input`
   font-size: 16px;
   width: 120px;
   border: none;
+  margin-left: 5px;
+  padding-left: 5px;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;    
@@ -401,6 +408,8 @@ const PostEditNumber = styled.input`
   font-size: 16px;
   width: 60px;
   border: none;
+  margin-left: 5px;
+  padding-left: 5px;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;    
@@ -414,6 +423,7 @@ const PostEditDiv = styled.textarea`
   height: 20vh;
   border: none;
   flex-wrap: wrap;
+  padding-left: 5px;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;   

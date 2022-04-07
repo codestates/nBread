@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserSignUp } from '../redux/user/action';
 import DaumPostcode from 'react-daum-postcode';
+import axios from 'axios';
+import Swal from 'sweetalert2'
+
 const { kakao } = window;
 
 function SignUp({handleCloseSignupModal,setLoginModal}) {
@@ -93,18 +96,65 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     }
   }
 
+  const handleOnBlurId = (e) => {
+    setUserInfo({ ...userInfo, username : e.target.value })
+    axios.post(`${process.env.REACT_APP_API_URL}/users/checkId`,{ username: e.target.value },{withCredentials: true})
+    .then( (res) => {
+      if (!usernameRegExp.test(e.target.value)) {
+        setMessage({ ...message, idMessage: '4~12자의 영문 대 소문자, 숫자만 사용 가능합니다'})
+        setValidation({ ...validation, idValidation: true})
+      } else if(res.data.message === '이미 사용중인 아이디 입니다'){
+        console.log('확인')
+        setMessage({ ...message, idMessage: '이미 존재하는 아이디입니다'})
+        setValidation({ ...validation, idValidation: true})
+      }else{
+        setValidation({ ...validation, idValidation: false})
+        setMessage({ ...message, idMessage: ''})
+      }
+    }).catch( (err) => {
+      console.log(err);
+    })
+  }
+
+  const handleOnBlurNickName = (e) => {
+    console.log('닉네임')
+    console.log('e', e.target.value)
+    // axios.post('http://localhost:4000/users/verifyNickname', {nickname : e.target.value})
+    // .then( (res) => {
+    //   setMessage({ ...message, nicknameMessage: '이미 존재하는 닉네임입니다'})
+    //   setValidation({ ...validation, nicknameValidation: true})
+    //   if (res.data.data.data[0].count === 0) {
+    //     setValidation({ ...validation, nicknameValidation: false})
+    //   }
+    // }).catch( (err) => {
+    //   console.log(err)
+    // }) 
+  }
+
   const handleSignup = () => {
     const { username, password, passwordCheck, phone_number, nickname, address  } = userInfo;
 
     if (!username || !password || !passwordCheck || !nickname || !phone_number || !address) {
       setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
       setValidation({ ...validation, errorValidation: true})
+    } else if(message.idMessage === '이미 존재하는 아이디입니다'){
+      setMessage({ ...message, errorMessage: '다시 확인 해주세요'})
     }else if (usernameRegExp.test(username) && passwordRegExp.test(password) && 
     nicknameRegExp.test(nickname) && password === passwordCheck && 
     phonNumberRegExp.test(phone_number) && address){
-
       dispatch(axiosUserSignUp(userInfo))
-        alert('회원가입 완료되었습니다.')
+      Swal.fire({
+        title: '회원가입 완료',
+        width: 500,
+        padding: '1.5em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
+        // alert('회원가입 완료되었습니다.')
         handleCloseSignupModal()
     }
   }
@@ -154,7 +204,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       <PostSpan onClick={handleCloseSignupModal}>&times;</PostSpan>    
       </SignUpTitle>
       <InputFieldDiv>
-        <InputField placeholder="아이디" onChange={handleInputValue('username')}/>
+        <InputField placeholder="아이디" onBlur={(e)=>handleOnBlurId(e)} onChange={handleInputValue('username')}/>
         {userInfo.username.length > 0 && validation.idValidation ? <Err>{message.idMessage}</Err> : null}
       </InputFieldDiv>
       <InputFieldDiv>
@@ -193,7 +243,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
             </InputFieldDiv>
 
         <InputFieldDiv>
-        <InputField placeholder="닉네임" onChange={handleInputValue('nickname')}/>
+        <InputField placeholder="닉네임" onBlur={(e)=>handleOnBlurNickName(e)} onChange={handleInputValue('nickname')}/>
         {userInfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         </InputFieldDiv>
         <Err>{message.errorMessage}</Err>
@@ -206,7 +256,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     </>
   );
 }
-//모달창이 떳을때 뒷배경 어둡게
+//모달창 뒷배경 어둡게
 const ModalBackdrop = styled.div`
 position: fixed;
 z-index: 999;

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect , useState} from "react";
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../icons/nBreadds.png';
+import logo from '../icons/nBread7.jpg';
 import Login from "../modal/Login";
 import SignUp from "../modal/SignUp";
 import LoginUser from "../component/LoginUser";
@@ -9,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 function Navbar() {
+  const history = useHistory();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const [LoginModal, setLoginModal] = useState(false);
   const [SignUpModal, setSignUpModal] = useState(false);
@@ -38,10 +40,13 @@ function Navbar() {
     setPWConfirmModal(false);
   }
   
+  const handleMainPage = () => {
+    history.push("/")
+  }
   return (
     <>
       <Wrapper>
-        <Logo src={logo}/>
+        <Logo src={logo} onClick={handleMainPage}/>
       {isLogin ? <LoginUser setLoginModal={setLoginModal}>로그아웃</LoginUser>:<LoginText onClick={handleLoginModal}>로그인</LoginText>}
       </Wrapper>
 
@@ -69,6 +74,7 @@ z-index: 1;
 
 const Logo = styled.img`
 width: 80px;
+margin-top: 10px;
 margin-left: 20px;
 @media (max-width: 576px) {
   width: 70px;

@@ -17,6 +17,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
     password: ''
   })
   const [errorMessage, setErrorMessage] = useState('');
+  const [duplicateCheck, setDuplicateCheck] = useState('');
 
   const handleCloseLoginModal = () => {
     setLoginModal(false)
@@ -29,14 +30,22 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
 
   const handleLogin = () => {
     const { userId, password } = loginInfo;
-    // console.log(userId)
-    // console.log(password)
 
     if (userId === '' || password === '') {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
+      setDuplicateCheck('')
     }else{
       dispatch(axiosLogin(loginInfo))
       setLoginModal(false)
+      // if(!isLogin){
+      //   setDuplicateCheck('아이디 또는 비밀번호를 확인해주세요');
+      //   setErrorMessage('')
+      // }else if(isLogin){
+      //   setDuplicateCheck('');
+      //   setErrorMessage('')
+      //   setLoginModal(false)
+      // }
+      
       // window.location.replace("/") 
     }
   }
@@ -56,6 +65,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
           <InputField type='password' placeholder="비밀번호" onChange={handleInputValue('password')} />
         </InputFieldDiv>
           <Err>{errorMessage}</Err>
+          <Err>{duplicateCheck}</Err>
           <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
           <LoginButton type='submit'>카카오 로그인</LoginButton>
             <SignUpButton onClick={handleSignupModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>회원가입</SignUpButton>

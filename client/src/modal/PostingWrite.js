@@ -98,7 +98,18 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       setErrorMessage('모든 항목은 필수입니다')
     }else{
       dispatch(writingPost(data))
-      Swal.fire('글쓰기가 성공했습니다')
+      // Swal.fire('글쓰기가 성공했습니다')
+      Swal.fire({
+        title: '글쓰기 성공!',
+        width: 500,
+        padding: '1.5em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
       handleWritingAddress( {lat: data.lat, lng: data.lng})
       openModalPostingWrite()
     }
@@ -317,6 +328,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   font-size: 14px;
   color: red;
   margin-top: 2px;
+  font-weight: bold;
   `;
 
   const PostingWriteButton = styled.button`
