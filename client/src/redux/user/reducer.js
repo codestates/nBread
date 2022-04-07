@@ -28,7 +28,8 @@ const loginReducer = (state=loginInitialState, action) => {
         ...state, 
         data: action.payload,
         //리듀서 참고
-        isLogIn: true
+        isLogIn: true,
+        picture: action.payload.picture
       }
       case LOG_IN_REQUEST:
         return {

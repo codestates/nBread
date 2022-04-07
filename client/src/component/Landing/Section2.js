@@ -39,7 +39,7 @@ export const TextDiv = styled.div`
 `;
 
 export const Text = styled.div`
-  font-size: 56px;
+  font-size: 46px;
   font-weight: 700;
   margin-bottom: 5px;
 `;

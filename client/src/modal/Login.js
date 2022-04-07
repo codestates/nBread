@@ -36,15 +36,14 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
       setDuplicateCheck('')
     }else{
       dispatch(axiosLogin(loginInfo))
-      setLoginModal(false)
-      // if(!isLogin){
-      //   setDuplicateCheck('아이디 또는 비밀번호를 확인해주세요');
-      //   setErrorMessage('')
-      // }else if(isLogin){
-      //   setDuplicateCheck('');
-      //   setErrorMessage('')
-      //   setLoginModal(false)
-      // }
+      if(isLogin){
+        setLoginModal(false)
+      }else{
+        setLoginModal(true)
+        
+      }
+        
+    
       
       // window.location.replace("/") 
     }

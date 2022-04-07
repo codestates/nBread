@@ -90,7 +90,7 @@ export const editPostClosed = (id,data)=> {
 // 글 신청
 export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
   
-  socket.emit('joinRoom', ({ id, nickname, roomName, categoryFood }))
+  socket.emit('joinRoom', ({ id, nickname, roomName, categoryFood }));
 
   return (dispatch) => {
     axios.post(`${process.env.REACT_APP_API_URL}/orders/${id}`,{},{withCredentials: true})
@@ -106,8 +106,12 @@ export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
 }
 
 // 글 신청 취소
-export const editPostCancelRecruitment = (id)=> {
-  console.log('editPostDetailAction',id)
+export const editPostCancelRecruitment = (id, nickname)=> {
+
+  let roomId = id
+  
+  socket.emit('leaveRoom', ({ roomId, nickname }));
+
   return (dispatch) => {
     axios.delete(`${process.env.REACT_APP_API_URL}/orders/${id}`,{withCredentials: true})
     .then(post => {

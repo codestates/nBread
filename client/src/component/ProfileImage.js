@@ -98,7 +98,7 @@ function ProfileImage(props) {
           </Dropzone>
 
             <ButtonDiv>
-            <ImageLabel center htmlFor='img' for="input-file">파일선택
+            <ImageLabel center htmlFor="input-file">파일선택
             </ImageLabel>
             <Button onClick={deletImage}>삭제</Button>
             </ButtonDiv>

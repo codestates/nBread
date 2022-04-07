@@ -67,6 +67,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
+app.get('/users/auth', controllers.userAuth);
 app.post('/users/signup', controllers.signup);
 app.post('/users/checkId', controllers.checkId);
 app.post('/users/checkNickname', controllers.checkNickname);
@@ -207,6 +208,25 @@ io.on('connection', (socket) => {
       }
     }
    
+  });
+
+  socket.on('leaveRoom', ({ roomId, nickname }) => {
+    users.forEach( (el) => {
+      if (el.nickname === nickname) {
+        
+        let index = el.userRoom.findIndex((el) => el.id === roomId);
+        
+        el.userRoom.splice(index, 1);
+      }
+    });
+    rooms.forEach( (el) => {
+      if (el.id === roomId) {
+        
+        let index = el.roomUsers.findIndex((el) => el === nickname);
+        
+        el.roomUsers.splice(index, 1);
+      }
+    });
   });
 
   socket.on('disconnect', () => {
