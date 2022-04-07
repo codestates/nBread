@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosLogin } from '../redux/user/action';
 import SignUp from "./SignUp";
@@ -34,13 +35,27 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
     if (userId === '' || password === '') {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
       setDuplicateCheck('')
-    }else{
-      dispatch(axiosLogin(loginInfo))
-      setLoginModal(false)
-
-      // window.location.replace("/") 
-    }
+    }else {
+      axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
+        username: loginInfo.username,
+        password: loginInfo.password
+        },{withCredentials: true})
+        .then(data => {
+          if(data.data.message === '아이디 또는 비밀번호가 일치하지 않습니다'){
+            setDuplicateCheck('아이디 또는 비밀번호가 일치하지 않습니다')
+          } else{
+            dispatch(axiosLogin(loginInfo))
+            setLoginModal(false)
+          }
+          
+          })
+          
+      
+      
   }
+  }
+
+
 
   return (
     <>
