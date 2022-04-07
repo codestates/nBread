@@ -111,7 +111,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
         setMessage({ ...message, idMessage: ''})
       }
     }).catch( (err) => {
-      console.log(err);
+      
     })
   }
 
@@ -130,7 +130,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
         setMessage({ ...message, nicknameMessage: ''})
       }
     }).catch( (err) => {
-      console.log(err)
+      
     }) 
   }
 

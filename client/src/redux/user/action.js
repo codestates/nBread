@@ -60,7 +60,7 @@ const userSignUp = (data) => {
 
 //회원수정
 const userEdit = (data) => {
-  console.log('뭐가 들어왔냐?', data)
+  // console.log('뭐가 들어왔냐?', data)
   return {
     type : USER_EDIT,
     payload: data
@@ -125,7 +125,7 @@ export const axiosUserDelete = () => {
   return (dispatch) => {
   axios.delete(`${process.env.REACT_APP_API_URL}/users`,{withCredentials: true})
   .then(res => {
-    console.log('res',res)
+    // console.log('res',res)
   dispatch(userDelete())
   })
   .catch(err=> console.log(err))
@@ -153,7 +153,7 @@ export const axiosUserSignUp = (data) => {
   }
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
-    console.log('2244445454522',data)
+    // console.log('2244445454522',data)
     return (dispatch) => {
     dispatch(userEdit(data))
     axios.patch(`${process.env.REACT_APP_API_URL}/users`, {
@@ -169,11 +169,11 @@ export const axiosUserSignUp = (data) => {
     .then(data => {
       
       if(data.status===200){
-        console.log('수정완료')
+        // console.log('수정완료')
         dispatch(userEdit(data.data.data))
         
       }else{
-        console.log('err')
+        // console.log('err')
       }
     
     })
@@ -183,13 +183,13 @@ export const axiosUserSignUp = (data) => {
 
 //-----------프로필사진변경-------------------
 export const axiosProfileImageEdit = (data) => {
-  console.log('프로필사진 변경 데이타',data)
+  // console.log('프로필사진 변경 데이타',data)
   return (dispatch) => {
     if(data){
-      console.log('수정완료')
+      // console.log('수정완료')
       dispatch(ProfileImageEdit(data))
     }else{
-      console.log('err')
+      // console.log('err')
     }
   }
   }
@@ -199,7 +199,7 @@ export const axiosProfileImageDelete = () => {
   return (dispatch) => {
     axios.patch(`${process.env.REACT_APP_API_URL}/users/picture`,{withCredentials: true})
     .then(res => {
-      console.log('res',res)
+      // console.log('res',res)
     dispatch(ProfileImageDelete())
     })
     .catch(err=> console.log(err))
