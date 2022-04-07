@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST, SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
+import io from 'socket.io-client';
+
+const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 const showPostSuccess = (post) => {
   const posts = post.data.data
@@ -38,8 +41,10 @@ const showPostDelete = () => {
 // }
 
 
-export const showPostUserDelete = (contentId) => {
-  // console.log('contentId',contentId)
+export const showPostUserDelete = (contentId, nickname) => {
+
+  socket.emit('leaveRoom', ({ contentId, nickname }));
+
   return (dispatch) => {
     axios.delete(`${process.env.REACT_APP_API_URL}/contents/${contentId}`)
     .then(res => {

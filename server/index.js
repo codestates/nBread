@@ -209,6 +209,25 @@ io.on('connection', (socket) => {
    
   });
 
+  socket.on('leaveRoom', ({ roomId, nickname }) => {
+    users.forEach( (el) => {
+      if (el.nickname === nickname) {
+        
+        let index = el.userRoom.findIndex((el) => el.id === roomId);
+        
+        el.userRoom.splice(index, 1);
+      }
+    });
+    rooms.forEach( (el) => {
+      if (el.id === roomId) {
+        
+        let index = el.roomUsers.findIndex((el) => el === nickname);
+        
+        el.roomUsers.splice(index, 1);
+      }
+    });
+  });
+
   socket.on('disconnect', () => {
     
   });

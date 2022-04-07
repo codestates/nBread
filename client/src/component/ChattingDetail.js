@@ -72,6 +72,14 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     }
   };
 
+  const leaveRoom = () => {
+    
+    let nickname = data.nickname;
+    let roomId = newRoomName.chatId
+
+    socket.emit('leaveRoom', ({ roomId, nickname }));
+  };
+
   return (
     <>
     <ModalBackdrop onClick={closeChattingModal}>
@@ -88,7 +96,7 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
           </svg></PostSpan>
-          {newRoomName.chatName}      
+          {newRoomName.chatName}       {/* 여기 추가함 */}<button onClick={leaveRoom}>채팅방 떠나기</button>      
         </PostingWriteTitle>
 
         <ChattingWrapper>

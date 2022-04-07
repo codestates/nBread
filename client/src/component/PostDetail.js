@@ -84,7 +84,7 @@ function PostDetail({click, setClick}) {
       cancelButtonText: '취소'
 		}).then((result) => {
       if (result.value) {
-        dispatch(showPostUserDelete(postId))
+        dispatch(showPostUserDelete(postId, userInfo.nickname))
         window.location.replace("/") 
       }else{
       }
@@ -167,7 +167,7 @@ function PostDetail({click, setClick}) {
       cancelButtonText: '취소'
 		}).then((result) => {
       if (result.value) {
-        dispatch(editPostCancelRecruitment(list.id))
+        dispatch(editPostCancelRecruitment(list.id, userInfo.nickname))
         window.location.replace("/") 
       }else{
       }
