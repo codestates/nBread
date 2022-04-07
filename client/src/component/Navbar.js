@@ -1,6 +1,6 @@
 import React, { useRef, useEffect , useState} from "react";
 import styled from 'styled-components';
-import logo from '../icons/nBreadds.png';
+import logo from '../icons/nBread7.jpg';
 import Login from "../modal/Login";
 import SignUp from "../modal/SignUp";
 import LoginUser from "../component/LoginUser";
@@ -69,6 +69,7 @@ z-index: 1;
 
 const Logo = styled.img`
 width: 80px;
+margin-top: 10px;
 margin-left: 20px;
 @media (max-width: 576px) {
   width: 70px;
