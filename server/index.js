@@ -66,6 +66,8 @@ app.get('/', (req, res) => {
 app.use('/users', controllers.editPicture);
 app.get('/users', controllers.userBoard);
 app.post('/users/signup', controllers.signup);
+app.post('/users/checkId', controllers.checkId);
+app.post('/users/checkNickname', controllers.checkNickname);
 app.post('/users/login', controllers.login);
 app.post('/users/logout', controllers.logout);
 app.delete('/users', controllers.memberWithdrawal);
