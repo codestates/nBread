@@ -60,11 +60,12 @@ function PostDetail({click, setClick}) {
 
   const handelPostDelete = () => {
     Swal.fire({
-      title: '글을 삭제하시겠습니까?',
-      icon: 'warning',
+      title: '삭제하시겠습니까?',
+      padding: '1.5em',
+      height: 700,
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -81,23 +82,26 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    Swal.fire({
-      title: '글을 수정하시겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '확인',
-      cancelButtonText: '취소'
-		}).then((result) => {
-      if (result.value) {
-        dispatch(editPostDetail(list.id,postEditInfo))
-        setEditText(!editText)
-        window.location.replace("/MyPage") 
-      }else{
-        setEditText(!editText)
-      }
-		})
+    // Swal.fire({
+    //   title: '수정하시겠습니까?',
+    //   padding: '1.5em',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#D4AA71',
+    //   cancelButtonColor: '#B51D29',
+    //   confirmButtonText: '확인',
+    //   cancelButtonText: '취소'
+		// }).then((result) => {
+    //   if (result.value) {
+    //     dispatch(editPostDetail(list.id,postEditInfo))
+    //     setEditText(!editText)
+    //     window.location.replace("/MyPage") 
+    //   }else{
+    //     setEditText(!editText)
+    //   }
+		// })
+    dispatch(editPostDetail(list.id,postEditInfo))
+    setEditText(!editText)
+    window.location.replace("/MyPage") 
   }
   
 
@@ -108,9 +112,10 @@ function PostDetail({click, setClick}) {
   const handlePostClosed = () => {
     Swal.fire({
       title: '마감하시겠습니까?',
+      padding: '1.5em',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
 		}).then((result) => {
@@ -144,7 +149,7 @@ function PostDetail({click, setClick}) {
                 </PostUpdateDelete>
               : ( userInfo.id === listUserId && editText
                   ?  <PostUpdateDelete>
-                        <PostUpdate onClick={handelPostEditComplete}> 수정 완료 </PostUpdate>
+                        <PostUpdate onClick={handelPostEditComplete}> 완료 </PostUpdate>
                         <PostDelete onClick={handelPostDelete}> 삭제 </PostDelete>
                     </PostUpdateDelete>
                   : null
@@ -334,6 +339,8 @@ const PostEditString = styled.input`
   font-size: 16px;
   width: 120px;
   border: none;
+  margin-left: 5px;
+  padding-left: 5px;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;    
@@ -350,6 +357,8 @@ const PostEditNumber = styled.input`
       -webkit-appearance: none; 
       margin: 0; 
   }  
+  margin-left: 5px;
+  padding-left: 5px;
   font-size: 16px;
   width: 60px;
   border: none;
@@ -366,6 +375,7 @@ const PostEditDiv = styled.textarea`
   height: 20vh;
   border: none;
   flex-wrap: wrap;
+  padding-left: 5px;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;   

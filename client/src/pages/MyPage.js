@@ -11,6 +11,8 @@ import DaumPostcode from 'react-daum-postcode';
 import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
 import './MyPage.css'
+import Swal from 'sweetalert2'
+
 
 const { kakao } = window;
 
@@ -139,11 +141,33 @@ const handleUserEdit = () => {
         if (
           nickname === '' || phone_number === '' || address === '' || (!password || !passwordCheck) && (password !== passwordCheck)
         ){
-          console.log('err')
-          alert('올바로입력바랍니다.')
+          // console.log('err')
+          // alert('올바로입력바랍니다.')
+          Swal.fire({
+            title: '비어있는 칸이 있어요',
+            width: 500,
+            padding: '1.5em',
+            confirmButtonColor: '#B51D29',
+            color: 'black',
+            background: '#fff ',
+            backdrop: ` 
+              rgba(0,0,0,0.4)
+            `
+          })
         }else{
           dispatch(axiosUserEdit(settingUserinfo))
-          alert('수정완료')
+          Swal.fire({
+            title: '수정완료',
+            width: 500,
+            padding: '1.5em',
+            confirmButtonColor: '#B51D29',
+            color: 'black',
+            background: '#fff ',
+            backdrop: ` 
+              rgba(0,0,0,0.4)
+            `
+          })
+          // alert('수정완료')
           setChangeInfoBtn(!changeInfoBtn)
         }
       }   
@@ -152,11 +176,27 @@ const handleUserEdit = () => {
 
 //회원탈퇴 테스트 
   const handleUserDelete = () => {  
-    alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
-    dispatch(axiosUserDelete())
-    alert('회원탈퇴되었습니다.')
-    history.push("/")
-    isLogin(false)
+    // alert('회원탈퇴 하시겠습니까? 회원정보가 삭제됩니다.')
+    // dispatch(axiosUserDelete())
+    // alert('회원탈퇴되었습니다.')
+    // history.push("/")
+    // isLogin(false)
+    Swal.fire({
+      title: '탈퇴 하시겠습니까?',
+      padding: '1.5em',
+      height: 700,
+      showCancelButton: true,
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(axiosUserDelete())
+        history.push("/")
+      }else{
+      }
+		})
     
   }
     // 주소 검색 api

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { axiosProfileImageEdit } from '../redux/user/action';
 import { axiosProfileImageDelete } from '../redux/user/action';
 import { Button } from 'antd'
+import Swal from 'sweetalert2'
+
 
 function ProfileImage(props) {
   const [Img, setImg] = useState(null);
@@ -26,22 +28,59 @@ function ProfileImage(props) {
     axios.post(`${process.env.REACT_APP_API_URL}/users/picture`, formData, config)
       .then(response => {
         if(response.data.success) {
-          alert('파일저장성공')
+          // alert('파일저장성공')
+          Swal.fire({
+            title: '사진변경 성공!',
+            width: 500,
+            padding: '1.5em',
+            confirmButtonColor: '#B51D29',
+            color: 'black',
+            background: '#fff ',
+            backdrop: ` 
+              rgba(0,0,0,0.4)
+            `
+          })
           setImg(response.data.filePath)
           console.log(Img,'88888888888888')
           props.updateImages(response.data.filePath)
           dispatch(axiosProfileImageEdit(response.data.filePath))
         }else {
-          alert ('파일저장실패')
+          Swal.fire({
+            title: '사진변경 실패!',
+            width: 500,
+            padding: '1.5em',
+            confirmButtonColor: '#B51D29',
+            color: 'black',
+            background: '#fff ',
+            backdrop: ` 
+              rgba(0,0,0,0.4)
+            `
+          })
         }
       })
   }
   //이미지삭제
   const deletImage = () => {
-    alert('삭제됩니다.')
-    dispatch(axiosProfileImageDelete())
-    alert ('삭제?')
-    setImg(null)
+    // alert('삭제됩니다.')
+    // dispatch(axiosProfileImageDelete())
+    // alert ('삭제?')
+    // setImg(null)
+    Swal.fire({
+      title: '삭제하시겠습니까?',
+      padding: '1.5em',
+      showCancelButton: true,
+      confirmButtonColor: '#D4AA71',
+      cancelButtonColor: '#B51D29',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+		}).then((result) => {
+      if (result.value) {
+        dispatch(axiosProfileImageDelete())
+        setImg(null)
+      }else{
+      }
+		})
+    
   }
 
   return (
