@@ -26,7 +26,7 @@ router.post('/picture', upload.single("file"), function(req, res, next) {
     return res.status(204).send({ message: '권한 없음' });
   }
 
-  const picturePath = res.req.file.path.slice(17);
+  const picturePath = res.req.file.path.slice(16);
 
   user.update({
     picture: picturePath
