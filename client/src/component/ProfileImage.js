@@ -92,7 +92,7 @@ function ProfileImage(props) {
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
                 <input {...getInputProps()} id="input-file" />
-                <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
+                <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic2.png" }/>
               </MyProfile>
             )}
           </Dropzone>
@@ -142,6 +142,7 @@ background-color: #efefef;
 width: 100%;
 height: 100%;
 border-radius: 50%;
+
 `;
 
 const ImageLabel = styled.label`

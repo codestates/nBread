@@ -144,9 +144,7 @@ export const axiosUserSignUp = (data) => {
     nickname: data.nickname
     },{},{withCredentials: true})
   .then(res => {
-    // console.log('회원가입',res)
     if(res.status===200){
-      // console.log('회원가입완료')
       dispatch(userSignUp(data))
     }
   })

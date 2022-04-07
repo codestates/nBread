@@ -149,7 +149,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
     phonNumberRegExp.test(phone_number) && address){
       dispatch(axiosUserSignUp(userInfo))
       Swal.fire({
-        title: '회원가입 완료',
+        title: '회원가입 되었습니다. 로그인해주세요.',
         width: 500,
         padding: '1.5em',
         confirmButtonColor: '#B51D29',
@@ -161,6 +161,7 @@ function SignUp({handleCloseSignupModal,setLoginModal}) {
       })
         // alert('회원가입 완료되었습니다.')
         handleCloseSignupModal()
+        setLoginModal(true);
     }
   }
 
@@ -348,7 +349,8 @@ color: gray;
 const Err = styled.div`
 font-size: 14px;
 color: red;
-margin-top: 2px;
+/* margin-top: 1px; */
+margin-bottom: -10px;
 `;
 
 

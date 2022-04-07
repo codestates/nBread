@@ -36,7 +36,7 @@ function LoginUser({setLoginModal}) {
     <Wrapper  onClick={handleDropDown}> 
     <MenuTrigger onClick={onClick}>
     <UserName> {data.nickname + " 님"}</UserName>
-          <UserImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
+          <UserImg src={isLogin.picture ? isLogin.picture : "img/basic2.png" }/>
       </MenuTrigger>
       <Svg onClick={handleDropDown}
         xmlns="http://www.w3.org/2000/svg" 
@@ -113,6 +113,7 @@ const UserImg = styled.img`
   height: 40px;
   border-radius: 50%;
   background-color: #737373;
+  border: solid 1px #D2D1D1;
 `;
 
 const Svg = styled.svg`
