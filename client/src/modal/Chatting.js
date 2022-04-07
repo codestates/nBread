@@ -173,8 +173,6 @@ margin-top: 5px;
 const ChattingListImg = styled.img`
 width: 50px;
 height: 50px;
-background-color: #D2D1D1;
-border-radius: 50%;
 margin-top: 20px;
 margin-left: 20px;
 `;

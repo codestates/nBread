@@ -50,6 +50,7 @@ const loginReducer = (state=loginInitialState, action) => {
       case USER_DELETE:
         return {
           ...state, 
+          isLogIn: false,
           data: null
         }
       //회원가입
