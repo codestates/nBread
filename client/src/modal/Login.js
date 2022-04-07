@@ -36,15 +36,8 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
       setDuplicateCheck('')
     }else{
       dispatch(axiosLogin(loginInfo))
-      if(isLogin){
-        setLoginModal(false)
-      }else{
-        setLoginModal(true)
-        
-      }
-        
-    
-      
+      setLoginModal(false)
+
       // window.location.replace("/") 
     }
   }
@@ -66,9 +59,9 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
           <Err>{errorMessage}</Err>
           <Err>{duplicateCheck}</Err>
           <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
-          <LoginButton type='submit'>카카오 로그인</LoginButton>
+          {/* <LoginButton type='submit'>카카오 로그인</LoginButton> */}
             <SignUpButton onClick={handleSignupModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>회원가입</SignUpButton>
-            <PassWorldCheck onClick={handlePWConfirmModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>비밀번호찾기</PassWorldCheck>
+            {/* <PassWorldCheck onClick={handlePWConfirmModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>비밀번호찾기</PassWorldCheck> */}
         </LoginForm>
       </Wrapper>
     </ModalBackdrop>
