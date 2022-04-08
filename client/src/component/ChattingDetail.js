@@ -186,6 +186,9 @@ const PostingWriteTitle = styled.div`
 const PostSpan = styled.span`
   margin-top: 25px;
   margin-left: 10px;
+  &:hover{  
+  cursor: pointer;
+}
 `
 const PostNameDiv = styled.div`
   font-family: var(--main-font);
@@ -226,6 +229,7 @@ right: 0;
 background-color: rgba(0,0,0,0.4);
 display: grid;
 place-items: center;
+
 `;
 
 const Wrapper = styled.div`
@@ -245,6 +249,7 @@ const Wrapper = styled.div`
     border-radius: 20px;
     border: 1px solid #737373;
     @media (max-width: 576px) {
+      overFlow : hidden;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -259,7 +264,6 @@ margin-bottom: 20px;
 `;
 
 const LoginForm = styled.div`
-
 
 `;
 
@@ -331,5 +335,8 @@ border: none;
 background-color: #D5B483;
 color: white;
 border-radius: 6px;
+&:hover{  
+  cursor: pointer;
+}
 `
 export default ChattingDetail;

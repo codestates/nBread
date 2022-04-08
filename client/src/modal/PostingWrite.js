@@ -102,7 +102,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       Swal.fire({
         title: '글쓰기 성공!',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',
@@ -250,6 +250,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   const PostSpan = styled.span`
     position: absolute;
     right: 40px;
+    &:hover{  
+    cursor: pointer;
+  }
   `
 
   const PostingWriteForm = styled.div`
@@ -307,6 +310,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     padding-left: 5px;
     border:solid 1px #C4C4C4;
     border-radius: 6px;
+    &:hover{  
+    cursor: pointer;
+    }
   `;
 
   const SelectDiv = styled.div`
@@ -349,6 +355,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin-top: 7%;
     border-radius: 6px;
+    &:hover{  
+    cursor: pointer;
+    }
   `;
 
   const StyledMeneSelect = styled(Select)`
