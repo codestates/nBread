@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, {useState} from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosLogin } from '../redux/user/action';
 import SignUp from "./SignUp";
@@ -34,20 +35,27 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
     if (userId === '' || password === '') {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
       setDuplicateCheck('')
-    }else{
-      dispatch(axiosLogin(loginInfo))
-      if(isLogin){
-        setLoginModal(false)
-      }else{
-        setLoginModal(true)
-        
-      }
-        
-    
+    }else {
+      axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
+        username: loginInfo.username,
+        password: loginInfo.password
+        },{withCredentials: true})
+        .then(data => {
+          if(data.data.message === '아이디 또는 비밀번호가 일치하지 않습니다'){
+            setDuplicateCheck('아이디 또는 비밀번호가 일치하지 않습니다')
+          } else{
+            dispatch(axiosLogin(loginInfo))
+            setLoginModal(false)
+          }
+          
+          })
+          
       
-      // window.location.replace("/") 
-    }
+      
   }
+  }
+
+
 
   return (
     <>
@@ -66,9 +74,9 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
           <Err>{errorMessage}</Err>
           <Err>{duplicateCheck}</Err>
           <LoginButton  onClick={handleLogin} type='submit'>로그인</LoginButton>
-          <LoginButton type='submit'>카카오 로그인</LoginButton>
+          {/* <LoginButton type='submit'>카카오 로그인</LoginButton> */}
             <SignUpButton onClick={handleSignupModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>회원가입</SignUpButton>
-            <PassWorldCheck onClick={handlePWConfirmModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>비밀번호찾기</PassWorldCheck>
+            {/* <PassWorldCheck onClick={handlePWConfirmModal} handleCloseSignupModal={handleCloseSignupModal} setLoginModal={setLoginModal}>비밀번호찾기</PassWorldCheck> */}
         </LoginForm>
       </Wrapper>
     </ModalBackdrop>
@@ -104,6 +112,7 @@ transform: translate(-50%, -50%);
 border-radius: 30px;
 `;
 const LoginTitle = styled.div`
+font-family: var(--main-font);
 font-size: 28px;
 margin-top: 25px;
 margin-bottom: 35px;

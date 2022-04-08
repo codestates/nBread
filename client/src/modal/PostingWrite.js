@@ -102,7 +102,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       Swal.fire({
         title: '글쓰기 성공!',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',
@@ -150,7 +150,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     <>
     <ModalBackdrop onClick={openModalPostingWrite}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
-        <PostingWriteForm onSubmit={(e) => e.preventDefault()}>
+        <PostingWriteForm >
           <PostingWriteTitle>모집글작성      
             <PostSpan onClick={openModalPostingWrite}>&times;</PostSpan>
           </PostingWriteTitle>
@@ -201,7 +201,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
             <Detail placeholder='세부사항을 작성해주세요.' onChange={handleWritingValue('body')}/>
           </InputFieldDiv>
           <Err>{errorMessage}</Err>
-          <PostingWriteButton onClick={handleWritingBtn} type='submit'>등록하기</PostingWriteButton>
+          <PostingWriteButton onClick={handleWritingBtn} >등록하기</PostingWriteButton>
         </PostingWriteForm>
       </Wrapper>
     </ModalBackdrop>
@@ -250,9 +250,12 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   const PostSpan = styled.span`
     position: absolute;
     right: 40px;
+    &:hover{  
+    cursor: pointer;
+  }
   `
 
-  const PostingWriteForm = styled.form`
+  const PostingWriteForm = styled.div`
   `;
 
   const InputFieldDiv = styled.div`
@@ -303,10 +306,13 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin: 0 auto;
     margin-top: 20px;
-    padding-top: 5px;
+    padding-top: 1px;
     padding-left: 5px;
     border:solid 1px #C4C4C4;
     border-radius: 6px;
+    &:hover{  
+    cursor: pointer;
+    }
   `;
 
   const SelectDiv = styled.div`
@@ -319,9 +325,18 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     display: flex;
 `;
 
-  const Detail = styled(InputField)`
+  const Detail = styled.textarea`
     height: 180px;    
+    font-size: 18px;
     margin-top: 20px;
+    width: 295px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-radius: 6px;
+    border: 1px solid #CCC;
+  ::placeholder { 
+  font-size: 18px !important;
+}
   `;
 
   const Err = styled.div`
@@ -340,6 +355,9 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     font-size: 18px;
     margin-top: 7%;
     border-radius: 6px;
+    &:hover{  
+    cursor: pointer;
+    }
   `;
 
   const StyledMeneSelect = styled(Select)`

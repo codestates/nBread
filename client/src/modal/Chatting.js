@@ -55,7 +55,7 @@ function Chatting({setChattingModal}) {
     <ModalBackdrop onClick={closeChattingModal}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
-        <PostingWriteTitle>채팅      
+        <PostingWriteTitle>채팅
             <PostSpan onClick={closeChattingModal}>&times;</PostSpan>
           </PostingWriteTitle>
       {
@@ -111,6 +111,7 @@ place-items: center;
 
 
 const PostingWriteTitle = styled.div`
+font-family: var(--main-font);
 font-size: 28px;
 margin-top: 25px;
 margin-bottom: 25px;
@@ -119,6 +120,9 @@ margin-bottom: 25px;
 const PostSpan = styled.span`
 position: absolute;
 right: 40px;
+&:hover{  
+  cursor: pointer;
+}
 `
 
 const Wrapper = styled.div`
@@ -137,6 +141,7 @@ const Wrapper = styled.div`
     z-index: 1;
     border-radius: 20px;
     @media (max-width: 576px) {
+      overFlow : hidden;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -168,6 +173,9 @@ border: 1px solid #A3A3A3;
 display: flex;
 border-radius: 6px;
 margin-top: 5px;
+&:hover{  
+  cursor: pointer;
+}
 `;
 
 const ChattingListImg = styled.img`

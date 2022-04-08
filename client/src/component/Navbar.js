@@ -41,10 +41,11 @@ function Navbar() {
   }
   
   const handleMainPage = () => {
-    history.push("/")
+    window.location.replace("/") 
   }
   return (
     <>
+    
       <Wrapper>
         <Logo src={logo} onClick={handleMainPage}/>
       {isLogin ? <LoginUser setLoginModal={setLoginModal}>로그아웃</LoginUser>:<LoginText onClick={handleLoginModal}>로그인</LoginText>}
@@ -56,6 +57,7 @@ function Navbar() {
       {SignUpModal ? <SignUp handleCloseSignupModal={handleCloseSignupModal} handleLoginModal={handleLoginModal} setLoginModal={setLoginModal}></SignUp>:null}
 
       {PWConfirmModal ? <PWConfirm handleClosePWConfirm={handleClosePWConfirm} handleLoginModal={handleLoginModal} setLoginModal={setLoginModal}></PWConfirm>:null}
+    
     </>
   );
 }
@@ -67,6 +69,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 z-index: 1;
+
 @media (max-width: 576px) {
   height: 80px;
 } 
@@ -76,13 +79,21 @@ const Logo = styled.img`
 width: 80px;
 margin-top: 10px;
 margin-left: 20px;
+&:hover{  
+    cursor: pointer;
+}
 @media (max-width: 576px) {
-  width: 70px;
+  width: 60px;
 } 
 `; 
 
 const LoginText = styled.div`
 margin-right: 2em;
 `; 
+
+// const Div = styled.div`
+// position: fixed;
+// width: 100%;
+// `; 
 
 export default Navbar;

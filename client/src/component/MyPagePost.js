@@ -33,6 +33,9 @@ const PostButton = styled.div`
   font-weight: bold;
   border: 1px solid #C9C9C9;
   width: 50%;
+  &:hover{  
+  cursor: pointer;
+}
 `
 const PostOpenButton = styled.div`
   background-color: #EEEEEE;
@@ -44,6 +47,9 @@ const PostOpenButton = styled.div`
   font-weight: bold;
   border: 1px solid #C9C9C9;
   width: 50%;
+  &:hover{  
+  cursor: pointer;
+}
 `
 
 const Wrapper = styled.div`

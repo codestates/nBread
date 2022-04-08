@@ -10,7 +10,7 @@ const writingPostsReducer = (state=postInitialState, action) => {
   switch(action.type){
     case WRITING_POST_SUCCESS:
       let newPost = action.payload;
-      console.log('writing',newPost)
+      // console.log('writing',newPost)
       return {
         ...state, 
         newPost,

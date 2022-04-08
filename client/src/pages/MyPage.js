@@ -12,6 +12,8 @@ import MyPagePost from '../component/MyPagePost';
 import ProfileImage from '../component/ProfileImage';
 import './MyPage.css'
 import Swal from 'sweetalert2'
+import axios from 'axios';
+
 
 
 const { kakao } = window;
@@ -130,49 +132,61 @@ function MyPage() {
   }
 //메인페이지로 이동 버튼
   const clickHomelBtn = () => {
-    history.push("/")
+    history.push("/LandingPage")
   }
 
   //마이페이지 수정
 const handleUserEdit = () => {
   const{nickname, phone_number, address, password, passwordCheck } = settingUserinfo
-    setChangeInfoBtn(!changeInfoBtn)
-      if(changeInfoBtn){
-        if (
-          nickname === '' || phone_number === '' || address === '' || (!password || !passwordCheck) && (password !== passwordCheck)
-        ){
-          // console.log('err')
-          // alert('올바로입력바랍니다.')
-          Swal.fire({
-            title: '비어있는 칸이 있어요',
-            width: 500,
-            padding: '1.5em',
-            confirmButtonColor: '#B51D29',
-            color: 'black',
-            background: '#fff ',
-            backdrop: ` 
-              rgba(0,0,0,0.4)
-            `
+    setChangeInfoBtn(true)
+    if(changeInfoBtn){
+      if (!nickname || !phone_number || !address || (!password || !passwordCheck) && (password !== passwordCheck)) {
+        setMessage({ ...message, errorMessage: '모든 항목은 필수입니다'})
+        setValidation({ ...validation, errorValidation: true})
+      }else if(message.nicknameMessage === '이미 존재하는 닉네임입니다'){
+        setMessage({ ...message, errorMessage: '다시 확인 해주세요'})
+        setValidation({ ...validation, errorValidation: true})
+      }else{
+        dispatch(axiosUserEdit(settingUserinfo))
+        setMessage({ ...message, errorMessage: ''})
+        Swal.fire({
+        title: '수정 완료',
+        width: 500,
+        padding: '3em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
           })
-        }else{
-          dispatch(axiosUserEdit(settingUserinfo))
-          Swal.fire({
-            title: '수정완료',
-            width: 500,
-            padding: '1.5em',
-            confirmButtonColor: '#B51D29',
-            color: 'black',
-            background: '#fff ',
-            backdrop: ` 
-              rgba(0,0,0,0.4)
-            `
-          })
-          // alert('수정완료')
-          setChangeInfoBtn(!changeInfoBtn)
-        }
-      }   
+        setChangeInfoBtn(!changeInfoBtn)
+      }
+    }
 }
 
+  const handleOnBlurNickName = (e) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/users/checkNickname`,{ nickname: e.target.value },{withCredentials: true})
+    .then( (res) => {
+      if(isLogin.data.nickname === e.target.value){
+        setValidation({ ...validation, nicknameValidation: false})
+        setMessage({ ...message, nicknameMessage: ''})
+      }
+      else if (e.target.value.length < 2 || e.target.value.length > 10 || !nicknameRegExp.test(e.target.value)) {
+        setMessage({ ...message, nicknameMessage: '2~10자 한글, 영어 , 숫자만 사용 가능 합니다'})
+        setValidation({ ...validation, nicknameValidation: true})
+      } else if(res.data.message === '이미 사용중인 닉네임 입니다') {
+        setMessage({ ...message, nicknameMessage: '이미 존재하는 닉네임입니다'})
+        setValidation({ ...validation, nicknameValidation: true})
+      }
+      else {
+        setValidation({ ...validation, nicknameValidation: false})
+        setMessage({ ...message, nicknameMessage: ''})
+      }
+    }).catch( (err) => {
+      console.log(err)
+    }) 
+  }
 
 //회원탈퇴 테스트 
   const handleUserDelete = () => {  
@@ -183,13 +197,12 @@ const handleUserEdit = () => {
     // isLogin(false)
     Swal.fire({
       title: '탈퇴 하시겠습니까?',
-      padding: '1.5em',
-      height: 700,
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
-      cancelButtonText: '취소'
+      cancelButtonText: '취소',
 		}).then((result) => {
       if (result.value) {
         dispatch(axiosUserDelete())
@@ -254,7 +267,7 @@ const handleUserEdit = () => {
         // 회원정보 수정중인 상태
         <MyPageForm onSubmit={(e) => e.preventDefault()}>
         <InputTitle>닉네임</InputTitle>
-        <InputField defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
+        <InputField onBlur={(e)=>handleOnBlurNickName(e)} defaultValue={isLogin.data.nickname} onChange={settingOnChange('nickname')}/>
         {settingUserinfo.nickname.length > 0 && validation.nicknameValidation ? <Err>{message.nicknameMessage}</Err> : null}
         <InputTitle>전화번호</InputTitle>
         <InputField defaultValue={isLogin.data.phone_number} onChange={settingOnChange('phone_number')}/>
@@ -296,7 +309,7 @@ const handleUserEdit = () => {
         <InputFieldPassWordSize type='password' onChange={settingOnChange('passwordCheck')}/>
         {validation.passwordCheckValidation ? <Err>{message.passwordCheckMessage}</Err> : null}
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
-        <Err>{errorMessage}</Err>
+        <Err>{message.errorMessage}</Err> 
         <EditButton onClick={handleUserEdit}>수정완료</EditButton>
         </MyPageForm>
       ) : (
@@ -411,6 +424,9 @@ width: 90px;
 height: 90px;
 background-color: #B51D29;
 color: white;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 70px;
   height: 70px;
@@ -457,6 +473,7 @@ font-size: 18px;
 margin-top: 10px;
 border: solid #C4C4C4 1px;
 border-radius: 3px;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #D9C6AC;   
@@ -486,6 +503,7 @@ font-size: 18px;
 margin-top: 10px;
 border: solid #C4C4C4 1px;
 border-radius: 3px;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #D9C6AC;   
@@ -513,6 +531,7 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
+padding-left: 5px;
 @media (max-width: 400px) {
   width: 240px;
   height: 46px;
@@ -547,6 +566,9 @@ border: none;
 border-radius: 6px;
 margin-top: 30px;
 font-size: 16px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 150px;
   height: 46px;
@@ -567,6 +589,9 @@ const SignUpToLogin = styled.div`
 margin-top: 20px;
 font-size: 14px;
 color: gray;
+&:hover{  
+    cursor: pointer;
+    }
 `;
 
 const Err = styled.div`
@@ -602,6 +627,10 @@ margin-top: 20px;
 border: 1px #C4C4C4 solid;
 border-radius: 3px;
 color: gray;
+padding-left: 5px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 340px;
   height: 46px;
@@ -628,6 +657,9 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   width: 70px;

@@ -46,7 +46,17 @@ function Main() {
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){
-      Swal.fire('로그인이 필요합니다')
+      Swal.fire({
+        title: '로그인이 필요합니다',
+        width: 500,
+        padding: '3em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
       setPostingWriteModal(false)
     }else{
       setPostingWriteModal(!PostingWriteModal);
@@ -55,7 +65,17 @@ function Main() {
   //채팅
   const openModalChatting = () => {
     if(!userInfo.isLogIn){
-      Swal.fire('로그인이 필요합니다')
+      Swal.fire({
+        title: '로그인이 필요합니다',
+        width: 500,
+        padding: '3em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
       setChattingModal(false)
     }else{
       setChattingModal(!ChattingModal)
@@ -77,6 +97,7 @@ function Main() {
         }
     };
     ps.keywordSearch(`${searchAddress}`, placesSearchCB); 
+    onReset()
   }
 
   const handleSearchAddress = (e) => {
@@ -87,7 +108,12 @@ function Main() {
     if(e.key === 'Enter'){
       SearchMap()
     }
+
   }
+
+  const onReset = () => {
+    SetSearchAddress(' ');
+  };
 
   const [writingAddress, SetWritingAddress] = useState({
     lat: 37.49676871972202, 
@@ -128,7 +154,7 @@ function Main() {
           <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
         <SearchDiv openPost={openPost}>
-          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
+          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress} value={searchAddress}></SearchInputDiv>
           {/* <SearchBtnDiv onClick={SearchMap} >검색</SearchBtnDiv> */}
           <SearchBtnDiv onClick={SearchMap} >
             <svg xmlns="http://www.w3.org/2000/svg" 
@@ -199,6 +225,8 @@ height: calc(100vh - 100px);
 `;
 
 const WritingButton = styled.button`
+font-family: var(--main-font);
+font-size: 16px;
 display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 160px;
@@ -210,14 +238,21 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 576px) {
+  font-size: 14px;
   width: 70px;
   height: 70px;
   bottom: 140px;
 } 
+
 `;
 
 const ChattingButton = styled.button`
+font-family: var(--main-font);
+font-size: 16px;
 display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
@@ -229,7 +264,11 @@ height: 90px;
 background-color: #B51D29;
 color: white;
 z-index: 1;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 576px) {
+  font-size: 14px;
   width: 70px;
   height: 70px;
 }  
@@ -272,13 +311,18 @@ const SearchBtnDiv = styled.div`
   top: 133px;
   right: 20px;
   z-index: 1;
+  &:hover{  
+  cursor: pointer;
+}
   @media (max-width: 576px) {
     top: 108px;
   }  
 `
 
 const MobileButton = styled.button`
+  font-family: var(--main-font);  
   display: none;
+  font-size: 16px;
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   bottom: 0px;

@@ -32,7 +32,7 @@ function ProfileImage(props) {
           Swal.fire({
             title: '사진변경 성공!',
             width: 500,
-            padding: '1.5em',
+            padding: '3em',
             confirmButtonColor: '#B51D29',
             color: 'black',
             background: '#fff ',
@@ -48,7 +48,7 @@ function ProfileImage(props) {
           Swal.fire({
             title: '사진변경 실패!',
             width: 500,
-            padding: '1.5em',
+            padding: '3em',
             confirmButtonColor: '#B51D29',
             color: 'black',
             background: '#fff ',
@@ -67,7 +67,7 @@ function ProfileImage(props) {
     // setImg(null)
     Swal.fire({
       title: '삭제하시겠습니까?',
-      padding: '1.5em',
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
@@ -92,7 +92,7 @@ function ProfileImage(props) {
           {({getRootProps, getInputProps}) => (
               <MyProfile {...getRootProps()}>
                 <input {...getInputProps()} id="input-file" />
-                <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic.png" }/>
+                <FrofileImg src={isLogin.picture ? isLogin.picture : "img/basic2.png" }/>
               </MyProfile>
             )}
           </Dropzone>
@@ -131,6 +131,9 @@ top: 40px;
 left: 35px;
 color: white;
 text-align: center;
+&:hover{  
+    cursor: pointer;
+}
 @media (max-width: 400px) {
   top: 20px;
   left: 25px;
@@ -155,6 +158,9 @@ margin-left: 25px;
 margin-right: 5px;
 text-align: center;
 border-radius: 3px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 745px) {
   white-space: nowrap; 
   overflow: hidden;
