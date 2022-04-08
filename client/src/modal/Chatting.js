@@ -120,6 +120,9 @@ margin-bottom: 25px;
 const PostSpan = styled.span`
 position: absolute;
 right: 40px;
+&:hover{  
+  cursor: pointer;
+}
 `
 
 const Wrapper = styled.div`
@@ -170,6 +173,9 @@ border: 1px solid #A3A3A3;
 display: flex;
 border-radius: 6px;
 margin-top: 5px;
+&:hover{  
+  cursor: pointer;
+}
 `;
 
 const ChattingListImg = styled.img`

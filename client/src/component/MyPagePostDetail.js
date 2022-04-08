@@ -320,11 +320,17 @@ display: flex;
 const PostUpdate = styled.div`
 font-size: 14px;
 color: #B1B1B1;
+&:hover{  
+  cursor: pointer;
+}
 `
 const PostDelete = styled.div`
 font-size: 14px;
 color: #B1B1B1;
 margin-left: 4px;
+&:hover{  
+  cursor: pointer;
+}
 `
 
 // const PostListText = styled.div`
@@ -355,6 +361,9 @@ color: white;
 width: 400px;
 height: 56px;
 text-align: center;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   width: 100%;
 } 

@@ -220,6 +220,9 @@ height: 199px;
 padding: 30px;
 margin-bottom: 8px;
 box-shadow: 0 0 4px #737373;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   /* justify-content:center; */
 } 

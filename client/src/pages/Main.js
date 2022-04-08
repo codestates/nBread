@@ -97,6 +97,7 @@ function Main() {
         }
     };
     ps.keywordSearch(`${searchAddress}`, placesSearchCB); 
+    onReset()
   }
 
   const handleSearchAddress = (e) => {
@@ -107,7 +108,12 @@ function Main() {
     if(e.key === 'Enter'){
       SearchMap()
     }
+
   }
+
+  const onReset = () => {
+    SetSearchAddress(' ');
+  };
 
   const [writingAddress, SetWritingAddress] = useState({
     lat: 37.49676871972202, 
@@ -148,7 +154,7 @@ function Main() {
           <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
         <SearchDiv openPost={openPost}>
-          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress}></SearchInputDiv>
+          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress} value={searchAddress}></SearchInputDiv>
           {/* <SearchBtnDiv onClick={SearchMap} >검색</SearchBtnDiv> */}
           <SearchBtnDiv onClick={SearchMap} >
             <svg xmlns="http://www.w3.org/2000/svg" 
@@ -232,12 +238,16 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 576px) {
   font-size: 14px;
   width: 70px;
   height: 70px;
   bottom: 140px;
 } 
+
 `;
 
 const ChattingButton = styled.button`
@@ -254,6 +264,9 @@ height: 90px;
 background-color: #B51D29;
 color: white;
 z-index: 1;
+&:hover{  
+  cursor: pointer;
+}
 @media (max-width: 576px) {
   font-size: 14px;
   width: 70px;
@@ -298,6 +311,9 @@ const SearchBtnDiv = styled.div`
   top: 133px;
   right: 20px;
   z-index: 1;
+  &:hover{  
+  cursor: pointer;
+}
   @media (max-width: 576px) {
     top: 108px;
   }  
