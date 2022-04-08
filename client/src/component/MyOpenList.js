@@ -109,6 +109,9 @@ const Wrapper = styled.div`
   padding: 30px;
   margin-bottom: 8px;
   box-shadow: 0 0 4px #737373;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 const PostListImg = styled.img`

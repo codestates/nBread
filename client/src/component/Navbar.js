@@ -79,6 +79,9 @@ const Logo = styled.img`
 width: 80px;
 margin-top: 10px;
 margin-left: 20px;
+&:hover{  
+    cursor: pointer;
+}
 @media (max-width: 576px) {
   width: 60px;
 } 

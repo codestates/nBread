@@ -424,6 +424,9 @@ width: 90px;
 height: 90px;
 background-color: #B51D29;
 color: white;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 70px;
   height: 70px;
@@ -470,6 +473,7 @@ font-size: 18px;
 margin-top: 10px;
 border: solid #C4C4C4 1px;
 border-radius: 3px;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #D9C6AC;   
@@ -499,6 +503,7 @@ font-size: 18px;
 margin-top: 10px;
 border: solid #C4C4C4 1px;
 border-radius: 3px;
+padding-left: 5px;
 &:focus {
   outline: none;
   border: 1px solid #D9C6AC;   
@@ -526,6 +531,7 @@ height: 56px;
 font-size: 18px;
 margin-top: 10px;
 border: solid #E2E2E2 1px;
+padding-left: 5px;
 @media (max-width: 400px) {
   width: 240px;
   height: 46px;
@@ -560,6 +566,9 @@ border: none;
 border-radius: 6px;
 margin-top: 30px;
 font-size: 16px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 150px;
   height: 46px;
@@ -580,6 +589,9 @@ const SignUpToLogin = styled.div`
 margin-top: 20px;
 font-size: 14px;
 color: gray;
+&:hover{  
+    cursor: pointer;
+    }
 `;
 
 const Err = styled.div`
@@ -615,6 +627,10 @@ margin-top: 20px;
 border: 1px #C4C4C4 solid;
 border-radius: 3px;
 color: gray;
+padding-left: 5px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   width: 340px;
   height: 46px;
@@ -641,6 +657,9 @@ height: 90px;
 background-color: #D4AA71;
 color: white;
 z-index: 1;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   width: 70px;

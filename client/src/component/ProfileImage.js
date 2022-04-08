@@ -131,6 +131,9 @@ top: 40px;
 left: 35px;
 color: white;
 text-align: center;
+&:hover{  
+    cursor: pointer;
+}
 @media (max-width: 400px) {
   top: 20px;
   left: 25px;
@@ -155,6 +158,9 @@ margin-left: 25px;
 margin-right: 5px;
 text-align: center;
 border-radius: 3px;
+&:hover{  
+    cursor: pointer;
+    }
 @media (max-width: 745px) {
   white-space: nowrap; 
   overflow: hidden;

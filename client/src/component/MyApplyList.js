@@ -86,18 +86,13 @@ height: 199px;
 padding: 30px;
 margin-bottom: 8px;
 box-shadow: 0 0 4px #737373;
+&:hover{  
+    cursor: pointer;
+}
 `;
 
 const PostListImg = styled.img`
 `;
-
-// const PostListTextWrapper = styled.div`
-// padding-left: 40px;
-// `
-
-// const PostListText = styled.div`
-// margin-bottom: 10px;
-// `
 
 const PostNone = styled.div`
   margin-top: 10px;
