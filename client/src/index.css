@@ -12,8 +12,13 @@ body {
   padding: 0px;
   margin: 0px;
 } */
-
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@font-face {
+  font-family: 'BinggraeSamanco-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/BinggraeSamanco-Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&family=Jua&family=Noto+Sans+KR:wght@100;300;400&family=Song+Myung&display=swap');
 
  .notosanskr * { 
   font-family: 'Noto Sans KR', sans-serif;
@@ -26,5 +31,5 @@ body {
 } 
 
 :root {
-  --main-font: 'Do Hyeon', sans-serif;
+  --main-font: 'Jua', sans-serif;
 }

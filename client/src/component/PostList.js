@@ -25,7 +25,7 @@ align-items: center;
 justify-content: space-between;
 height: 70px;
 font-size: 18px;
-font-weight: bold;
+/* font-weight: bold; */
 border: 1px solid #C9C9C9;
 `
 

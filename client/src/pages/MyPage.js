@@ -324,10 +324,12 @@ const handleUserEdit = () => {
         <Div>{isLogin.data.address}</Div>
         <InputTitle>비밀번호</InputTitle>
         <InputFieldPassWord/>
-        <InputTitle>비밀번호확인</InputTitle>
-        <InputFieldPassWord/>
+        {/* <InputTitle>비밀번호확인</InputTitle>
+        <InputFieldPassWord/> */}
+        <DivButton>
         <SignUpToLogin onClick={handleUserDelete}>회원탈퇴</SignUpToLogin>
         <EditButton onClick={handleUserEdit}>수정하기</EditButton>
+        </DivButton>
         </MyPageForm>
       )}
       
@@ -340,24 +342,8 @@ const handleUserEdit = () => {
   );
 }
 
-// 주소 api css
-// const addressStyle = {
-//   display: 'block',
-//   position: 'absolute',
-//   // top: '37%',
-//   // left: '14%',
-//   zIndex: '100',
-//   padding: '7px',
-//   width: '500px',
-//   height: '40%'
-// }
-
-
 const CloseBtn = styled.button`
 display: block;
-/* position: absolute;
-top: 52px;
-right: 25px; */
 margin-left: 400px;
 z-index: 100;
 padding: 7px;
@@ -406,9 +392,8 @@ overflow: auto; /* 스크롤 속성 */
 `;
 
 const MyPageDiv = styled.div`
-margin: auto;
-background-color: #FFFFFF;
-width: 95%;
+/* margin: auto; */
+width: 100%;
 height: calc(100vh - 100px);
 
 `;
@@ -436,25 +421,19 @@ color: white;
 }
 `;
 
-
-const SignUpTitle = styled.div`
-font-size: 28px;
-margin-top: 25px;
-margin-bottom: 25px;
-`;
-
 const MyPageForm = styled.form`
 float: left;
 margin-left: 50px;
-margin-top: -40px;
+margin-top: 25px;
+
 `;
 
 const InputTitle = styled.div`
-margin-top: 10px;
-font-size: 18px;
+
+font-size: 16px;
+font-weight: 600;
 @media (max-width: 576px) {
-  margin-top: 3px;
-  font-size: 18px;
+  font-size: 16px;
 }
 @media (max-width: 400px) {
   margin-left: -20px;
@@ -467,7 +446,7 @@ display: flex;
 flex-direction: column;
 width: 500px;
 height: 56px;
-font-size: 18px;
+font-size: 16px;
 margin-top: 10px;
 border: solid #C4C4C4 1px;
 border-radius: 3px;
@@ -553,29 +532,35 @@ margin-top: 10px;
 
 const EditButton = styled.button`
 float: right;
-width: 200px;
-height: 56px;
+width: 150px;
+height: 46px;
 background-color: #B51D29;
 color: white;
 border: none;
 border-radius: 6px;
 margin-top: 30px;
+margin-left: 10%;
 font-size: 16px;
 @media (max-width: 576px) {
   width: 150px;
   height: 46px;
+  margin-top: 70px;
   float: left;
-  margin-left: 20%;
+  margin-left: 10%;
 } 
 @media (max-width: 400px) {
   width: 140px;
   height: 40px;
   float: left;
-  margin-top: -27px;
-  margin-left: 127px;
+  margin-left: 5px;
+  margin-top: 70px;
   font-size: 16px;
 }
 `;
+
+
+
+
 
 const SignUpToLogin = styled.div`
 margin-top: 20px;
@@ -612,7 +597,7 @@ width: 500px;
 height: 56px;
 font-size: 18px;
 margin: 0 auto;
-margin-top: 20px;
+margin-top: 10px;
 border: 1px #C4C4C4 solid;
 border-radius: 3px;
 color: gray;
@@ -653,5 +638,11 @@ z-index: 1;
   height: 70px;
   bottom: 150px;
 }
+`;
+
+
+const DivButton = styled.div`
+display: flex;
+
 `;
 export default MyPage;

@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosProfileImageEdit } from '../redux/user/action';
 import { axiosProfileImageDelete } from '../redux/user/action';
-import { Button } from 'antd'
+import { Button, Label } from 'antd'
 import Swal from 'sweetalert2'
 
 
@@ -111,11 +111,8 @@ function ProfileImage(props) {
 //마이페이지 프로필사진 Div
 const MyPageProfileDiv = styled.div`
 float: left;
-margin-bottom: 30px;
-background-color: #ffffff;
+/* margin-bottom: 30px; */
 width: 100%;
-height: 150px;
-
 `;
 
 //마이페이지 프로필사진
@@ -124,15 +121,13 @@ float: left;
 background-color: #737373;
 border-radius: 50%;
 border: none;
-width: 100px;
-height: 100px;
+width: 95px;
+height: 95px;
 position: relative;
-top: 40px;
 left: 35px;
 color: white;
 text-align: center;
 @media (max-width: 400px) {
-  top: 20px;
   left: 25px;
 } 
 `;
@@ -145,8 +140,6 @@ border-radius: 50%;
 `;
 
 const ImageLabel = styled.label`
-width: 100px;
-height: 106px;
 font-size: 14px;
 background-color:#FFFFFF;
 border: 1px solid #C9C9C9;
@@ -155,37 +148,22 @@ margin-left: 25px;
 margin-right: 5px;
 text-align: center;
 border-radius: 3px;
+
 @media (max-width: 745px) {
   white-space: nowrap; 
   overflow: hidden;
 } 
 `;
 
-const InputHidden = styled.input`
-color: #999; 
-display: none;
-`;
-
-const ImageDiv = styled.div`
-
-`;
-
 const ButtonDiv = styled.div`
-margin-top: 100px;
+margin-top: 50px;
 margin-left: 120px;
 @media (max-width: 400px) {
-  margin-top: 60px;
+  margin-top: 50px;
 } 
 `
 
-//마이페이지 닉네임
-const MyProfileButton = styled.button`
-margin-left: 10px;
-`;
 
-//마이페이지 닉네임
-const MyProfileName = styled.div`
 
-`;
 export default ProfileImage;
 

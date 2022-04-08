@@ -211,7 +211,7 @@ const ChattingMyContents = styled.div`
   width: 200px;
   padding: 15px;
   border-radius:10px ;
-  background-color: #D5B483;
+  background-color: #CEA163;
   margin-left: 120px;
   word-break:break-all;
 `

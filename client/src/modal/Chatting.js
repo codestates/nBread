@@ -75,7 +75,8 @@ function Chatting({setChattingModal}) {
                 <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, el)}>
                   <ChattingListImg src={`/icon/${el.categoryFood}.png`}/>
                     <ChattingListTextWrapper>
-                        <ChattingListText>{el.roomName}</ChattingListText>
+                    {/* 랜덤으로 방입니다~!, 방이예요~~ ~는 이쪽으로! 등 돌려주면 어떨까요? */}
+                        <ChattingListText>{el.roomName}&nbsp;방입니다!</ChattingListText>
                     </ChattingListTextWrapper>
                 </ChattingWrapper> 
                 )
@@ -165,10 +166,11 @@ const ChattingWrapper = styled.div`
 width: 345px;
 height: 98px;
 background-color: #FFFFFF;
-border: 1px solid #A3A3A3;
+border: 1px solid #CDCBC5;
 display: flex;
 border-radius: 6px;
 margin-top: 5px;
+
 `;
 
 const ChattingListImg = styled.img`
@@ -180,6 +182,13 @@ margin-left: 20px;
 
 const ChattingListTextWrapper = styled.div`
 /* padding-left: 40px; */
+font-size: 16px;
+font-weight: 500;
+margin-top: -3px;
+:hover {
+  font-size: 17px;
+  font-weight: 500;
+}
 `
 
 const ChattingListText = styled.div`
