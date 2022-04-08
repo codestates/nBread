@@ -75,8 +75,7 @@ function PostDetail({click, setClick}) {
   const handelPostDelete = () => {
     Swal.fire({
       title: '삭제하시겠습니까?',
-      padding: '1.5em',
-      height: 700,
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
@@ -96,23 +95,26 @@ function PostDetail({click, setClick}) {
   }
 
   const handelPostEditComplete = () => {
-    Swal.fire({
-      title: '수정하시겠습니까?',
-      padding: '1.5em',
-      showCancelButton: true,
-      confirmButtonColor: '#D4AA71',
-      cancelButtonColor: '#B51D29',
-      confirmButtonText: '확인',
-      cancelButtonText: '취소'
-		}).then((result) => {
-      if (result.value) {
-        dispatch(editPostDetail(list.id,postEditInfo))
-        setEditText(!editText)
-        window.location.replace("/") 
-      }else{
-        setEditText(!editText)
-      }
-		})
+    dispatch(editPostDetail(list.id,postEditInfo))
+    setEditText(!editText)
+    window.location.replace("/") 
+    // Swal.fire({
+    //   title: '수정하시겠습니까?',
+    //   padding: '3em',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#D4AA71',
+    //   cancelButtonColor: '#B51D29',
+    //   confirmButtonText: '확인',
+    //   cancelButtonText: '취소'
+		// }).then((result) => {
+    //   if (result.value) {
+    //     dispatch(editPostDetail(list.id,postEditInfo))
+    //     setEditText(!editText)
+    //     window.location.replace("/") 
+    //   }else{
+    //     setEditText(!editText)
+    //   }
+		// })
   }
   
 
@@ -123,7 +125,7 @@ function PostDetail({click, setClick}) {
   const handlePostClosed = () => {
     Swal.fire({
       title: '마감하시겠습니까?',
-      padding: '1.5em',
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
@@ -141,7 +143,7 @@ function PostDetail({click, setClick}) {
   const handlePostRecruitment = () => {
     Swal.fire({
       title: '신청하시겠습니까?',
-      padding: '1.5em',
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
@@ -159,7 +161,7 @@ function PostDetail({click, setClick}) {
   const handlePostCancelRecruitment = () => {
     Swal.fire({
       title: '취소하시겠습니까?',
-      padding: '1.5em',
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',

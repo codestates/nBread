@@ -102,7 +102,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
       Swal.fire({
         title: '글쓰기 성공!',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',

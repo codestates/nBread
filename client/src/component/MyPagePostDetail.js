@@ -61,7 +61,7 @@ function PostDetail({click, setClick}) {
   const handelPostDelete = () => {
     Swal.fire({
       title: '삭제하시겠습니까?',
-      padding: '1.5em',
+      padding: '3rem',
       height: 700,
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
@@ -112,7 +112,7 @@ function PostDetail({click, setClick}) {
   const handlePostClosed = () => {
     Swal.fire({
       title: '마감하시겠습니까?',
-      padding: '1.5em',
+      padding: '3rem',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',

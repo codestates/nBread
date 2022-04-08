@@ -49,7 +49,7 @@ function Main() {
       Swal.fire({
         title: '로그인이 필요합니다',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',
@@ -68,7 +68,7 @@ function Main() {
       Swal.fire({
         title: '로그인이 필요합니다',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',
