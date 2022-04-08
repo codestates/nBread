@@ -94,6 +94,8 @@ const MenuTrigger = styled.div`
 
 const UserName = styled.p`
   font-family: var(--main-font);
+  font-weight: 500;
+  font-size: 16px;
   background: #ffffff;
   border-radius: 90px;
   cursor: pointer;
