@@ -41,7 +41,7 @@ function Navbar() {
   }
   
   const handleMainPage = () => {
-    history.push("/")
+    window.location.replace("/") 
   }
   return (
     <>

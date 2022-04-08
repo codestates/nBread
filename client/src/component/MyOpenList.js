@@ -48,9 +48,25 @@ function MyOpenList(props) {
                 <PostListImg src={`/icon/${li.category_food}.png`}/>
                 <PostListTextWrapper>
                   <Test>
-                    <PostListText>식당이름: {li.restaurant_name}</PostListText>
+                    <PostTextDiv>
+                        <PostListText>식당이름 :</PostListText>
+                        <PostListTextRight> {li.restaurant_name} </PostListTextRight>
+                    </PostTextDiv>
+                    <PostTextDiv>
+                    <PostListText>모집인원 :</PostListText>
+                        <PostListTextRight> {li.content_count} / {li.recruitment_personnel}명 </PostListTextRight>
+                      </PostTextDiv>
+                      <PostTextDiv>
+                        <PostListText>배달비 :</PostListText>
+                        <PostListTextRight> {li.delivery_fee} 원</PostListTextRight>
+                      </PostTextDiv>
+                      <PostTextDiv>
+                        <PostListText>N빵 :</PostListText>
+                        <PostListTextRight> {parseInt(li.delivery_fee / li.recruitment_personnel)} 원</PostListTextRight>
+                      </PostTextDiv>
+                    {/* <PostListText>식당이름: {li.restaurant_name}</PostListText>
                     <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}</PostListText>
-                    <PostListText>배달비: {li.delivery_fee}</PostListText> 
+                    <PostListText>배달비: {li.delivery_fee}</PostListText>  */}
                   </Test>
                   {li.closed === 2 && <PostClosedImg src={'icon/12.png'} />}
                 </PostListTextWrapper>
@@ -65,6 +81,24 @@ function MyOpenList(props) {
     </div>
   );
 }
+
+const PostTextDiv = styled.div`
+  display: flex;
+  
+`
+
+const PostListTextRight = styled.div`
+  font-weight: bold;
+  margin-left: 10px;
+  text-overflow: ellipsis;
+`
+const PostListText = styled.div`
+  margin-bottom: 10px;
+  white-space:nowrap;
+  /* word-break:break-all; */
+`
+
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -82,24 +116,25 @@ width: 90px;
 `;
 
 const PostListTextWrapper = styled.div`
-  padding-left: 40px;
+  padding-left: 30px;
   display: flex;
+  margin-top: 10px;
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 10px;
 `
 
-const PostListText = styled.div`
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-`
+// const PostListText = styled.div`
+//   margin-bottom: 10px;
+//   flex-wrap: wrap;
+// `
 
 const Test = styled.div`
-  width: 150px;
+  width: 170px;
 `
 
 const PostClosedImg = styled.img`
-  width: 40px;
+  width: 35px;
 `
 
 const PostNone = styled.div`

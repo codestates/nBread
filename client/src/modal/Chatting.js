@@ -138,6 +138,7 @@ const Wrapper = styled.div`
     z-index: 1;
     border-radius: 20px;
     @media (max-width: 576px) {
+      overFlow : hidden;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   

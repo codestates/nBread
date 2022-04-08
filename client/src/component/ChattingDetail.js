@@ -245,6 +245,7 @@ const Wrapper = styled.div`
     border-radius: 20px;
     border: 1px solid #737373;
     @media (max-width: 576px) {
+      overFlow : hidden;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);   
@@ -259,7 +260,6 @@ margin-bottom: 20px;
 `;
 
 const LoginForm = styled.div`
-
 
 `;
 
