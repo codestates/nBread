@@ -13,6 +13,7 @@ import ProfileImage from './component/ProfileImage';
 import Test from './modal/Test';
 import 'antd/dist/antd.css';
 import LandingPage from './pages/LandingPage';
+import ImageSliders from './component/Landing/ImageSliders';
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route path="/LandingPage">
           <LandingPage/>
+        </Route>
+        <Route path="/ImageSliders">
+          <ImageSliders/>
         </Route>
     </BrowserRouter>
   );
