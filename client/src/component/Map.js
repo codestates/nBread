@@ -26,18 +26,35 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const MarkerPost = useSelector((state)=> state.postsReducer.posts) // 마커 표시 게시물 데이터
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
 
-  // 주소 검색시 위치로 이동
-  const mainSearch = () => {
-    {mainSearchAddressCenter&& 
-      setLocation({
-        lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng
-      })
-    }
-  }
-  
   useEffect(()=>{
+    // console.log('1, 주소 검색시 위치로 이동')
     mainSearch()
   },[mainSearchAddressCenter])
+
+  useEffect(()=>{
+    // console.log('2, 글쓰기 주소 검색창')
+    writingSearch()
+  },[writingAddress])
+
+  useEffect(()=>{
+    // console.log('3, 유저 정보의 위치로 이동')
+    userInfoNewSearchAddress()
+  },[userInfo])
+
+  useEffect(()=>{
+    // console.log('4, 지도의 정보를 다시 받아옴')
+    handleMapInfo()
+  }, [map, location])
+
+  // 지도의 레벨에 맞춰 목록 출력
+  useEffect(()=>{
+    // console.log('5, 지도의 레벨에 맞춰서 글의 목록을 보여주는 요청 ')
+    if(info && info.level <= 5){
+      dispatch(showPostList(info))
+    }else if(info && info.level >= 6){
+      dispatch(showPostList())
+    }    
+  }, [info])
 
   const writingSearch = () => {
     {writingAddress&& 
@@ -47,15 +64,15 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
     }
   }
 
-  useEffect(()=>{
-    writingSearch()
-  },[writingAddress])
-
-
-  useEffect(()=>{
-      userInfoNewSearchAddress()
-  },[userInfo])
-
+  // 주소 검색시 위치로 이동
+  const mainSearch = () => {
+    {mainSearchAddressCenter&& 
+      setLocation({
+        lat: mainSearchAddressCenter.center.lat, lng: mainSearchAddressCenter.center.lng
+      })
+    }
+  }
+  
   const userInfoNewSearchAddress = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     
@@ -72,20 +89,6 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
     {isLogin && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
   }
 
-
-  useEffect(()=>{
-    handleMapInfo()
-  }, [map, location])
-
-
-  // 지도의 레벨에 맞춰 목록 출력
-  useEffect(()=>{
-    if(info && info.level <= 5){
-      dispatch(showPostList(info))
-    }else if(info && info.level >= 6){
-      dispatch(showPostList())
-    }    
-  }, [info])
 
   const handleMapInfo = () => {
     {map && (setInfo({

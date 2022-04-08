@@ -37,12 +37,6 @@ function Main() {
     .catch(err => console.log("주 에러 : ",err))
   };
 
-  //토큰
-  // useEffect(() => {
-  //   isAuthenticated()
-  // }, []);
-
-
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){

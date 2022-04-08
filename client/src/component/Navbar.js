@@ -89,6 +89,7 @@ margin-left: 20px;
 
 const LoginText = styled.div`
 margin-right: 2em;
+font-family: var(--main-font);
 &:hover{  
     cursor: pointer;
 }

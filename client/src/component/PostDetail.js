@@ -33,6 +33,13 @@ function PostDetail({click, setClick}) {
     body: list.body,
   })
 
+  const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => setLoading((loading) => !loading), 1000);
+		return () => clearTimeout(timeout);
+	}, [setLoading]);
+
   useEffect(()=>{
     if(userInfo){
       let nickname = userInfo.nickname;
