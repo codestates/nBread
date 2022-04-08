@@ -59,21 +59,19 @@ const Hidden = styled.div`
   visibility: hidden;
 `
 
-
-
 function PostList({ openPost, setOpenPost}) {
+  const dispatch = useDispatch();
+  const post = useSelector((state)=> state.postsReducer.posts)
+  console.log(post)
+
+  const [click, setClick] = useState(false);
   const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
-		const timeout = setTimeout(() => setLoading((loading) => !loading), 500);
+		const timeout = setTimeout(() => setLoading((loading) => !loading), 1000);
 		return () => clearTimeout(timeout);
 	}, [setLoading]);
   
-
-  const [click, setClick] = useState(false);
-
-  const dispatch = useDispatch();
-  const post = useSelector((state)=> state.postsReducer.posts)
-
   const handlePostList = (contentId) => {
     setClick(true)
     dispatch(showPostDetail(contentId))
@@ -171,7 +169,8 @@ function PostList({ openPost, setOpenPost}) {
         }else if( !click ){
           return (
             post.map((li ,i) => {
-              return (<Wrapper key={i} onClick={()=>handlePostList(li.id)}>
+              return (!loading) ? (
+                    <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
                     <PostListImg src={`/icon/${li.category_food}.png`}/>
                     <PostListTextWrapper>
                       <PostTextDiv>
@@ -190,12 +189,30 @@ function PostList({ openPost, setOpenPost}) {
                         <PostListText>N빵 :</PostListText>
                         <PostListTextRight> {parseInt(li.delivery_fee / li.recruitment_personnel)} 원</PostListTextRight>
                       </PostTextDiv>
-{/* 
-                      <PostListText>모집인원 : {li.content_count} / {li.recruitment_personnel}명</PostListText>
-                      <PostListText>배달비 : {li.delivery_fee}</PostListText>
-                      <PostListText>N빵 : {parseInt(li.delivery_fee / li.recruitment_personnel)}</PostListText> */}
                     </PostListTextWrapper>
-                  </Wrapper>)
+                  </Wrapper>
+              ): ( <PostListLoader key={i}/>)
+              // return (<Wrapper key={i} onClick={()=>handlePostList(li.id)}>
+              //       <PostListImg src={`/icon/${li.category_food}.png`}/>
+              //       <PostListTextWrapper>
+              //         <PostTextDiv>
+              //           <PostListText>식당이름 :</PostListText>
+              //           <PostListTextRight> {li.restaurant_name} </PostListTextRight>
+              //         </PostTextDiv>
+              //         <PostTextDiv>
+              //           <PostListText>모집인원 :</PostListText>
+              //           <PostListTextRight> {li.content_count} / {li.recruitment_personnel}명 </PostListTextRight>
+              //         </PostTextDiv>
+              //         <PostTextDiv>
+              //           <PostListText>배달비 :</PostListText>
+              //           <PostListTextRight> {li.delivery_fee} 원</PostListTextRight>
+              //         </PostTextDiv>
+              //         <PostTextDiv>
+              //           <PostListText>N빵 :</PostListText>
+              //           <PostListTextRight> {parseInt(li.delivery_fee / li.recruitment_personnel)} 원</PostListTextRight>
+              //         </PostTextDiv>
+              //       </PostListTextWrapper>
+              //     </Wrapper>)
             })
           )
         }
@@ -205,6 +222,20 @@ function PostList({ openPost, setOpenPost}) {
     </>
   );
 }
+
+// post.map((li ,i) => {
+//   return (!loading) ? (
+//     <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
+//       <PostListImg src={`/icon/${li.category_food}.png`}/>
+//       <PostListTextWrapper>
+//         <PostListText>식당이름 : {li.restaurant_name}</PostListText>
+//         <PostListText>모집인원 : {li.content_count} / {li.recruitment_personnel}명</PostListText>
+//         <PostListText>배달비 : {li.delivery_fee}</PostListText>
+//         <PostListText>N빵 : {parseInt(li.delivery_fee / li.recruitment_personnel)}</PostListText>
+//       </PostListTextWrapper>
+//     </Wrapper>
+//   ): ( <PostListLoader key={i}/>)
+// })
 
 const PostListTextWrapper = styled.div`
   margin-top: 10px;
@@ -273,3 +304,26 @@ export default PostList;
 //   ): ( <PostListLoader key={i}/>)
 // })
 
+// post.map((li ,i) => {
+//   return (<Wrapper key={i} onClick={()=>handlePostList(li.id)}>
+//         <PostListImg src={`/icon/${li.category_food}.png`}/>
+//         <PostListTextWrapper>
+//           <PostTextDiv>
+//             <PostListText>식당이름 :</PostListText>
+//             <PostListTextRight> {li.restaurant_name} </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>모집인원 :</PostListText>
+//             <PostListTextRight> {li.content_count} / {li.recruitment_personnel}명 </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>배달비 :</PostListText>
+//             <PostListTextRight> {li.delivery_fee} 원</PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>N빵 :</PostListText>
+//             <PostListTextRight> {parseInt(li.delivery_fee / li.recruitment_personnel)} 원</PostListTextRight>
+//           </PostTextDiv>
+//         </PostListTextWrapper>
+//       </Wrapper>)
+// })
