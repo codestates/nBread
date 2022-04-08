@@ -7,7 +7,8 @@ import {
   USER_EDIT,
   LOGIN_MODAL,
   PROFILE_IMAGE_EDIT,
-  PROFILE_IMAGE_DELETE
+  PROFILE_IMAGE_DELETE,
+  USER_LOCATION_EDIT_SUCCESS
 } from "./types"
 
 const loginInitialState = {
@@ -15,7 +16,8 @@ const loginInitialState = {
   data:[],
   SignUp: false,
   LoginModal: false,
-  picture:null
+  picture:null,
+  location: [ 37.49676871972202, 127.02474726969814]
 }
 
 
@@ -28,7 +30,7 @@ const loginReducer = (state=loginInitialState, action) => {
         data: action.payload,
         //리듀서 참고
         isLogIn: true,
-        picture: action.payload.picture
+        picture: action.payload.picture,
       }
       case LOG_IN_REQUEST:
         return {
@@ -45,7 +47,8 @@ const loginReducer = (state=loginInitialState, action) => {
           ...state, 
           isLogIn: false,
           picture:null,
-          data:null
+          data:null,
+          location: [ 37.49676871972202, 127.02474726969814]
         }
       //회원탈퇴 테스트
       case USER_DELETE:
@@ -85,7 +88,12 @@ const loginReducer = (state=loginInitialState, action) => {
         return {
           ...state, 
           picture: null
-        }               
+        }
+      case USER_LOCATION_EDIT_SUCCESS:
+        return {
+          ...state,
+          location: [ action.payload[0], action.payload[1]]
+        }
     default: return state;
   }
 }
