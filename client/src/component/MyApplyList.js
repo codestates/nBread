@@ -48,9 +48,22 @@ function MyApplyList(props) {
                 <Wrapper key={i} onClick={()=>handlePostList(li.id)}>
                   <PostListImg src={`/icon/${li.category_food}.png`}/>
                   <PostListTextWrapper>
-                      <PostListText>식당이름: {li.restaurant_name}</PostListText>
-                      <PostListText>모집인원: {li.content_count} / {li.recruitment_personnel}명</PostListText>
-                      <PostListText>배달비: {li.delivery_fee}</PostListText>
+                      <PostTextDiv>
+                        <PostListText>식당이름 :</PostListText>
+                        <PostListTextRight> {li.restaurant_name} </PostListTextRight>
+                      </PostTextDiv>
+                      <PostTextDiv>
+                        <PostListText>모집인원 :</PostListText>
+                        <PostListTextRight> {li.content_count} / {li.recruitment_personnel}명 </PostListTextRight>
+                      </PostTextDiv>
+                      <PostTextDiv>
+                        <PostListText>배달비 :</PostListText>
+                        <PostListTextRight> {li.delivery_fee} </PostListTextRight>
+                      </PostTextDiv>
+                      <PostTextDiv>
+                        <PostListText>N빵 :</PostListText>
+                        <PostListTextRight> {parseInt(li.delivery_fee / li.recruitment_personnel)} </PostListTextRight>
+                      </PostTextDiv>
                   </PostListTextWrapper>
                 </Wrapper>
               )
@@ -78,13 +91,13 @@ box-shadow: 0 0 4px #737373;
 const PostListImg = styled.img`
 `;
 
-const PostListTextWrapper = styled.div`
-padding-left: 40px;
-`
+// const PostListTextWrapper = styled.div`
+// padding-left: 40px;
+// `
 
-const PostListText = styled.div`
-margin-bottom: 10px;
-`
+// const PostListText = styled.div`
+// margin-bottom: 10px;
+// `
 
 const PostNone = styled.div`
   margin-top: 10px;
@@ -94,5 +107,26 @@ const PostNoneDiv = styled.div`
   transform: translate(0, 400%);
   text-align: center;
 `
+
+const PostListTextWrapper = styled.div`
+  margin-top: 10px;
+  padding-left: 35px;
+`
+
+const PostTextDiv = styled.div`
+  display: flex;
+  
+`
+
+const PostListTextRight = styled.div`
+  font-weight: bold;
+  margin-left: 10px;
+  text-overflow: ellipsis;
+`
+const PostListText = styled.div`
+  margin-bottom: 10px;
+  white-space:nowrap;
+`
+
 
 export default MyApplyList;

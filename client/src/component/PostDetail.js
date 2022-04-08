@@ -98,23 +98,6 @@ function PostDetail({click, setClick}) {
     dispatch(editPostDetail(list.id,postEditInfo))
     setEditText(!editText)
     window.location.replace("/") 
-    // Swal.fire({
-    //   title: '수정하시겠습니까?',
-    //   padding: '3em',
-    //   showCancelButton: true,
-    //   confirmButtonColor: '#D4AA71',
-    //   cancelButtonColor: '#B51D29',
-    //   confirmButtonText: '확인',
-    //   cancelButtonText: '취소'
-		// }).then((result) => {
-    //   if (result.value) {
-    //     dispatch(editPostDetail(list.id,postEditInfo))
-    //     setEditText(!editText)
-    //     window.location.replace("/") 
-    //   }else{
-    //     setEditText(!editText)
-    //   }
-		// })
   }
   
 
@@ -177,7 +160,7 @@ function PostDetail({click, setClick}) {
   }
 
   return (
-    <div>
+    <PostMainWrapper>
       <PostWrapper>
         <PostIconWrapper>
           <svg onClick={handleBack} 
@@ -198,7 +181,7 @@ function PostDetail({click, setClick}) {
                 </PostUpdateDelete>
               : ( userInfo.id === listUserId && editText
                   ?  <PostUpdateDelete>
-                        <PostUpdate onClick={handelPostEditComplete}> 수정 완료 </PostUpdate>
+                        <PostUpdate onClick={handelPostEditComplete}> 완료 </PostUpdate>
                         <PostDelete onClick={handelPostDelete}> 삭제 </PostDelete>
                     </PostUpdateDelete>
                   : null
@@ -213,16 +196,32 @@ function PostDetail({click, setClick}) {
               <Wrapper>
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
-                  <PostListText>식당이름: {list.restaurant_name}</PostListText>
-                  <PostListText>모집인원: {list.content_count} / {list.recruitment_personnel}명</PostListText>
-                  <PostListText>배달비: {list.delivery_fee}원</PostListText>
+                  <PostTextDiv>
+                    <PostListText>식당이름 :</PostListText>
+                    <PostListTextRight> {list.restaurant_name} </PostListTextRight>
+                  </PostTextDiv>
+                  <PostTextDiv>
+                    <PostListText>모집인원 :</PostListText>
+                    <PostListTextRight> {list.content_count} / {list.recruitment_personnel}명 </PostListTextRight>
+                  </PostTextDiv>
+                  <PostTextDiv>
+                    <PostListText>배달비 :</PostListText>
+                    <PostListTextRight> {list.delivery_fee} 원</PostListTextRight>
+                  </PostTextDiv>
+                  <PostTextDiv>
+                    <PostListText>N빵 :</PostListText>
+                    <PostListTextRight> {parseInt(list.delivery_fee / list.recruitment_personnel)} 원</PostListTextRight>
+                  </PostTextDiv>
                 </PostListTextWrapper>
               </Wrapper>
               
                 <div>
                   <PostListText>{newChangeDate}</PostListText>
-                  <PostListText>주소: {list.address}</PostListText>
-                  <PostListText>설명글</PostListText>
+                  <PostTextDiv>
+                    <PostListText>주소 :</PostListText>
+                    <PostListTextRight> {list.address} </PostListTextRight>
+                  </PostTextDiv>
+                  <PostListExText>설명글</PostListExText>
                   <PostListDetailText>
                     {list.body}
                   </PostListDetailText>
@@ -234,7 +233,11 @@ function PostDetail({click, setClick}) {
               <Wrapper>
                 <PostListImg src={`/icon/${list.category_food}.png`}/>
                 <PostListTextWrapper>
-                  <PostListText>식당이름: <PostEditString  defaultValue={list.restaurant_name} onChange={handleInputValue('restaurant_name')} /></PostListText> 
+                  <PostListText>식당이름: 
+                    <PostEditString  
+                      defaultValue={list.restaurant_name} 
+                      onChange={handleInputValue('restaurant_name')} />
+                    </PostListText> 
                   <PostListText>모집인원: 
                     <PostEditNumber 
                       onKeyPress={handleNumberInput} 
@@ -251,12 +254,19 @@ function PostDetail({click, setClick}) {
                       defaultValue={list.delivery_fee} 
                       onChange={handleInputValue('delivery_fee')} /> 
                   원</PostListText>
+                  <PostTextDiv>
+                    <PostListText>N빵 :</PostListText>
+                    <PostListTextRight> {parseInt(list.delivery_fee / list.recruitment_personnel)} 원</PostListTextRight>
+                  </PostTextDiv>               
                 </PostListTextWrapper>
               </Wrapper>
               <div>
                 <PostListText>{newChangeDate}</PostListText>
-                <PostListText>주소: {list.address}</PostListText>
-                <PostListText>설명글</PostListText>
+                <PostTextDiv>
+                    <PostListText>주소 :</PostListText>
+                    <PostListTextRight> {list.address} </PostListTextRight>
+                </PostTextDiv>
+                <PostListExText>설명글</PostListExText>
                 <PostEditDiv defaultValue={list.body} onChange={handleInputValue('body')} />
 
               </div>
@@ -280,26 +290,48 @@ function PostDetail({click, setClick}) {
           }
           )()
         }
-    </div>
+    </PostMainWrapper>
   );
 }
 
+const PostMainWrapper = styled.div`
+overflow: auto;
+`
+
+const PostTextDiv = styled.div`
+  display: flex;
+  
+`
+
+const PostListTextRight = styled.div`
+  font-weight: bold;
+  margin-left: 10px;
+  text-overflow: ellipsis;
+`
+const PostListText = styled.div`
+  margin-bottom: 1.3vh;
+  white-space:nowrap;
+`
+const PostListExText = styled.div`
+  margin-top: 10px;
+  margin-bottom: 1.5vh;
+`
+
 const Wrapper = styled.div`
-overflow: auto; 
+overflow: auto;
 display: flex;
 margin-left: 4px;
 align-items: center;
 width: 98%;
 height: 199px;
-margin-bottom: 8px;
 overFlow : auto;
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   justify-content:center;
 } 
 `;
 
 const WrapperDiv = styled.div`
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   /* justify-content:center; */
   display: flex;
   align-items: center;
@@ -353,18 +385,13 @@ color: #B1B1B1;
 margin-left: 4px;
 `
 
-const PostListText = styled.div`
-/* margin-bottom: 10px; */
-margin-bottom: 2vh;
-
-`
-
 const PostListDetailText = styled.div`
 border: 1px solid #D2D1D1;
 width: 340px;
 height: 20vh;
 padding: 5px;
 overFlow : auto;
+margin-bottom: 80px;
 @media (min-height: 768px) {
   height: 30vh
 } 
@@ -386,7 +413,6 @@ text-align: center;
 `
 
 const PostEditString = styled.input`
-  font-size: 16px;
   width: 120px;
   border: none;
   margin-left: 5px;
@@ -407,11 +433,10 @@ const PostEditNumber = styled.input`
       -webkit-appearance: none; 
       margin: 0; 
   }  
-  font-size: 16px;
-  width: 60px;
-  border: none;
   margin-left: 5px;
   padding-left: 5px;
+  width: 60px;
+  border: none;
   border-bottom: 1px solid #CCC;
   &:focus {
     outline: none;    
@@ -420,22 +445,22 @@ const PostEditNumber = styled.input`
 `
 
 const PostEditDiv = styled.textarea`
-  font-size: 16px;
   width: 340px;
   height: 20vh;
   border: none;
   flex-wrap: wrap;
   padding-left: 5px;
   border-bottom: 1px solid #CCC;
+  margin-bottom: 70px;
   &:focus {
     outline: none;   
     border-bottom: 1px solid dodgerblue; 
   }
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
   height: 25vh;
 } 
-@media (min-height: 576px) {
-  height: 30vh
+@media (min-height: 768px) {
+  height: 30vh;
 } 
 `
 
