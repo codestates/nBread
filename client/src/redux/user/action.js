@@ -10,9 +10,13 @@ import {
   USER_EDIT,
   LOGIN_MODAL,
   PROFILE_IMAGE_EDIT,
-  PROFILE_IMAGE_DELETE
+  PROFILE_IMAGE_DELETE,
+  USER_LOCATION_EDIT_SUCCESS
 } from "./types"
 import axios from "axios"
+
+const { kakao } = window;
+
 
 const loginSuccess = (data) => {
   // console.log('데이타',data)
@@ -89,9 +93,18 @@ const ProfileImageDelete = () => {
   }
 }
 
+//위치정보 수정
+const userLocationEditSuccess = (lat,lng) => {
+  const data = [lat, lng]
+  return {
+    type : USER_LOCATION_EDIT_SUCCESS,
+    payload: data
+  }
+}
+
+
 //-----------로그인-------------------
 export const axiosLogin = (user) => {
-  console.log('loginInfo',user)
   return (dispatch) => {
   axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
   username: user.username,
@@ -99,6 +112,24 @@ export const axiosLogin = (user) => {
   },{withCredentials: true})
   .then(data => {
   if(data.data.message === "로그인 성공"){
+    // -----------추가-----------
+  const userInfoNewSearchAddress = () => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    
+    let callback = function(result, status) {
+      if (status === 'OK') {
+        const newAddSearch = result[0]
+        // console.log('newAddSearch',newAddSearch)
+        const newAddSearchLng =  newAddSearch.x
+        const newAddSearchLat =  newAddSearch.y
+        dispatch(userLocationEdit(newAddSearchLat, newAddSearchLng)) 
+      }
+    };
+    geocoder.addressSearch(`${data.data.data.address}`, callback)
+  }
+  userInfoNewSearchAddress()
+    // -----------추가----------- 
+
   dispatch(loginSuccess(data.data.data))
   } else if(data.data.message === '아이디 또는 비밀번호가 일치하지 않습니다'){
     Swal.fire('아이디 또는 비밀번호가 일치하지 않습니다')
@@ -205,3 +236,14 @@ export const axiosProfileImageDelete = () => {
     .catch(err=> console.log(err))
     }
   }
+
+//-----------위도경도수정-------------------
+export const userLocationEdit = (lat , lng) => {
+  return (dispatch) => {
+    if(lat && lng){
+      dispatch(userLocationEditSuccess(lat,lng))
+    }else{
+      // console.log('err')
+    }
+  }
+} 
