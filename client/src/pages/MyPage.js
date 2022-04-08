@@ -150,9 +150,9 @@ const handleUserEdit = () => {
         dispatch(axiosUserEdit(settingUserinfo))
         setMessage({ ...message, errorMessage: ''})
         Swal.fire({
-        title: '수정완료',
+        title: '수정 완료',
         width: 500,
-        padding: '1.5em',
+        padding: '3em',
         confirmButtonColor: '#B51D29',
         color: 'black',
         background: '#fff ',
@@ -197,13 +197,12 @@ const handleUserEdit = () => {
     // isLogin(false)
     Swal.fire({
       title: '탈퇴 하시겠습니까?',
-      padding: '1.5em',
-      height: 700,
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
       confirmButtonText: '확인',
-      cancelButtonText: '취소'
+      cancelButtonText: '취소',
 		}).then((result) => {
       if (result.value) {
         dispatch(axiosUserDelete())

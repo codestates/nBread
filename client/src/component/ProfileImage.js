@@ -32,7 +32,7 @@ function ProfileImage(props) {
           Swal.fire({
             title: '사진변경 성공!',
             width: 500,
-            padding: '1.5em',
+            padding: '3em',
             confirmButtonColor: '#B51D29',
             color: 'black',
             background: '#fff ',
@@ -48,7 +48,7 @@ function ProfileImage(props) {
           Swal.fire({
             title: '사진변경 실패!',
             width: 500,
-            padding: '1.5em',
+            padding: '3em',
             confirmButtonColor: '#B51D29',
             color: 'black',
             background: '#fff ',
@@ -67,7 +67,7 @@ function ProfileImage(props) {
     // setImg(null)
     Swal.fire({
       title: '삭제하시겠습니까?',
-      padding: '1.5em',
+      padding: '3em',
       showCancelButton: true,
       confirmButtonColor: '#D4AA71',
       cancelButtonColor: '#B51D29',
