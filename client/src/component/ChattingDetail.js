@@ -3,6 +3,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
+import "./chatting.css"
 
 
 const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
@@ -11,7 +12,6 @@ const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   const history = useHistory();
   const data = useSelector((state)=> state.loginReducer.data);
-
 
   const closeChattingModal = () => {
     setChattingModal(false)
@@ -61,7 +61,6 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     }
   };
 
-  // enterKey입력시 2번 전송되는 문제 발생 + 막았는데 안막아짐
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
       if (value === 'roomMessage') {
@@ -78,7 +77,13 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
     let roomId = newRoomName.chatId
 
     socket.emit('leaveRoom', ({ roomId, nickname }));
+
+    closeChattingModal()
   };
+
+  const dropdownRef = useRef(null);
+  const [isActive, setIsActive] = useState(false);
+  const onClick = () => setIsActive(!isActive);
 
   return (
     <>
@@ -86,7 +91,8 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm>
         <PostingWriteTitle>
-          <PostSpan><svg onClick={handleBack} 
+          <PostSpan>
+            <svg onClick={handleBack} 
             xmlns="http://www.w3.org/2000/svg" 
             width="20" 
             height="20" 
@@ -95,20 +101,56 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
             d="M16.67 0l2.83 2.829-9.339 
             9.175 9.339 9.167-2.83 
             2.829-12.17-11.996z"/>
-          </svg></PostSpan>
-          {newRoomName.chatName}       {/* 여기 추가함 */}<button onClick={leaveRoom}>채팅방 떠나기</button>      
+          </svg>          
+          </PostSpan>
+          <PostNameDiv>{newRoomName.chatName}</PostNameDiv>      
+          <div className="menuContainer">
+            <button onClick={onClick} className="menuTrigger">
+              <svg xmlns="http://www.w3.org/2000/svg" 
+                className="userSvg"
+                width="24" 
+                height="24" 
+                stroke="#ffffff" 
+                viewBox="0 0 24 24">
+                  <path d="M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 
+                  1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 
+                  3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 
+                  0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/>
+              </svg>
+            </button>
+            <nav ref={dropdownRef} className={`loginMenu ${isActive ? 'active' : 'inactive'}`}>
+              <ul>
+                <li onClick={leaveRoom}><a>채팅방 나가기</a></li>
+              </ul>
+            </nav>
+          </div>
         </PostingWriteTitle>
 
         <ChattingWrapper>
-        {/* <ChattingListImg src={null}/> */}
-        {roomChatLog.map( ({ nickname, message }, index) => {
+
+
+        {roomChatLog.map(( el, index) => {
+          return (el.nickname !== data.nickname
+            ?  (<ChattingListDiv key={index}>
+                <ChattingListText>{el.nickname}</ChattingListText>
+                <ChattingContents>{el.message}</ChattingContents>
+              </ChattingListDiv> )
+            : (<ChattingListDiv key={index}>
+                <ChattingMyContents>{el.message}</ChattingMyContents>
+                <ChattingMyListText>{el.nickname}</ChattingMyListText>
+              </ChattingListDiv>)
+          )
+        })}     
+
+        {/* {roomChatLog.map( ({ nickname, message }, index) => {
           return (
             <ChattingListDiv key={index}>
               <ChattingListText>{nickname}</ChattingListText>
               <ChattingContents>{message}</ChattingContents>
             </ChattingListDiv>
           )
-        })}        
+        })}      */}
+
         </ChattingWrapper>
         <ChattingSendDiv>
           <InputField placeholder="메세지를 입력해주세요" onChange={handleInputValue('roomMessage')} value={roomMessageInfo.message} onKeyUp={enterKey('roomMessage')} />
@@ -122,21 +164,56 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   );
 }
 
+// const PostingWriteTitle = styled.div`
+//   font-size: 20px;
+//   margin-top: 25px;
+//   margin-bottom: 25px;
+// `;
+
 const PostingWriteTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
   font-size: 20px;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  height: 70px;
+  /* margin-top: 25px;
+  margin-bottom: 25px; */
 `;
 
+// const PostSpan = styled.span`
+//   /* position: absolute;
+//   right: 330px; */
+// `
 const PostSpan = styled.span`
-  position: absolute;
-  right: 330px;
+  margin-top: 25px;
+  margin-left: 10px;
+`
+const PostNameDiv = styled.div`
+  font-family: var(--main-font);
+  margin-top: 22px;
+  font-size: 22px;
+  margin-left: 5px;
+  font-weight: bold;
 `
 
 const ChattingListDiv = styled.div`
   display: flex;
   margin-top: 10px;
   align-items: center;
+  flex-wrap: wrap;
+`
+
+const ChattingMyListText = styled.div`
+  margin-left: 10px;
+`
+
+const ChattingMyContents = styled.div`
+  /* display: flex; */
+  width: 200px;
+  padding: 15px;
+  border-radius:10px ;
+  background-color: #D5B483;
+  margin-left: 120px;
+  word-break:break-all;
 `
 
 const ModalBackdrop = styled.div`
@@ -156,7 +233,7 @@ const Wrapper = styled.div`
     overFlow : hidden;
     /* width: 320px;
     height: 568px; */
-    width: 375px;
+    width: 376px;
     height: 667px;
     display: flex;
     justify-content: center;
@@ -192,6 +269,7 @@ height: 490px;
 background-color: #F4F4F4;
 overFlow : auto;
 border: 1px solid #A3A3A3;
+/* flex-wrap: wrap; */
 /* display: flex; */
 /* flex-direction: column; */
 `;
@@ -211,6 +289,7 @@ padding: 15px;
 border-radius:10px ;
 background-color: #D5B483;
 margin-left: 10px;
+word-break:break-all;
 `
 
 const ChattingListText = styled.div`
@@ -223,7 +302,7 @@ display: flex;
 width: 375px;
 height: 111px;
 background-color: #ffffff;;
-border-radius: 0px 0 30px 30px;
+/* border-radius: 0px 0 30px 30px; */
 border: 1px solid #A3A3A3;
 margin-top: -1px;
 `

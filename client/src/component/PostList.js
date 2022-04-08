@@ -17,6 +17,8 @@ border: 1px solid #C9C9C9;
 `
 
 const PostListMobile = styled.div`
+font-family: var(--main-font);
+font-size: 20px;
 background-color: #EEEEEE;
 display: flex;
 align-items: center;

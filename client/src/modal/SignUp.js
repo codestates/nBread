@@ -292,6 +292,7 @@ border-radius: 30px;
 `;
 
 const SignUpTitle = styled.div`
+font-family: var(--main-font);
 font-size: 28px;
 margin-top: 25px;
 margin-bottom: 25px;

@@ -80,7 +80,7 @@ width: 80px;
 margin-top: 10px;
 margin-left: 20px;
 @media (max-width: 576px) {
-  width: 70px;
+  width: 60px;
 } 
 `; 
 

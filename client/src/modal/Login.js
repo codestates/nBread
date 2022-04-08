@@ -112,6 +112,7 @@ transform: translate(-50%, -50%);
 border-radius: 30px;
 `;
 const LoginTitle = styled.div`
+font-family: var(--main-font);
 font-size: 28px;
 margin-top: 25px;
 margin-bottom: 35px;
