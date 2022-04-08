@@ -414,6 +414,8 @@ height: calc(100vh - 100px);
 
 
 const HomeButton = styled.button`
+font-family: var(--main-font);
+font-size: 16px;
 display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
@@ -430,6 +432,7 @@ color: white;
 @media (max-width: 576px) {
   width: 70px;
   height: 70px;
+  font-size: 14px;
 }
 @media (max-width: 400px) {
   width: 70px;
@@ -646,6 +649,8 @@ padding-left: 5px;
 `;
 
 const ListButton = styled.button`
+font-family: var(--main-font);
+font-size: 14px;
 display: none;
 position: fixed;
 bottom: 160px;

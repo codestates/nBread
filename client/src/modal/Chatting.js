@@ -75,8 +75,7 @@ function Chatting({setChattingModal}) {
                 <ChattingWrapper key={index} onClick={(e)=>handleChatList(e, el)}>
                   <ChattingListImg src={`/icon/${el.categoryFood}.png`}/>
                     <ChattingListTextWrapper>
-                    {/* 랜덤으로 방입니다~!, 방이예요~~ ~는 이쪽으로! 등 돌려주면 어떨까요? */}
-                        <ChattingListText>{el.roomName}&nbsp;방입니다!</ChattingListText>
+                        <ChattingListText>{el.roomName}</ChattingListText>
                     </ChattingListTextWrapper>
                 </ChattingWrapper> 
                 )
