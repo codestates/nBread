@@ -130,7 +130,7 @@ function MyPage() {
   }
 //메인페이지로 이동 버튼
   const clickHomelBtn = () => {
-    history.push("/")
+    history.push("/LandingPage")
   }
 
   //마이페이지 수정

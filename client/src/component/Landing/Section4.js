@@ -14,6 +14,7 @@ function Section4() {
       <Text>
       우리 함께 N빵 해봐요!
       </Text>
+      <GoButton>시작하기</GoButton>
       </TextDiv>
       </Wrapper>
 
@@ -25,6 +26,7 @@ function Section4() {
 export default Section4;
 
 export const Wrapper = styled.div`
+  background-color: #D5B483;
   border-bottom: 1px solid ;
   padding-top: 75px;
   height: 100vh;
@@ -35,11 +37,12 @@ export const Wrapper = styled.div`
 `;
 
 export const TextDiv = styled.div`
-  
+  margin-left: 20%;
 `;
 
 export const Text = styled.div`
-  font-size: 46px;
+  color: #ffffff;
+  font-size: 56px;
   font-weight: 700;
   margin-bottom: 5px;
 `;
@@ -51,3 +54,18 @@ export const Footer = styled.div`
   background-color: #C4C4C4;
   
 `;
+
+export const GoButton = styled.button`
+  margin-top: 20px;
+  width: 180px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 50px;
+  background-color: #7C0811;
+  color: #D9C6AC;
+  border: 0;
+`;
+
+
+
