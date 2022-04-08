@@ -93,6 +93,7 @@ const MenuTrigger = styled.div`
 `;
 
 const UserName = styled.p`
+  font-family: var(--main-font);
   background: #ffffff;
   border-radius: 90px;
   cursor: pointer;

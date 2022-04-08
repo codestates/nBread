@@ -24,3 +24,7 @@ body {
   padding: 0px;
   margin: 0px;
 } 
+
+:root {
+  --main-font: 'Do Hyeon', sans-serif;
+}

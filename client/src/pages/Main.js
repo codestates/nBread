@@ -46,7 +46,17 @@ function Main() {
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){
-      Swal.fire('로그인이 필요합니다')
+      Swal.fire({
+        title: '로그인이 필요합니다',
+        width: 500,
+        padding: '1.5em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
       setPostingWriteModal(false)
     }else{
       setPostingWriteModal(!PostingWriteModal);
@@ -55,7 +65,17 @@ function Main() {
   //채팅
   const openModalChatting = () => {
     if(!userInfo.isLogIn){
-      Swal.fire('로그인이 필요합니다')
+      Swal.fire({
+        title: '로그인이 필요합니다',
+        width: 500,
+        padding: '1.5em',
+        confirmButtonColor: '#B51D29',
+        color: 'black',
+        background: '#fff ',
+        backdrop: ` 
+          rgba(0,0,0,0.4)
+        `
+      })
       setChattingModal(false)
     }else{
       setChattingModal(!ChattingModal)
@@ -199,6 +219,8 @@ height: calc(100vh - 100px);
 `;
 
 const WritingButton = styled.button`
+font-family: var(--main-font);
+font-size: 16px;
 display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 160px;
@@ -211,6 +233,7 @@ background-color: #D4AA71;
 color: white;
 z-index: 1;
 @media (max-width: 576px) {
+  font-size: 14px;
   width: 70px;
   height: 70px;
   bottom: 140px;
@@ -218,6 +241,8 @@ z-index: 1;
 `;
 
 const ChattingButton = styled.button`
+font-family: var(--main-font);
+font-size: 16px;
 display: ${props => props.openPost ? 'none' : 'block'};
 position: fixed;
 bottom: 60px;
@@ -230,6 +255,7 @@ background-color: #B51D29;
 color: white;
 z-index: 1;
 @media (max-width: 576px) {
+  font-size: 14px;
   width: 70px;
   height: 70px;
 }  
@@ -278,7 +304,9 @@ const SearchBtnDiv = styled.div`
 `
 
 const MobileButton = styled.button`
+  font-family: var(--main-font);  
   display: none;
+  font-size: 16px;
 @media (max-width: 576px) {
   display: ${props => props.openPost ? 'none' : 'block'};
   bottom: 0px;

@@ -55,7 +55,7 @@ function Chatting({setChattingModal}) {
     <ModalBackdrop onClick={closeChattingModal}>
       <Wrapper onClick={(e) => e.stopPropagation()}>
         <LoginForm onSubmit={(e) => e.preventDefault()}>
-        <PostingWriteTitle>채팅      
+        <PostingWriteTitle>채팅
             <PostSpan onClick={closeChattingModal}>&times;</PostSpan>
           </PostingWriteTitle>
       {
@@ -111,6 +111,7 @@ place-items: center;
 
 
 const PostingWriteTitle = styled.div`
+font-family: var(--main-font);
 font-size: 28px;
 margin-top: 25px;
 margin-bottom: 25px;
