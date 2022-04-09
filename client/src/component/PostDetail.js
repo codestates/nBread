@@ -287,6 +287,8 @@ function PostDetail({click, setClick}) {
               return (null)
             } else if (list.closed === 2){
               return (<PostButton> 신청마감 </PostButton>)
+            } else if (list.content_count === list.recruitment_personnel) {
+              return (<PostButton> 신청마감 </PostButton>)
             } else if( userInfo.id === listUserId){
               return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
             } else if( list.rel === ''){

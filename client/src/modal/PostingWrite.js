@@ -277,16 +277,18 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     height: 50px;
     font-size: 18px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 18px;
     border:solid 1px #C4C4C4;
     border-radius: 6px;
     padding-left: 5px;
+    &:focus {outline:1.5px solid #1C84FA}
+
   `;
 
   const CloseBtn = styled.button`
     display: block;
     position: absolute;
-    top: 60px;
+    top: 57px;
     right: 25px;
     z-index: 100;
     padding: 7px;
@@ -305,7 +307,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     height: 50px;
     font-size: 18px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 18px;
     padding-top: 1px;
     padding-left: 5px;
     border:solid 1px #C4C4C4;
@@ -328,12 +330,14 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   const Detail = styled.textarea`
     height: 180px;    
     font-size: 18px;
-    margin-top: 20px;
+    margin-top: 18px;
     width: 295px;
     padding-top: 5px;
     padding-left: 5px;
     border-radius: 6px;
     border: 1px solid #CCC;
+    &:focus {outline:1.5px solid #1C84FA}
+
   ::placeholder { 
   font-size: 18px !important;
 }
@@ -353,7 +357,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
     color: white;
     border: none;
     font-size: 18px;
-    margin-top: 7%;
+    margin-top: 4%;
     border-radius: 6px;
     &:hover{  
     cursor: pointer;
@@ -367,6 +371,7 @@ function PostingWrite({handleWritingAddress,PostingWriteModal,openModalPostingWr
   const StyledPersonSelect = styled(Select)`
     width: 145px;
     margin-left: 4px;
+    &:focus {outline:1px solid #2962FF}
   `
 
 
