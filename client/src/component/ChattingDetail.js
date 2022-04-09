@@ -135,10 +135,10 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
                 <ChattingListText>{el.nickname}</ChattingListText>
                 <ChattingContents>{el.message}</ChattingContents>
               </ChattingListDiv> )
-            : (<ChattingListDiv key={index}>
-                <ChattingMyContents>{el.message}</ChattingMyContents>
+            : (<ChattingMyListDiv key={index}>
                 <ChattingMyListText>{el.nickname}</ChattingMyListText>
-              </ChattingListDiv>)
+                <ChattingMyContents>{el.message}</ChattingMyContents>
+              </ChattingMyListDiv>)
           )
         })}     
 
@@ -179,10 +179,6 @@ const PostingWriteTitle = styled.div`
   margin-bottom: 25px; */
 `;
 
-// const PostSpan = styled.span`
-//   /* position: absolute;
-//   right: 330px; */
-// `
 const PostSpan = styled.span`
   margin-top: 25px;
   margin-left: 10px;
@@ -205,8 +201,17 @@ const ChattingListDiv = styled.div`
   flex-wrap: wrap;
 `
 
+const ChattingMyListDiv = styled.div`
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+`
+
 const ChattingMyListText = styled.div`
   margin-left: 10px;
+  margin-right: 10px;
 `
 
 const ChattingMyContents = styled.div`
@@ -214,8 +219,8 @@ const ChattingMyContents = styled.div`
   width: 200px;
   padding: 15px;
   border-radius:10px ;
-  background-color: #D5B483;
-  margin-left: 120px;
+  background-color: #CEA163;
+  /* margin-left: 120px; */
   word-break:break-all;
 `
 

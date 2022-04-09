@@ -37,12 +37,6 @@ function Main() {
     .catch(err => console.log("주 에러 : ",err))
   };
 
-  //토큰
-  // useEffect(() => {
-  //   isAuthenticated()
-  // }, []);
-
-
   //글쓰기
   const openModalPostingWrite = () => {
     if(!userInfo.isLogIn){
@@ -154,7 +148,7 @@ function Main() {
           <Map writingAddress={writingAddress} mainSearchAddressCenter={mainSearchAddressCenter}/>
         </MapDiv>
         <SearchDiv openPost={openPost}>
-          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress} value={searchAddress}></SearchInputDiv>
+          <SearchInputDiv placeholder='주소 검색' onChange={handleSearchAddress} onKeyPress={onKeyPress} value={searchAddress||''}></SearchInputDiv>
           {/* <SearchBtnDiv onClick={SearchMap} >검색</SearchBtnDiv> */}
           <SearchBtnDiv onClick={SearchMap} >
             <svg xmlns="http://www.w3.org/2000/svg" 

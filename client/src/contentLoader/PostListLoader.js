@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
+import ContentLoader from "react-content-loader"
 
 
 function PostListLoader(props) {
@@ -10,49 +11,21 @@ function PostListLoader(props) {
 	}, [setLoading]);
 
   return (
-    <Wrapper>
-    <PostListImg />
-    <PostListTextWrapper>
-      <PostListText></PostListText>
-      <PostListText></PostListText>
-      <PostListText></PostListText>
-      <PostListText></PostListText>
-    </PostListTextWrapper>
-    </Wrapper>
-    // <div id="wrapper">
-    //   <div class="skeleton-ui" />
-    //   <div class="skeleton-ui" />
-    //   <div class="skeleton-ui" />
-    // </div>
+  <Wrapper>
+    <ContentLoader 
+      viewBox="0 0 500 475" 
+      height={475} 
+      width={500} 
+      {...props}>
+    <circle cx="70.2" cy="230" r="70" />
+    <rect x="180" y="150" width="212.5" height="18" />
+    <rect x="180" y="195" width="212.5" height="18" />
+    <rect x="180" y="240" width="212.5" height="18" />
+    <rect x="180" y="285" width="212.5" height="18" />
+    </ContentLoader>
+  </Wrapper>
   );
 }
-
-// #wrapper {
-//   width: 100%;
-//   background-color: #222222;
-//   padding: 15px;
-// }
-// .skeleton-ui {
-//   height: 100px;
-//   margin-top: 30px;
-//   position: relative;
-//   overflow: hidden;
-// }
-// .skeleton-ui:before {
-//   content: '';
-//   width: 100%;
-//   height: 100%;
-//   position: absolute;
-//   left: -100%;
-//   top: 0;
-//   background: linear-gradient(to right, #444444, #555555);
-//   animation: skeleton 2s linear;
-//   opacity: 0.5;
-// }
-// @keyframes skeleton {
-//   from { left: -100% }
-//   to { left: 100% }
-// }
 
 
 const Wrapper = styled.div`
@@ -65,27 +38,7 @@ padding: 30px;
 margin-bottom: 8px;
 box-shadow: 0 0 4px #737373;
 @media (max-width: 768px) {
-  /* justify-content:center; */
 } 
 `;
 
-const PostListImg = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  border: none;
-  background: linear-gradient(to right, #444444, #555555);
-`;
-
-const PostListTextWrapper = styled.div`
-padding-left: 40px;
-`
-
-const PostListText = styled.div`
-  margin-bottom: 10px;
-  width: 160px;
-  height: 20px;
-  border-radius: 6px;
-  background: linear-gradient(to right, #444444, #555555);
-`
 export default PostListLoader;

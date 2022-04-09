@@ -24,6 +24,7 @@ const PostButtonDiv = styled.div`
 `
 
 const PostButton = styled.div`
+  font-family: var(--main-font);
   background-color: #EEEEEE;
   display: flex;
   align-items: center;
@@ -38,6 +39,7 @@ const PostButton = styled.div`
 }
 `
 const PostOpenButton = styled.div`
+  font-family: var(--main-font);
   background-color: #EEEEEE;
   display: flex;
   align-items: center;

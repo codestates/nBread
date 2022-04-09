@@ -169,7 +169,7 @@ const ChattingWrapper = styled.div`
 width: 345px;
 height: 98px;
 background-color: #FFFFFF;
-border: 1px solid #A3A3A3;
+border: 1px solid #CDCBC5;
 display: flex;
 border-radius: 6px;
 margin-top: 5px;
@@ -187,6 +187,13 @@ margin-left: 20px;
 
 const ChattingListTextWrapper = styled.div`
 /* padding-left: 40px; */
+font-size: 16px;
+font-weight: 500;
+margin-top: -3px;
+:hover {
+  font-size: 17px;
+  font-weight: 500;
+}
 `
 
 const ChattingListText = styled.div`
