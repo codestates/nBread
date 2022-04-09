@@ -62,7 +62,7 @@
 <div markdown="1">    
    
 💁‍♀️ **프론트엔드 팀장**
-- 글 CRUD
+- 게시글 CRUD
 - 지도 API
 
 </div>
