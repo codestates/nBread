@@ -50,8 +50,16 @@
 
 
 
+# 주요 기능 시연 GIF
+<details>
+<summary>지도</summary>
+<div markdown="1">    
+   
+![지도확대 모바일](https://user-images.githubusercontent.com/86206374/162618674-dec6c476-70cf-45e9-bb57-f3d6cd0fa9bc.gif)
 
 
+</div>
+</details>
 
 
 
