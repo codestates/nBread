@@ -1,5 +1,15 @@
 import axios from "axios";
-import { SHOW_POST_LIST_SUCCESS, SHOW_POST_EDIT_SUCCESS, SHOW_POST_CLOSED_EDIT_SUCCESS, SHOW_POST_RECRUITMENT_SUCCESS, SHOW_POST_CANCEL_RECRUITMENT_SUCCESS } from "./type";
+import { SHOW_POST_LIST_SUCCESS, 
+        SHOW_POST_EDIT_SUCCESS, 
+        SHOW_POST_CLOSED_EDIT_SUCCESS, 
+        SHOW_POST_RECRUITMENT_SUCCESS, 
+        SHOW_POST_CANCEL_RECRUITMENT_SUCCESS,
+        SHOW_POST_LIST_FAIL,
+        SHOW_POST_EDIT_FAIL,
+        SHOW_POST_CLOSED_EDIT_FAIL,
+        SHOW_POST_RECRUITMENT_FAIL,
+        SHOW_POST_CANCEL_RECRUITMENT_FAIL
+} from "./type";
 import io from 'socket.io-client';
 
 const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
@@ -11,6 +21,12 @@ const showPostDetailSuccess = (post) => {
   }
 }
 
+const showPostDetailFail = () => {
+  return {
+    type: SHOW_POST_LIST_FAIL,
+  }
+}
+
 const showPostEditSuccess = (post) => {
   return {
     type: SHOW_POST_EDIT_SUCCESS,
@@ -18,9 +34,22 @@ const showPostEditSuccess = (post) => {
   }
 }
 
+const showPostEditFail = () => {
+  return {
+    type: SHOW_POST_EDIT_FAIL,
+  }
+}
+
 const showPostClosedEditSuccess = (post) => {
   return {
     type: SHOW_POST_CLOSED_EDIT_SUCCESS,
+    payload: post
+  }
+}
+
+const showPostClosedEditFail = (post) => {
+  return {
+    type: SHOW_POST_CLOSED_EDIT_FAIL,
     payload: post
   }
 }
@@ -32,6 +61,13 @@ const showPostRecruitmentSuccess = () => {
   }
 }
 
+const showPostRecruitmentFail = () => {
+  return {
+    type: SHOW_POST_RECRUITMENT_FAIL,
+    payload: null
+  }
+}
+
 const showPostCancelRecruitmentSuccess = () => {
   return {
     type: SHOW_POST_CANCEL_RECRUITMENT_SUCCESS,
@@ -39,13 +75,25 @@ const showPostCancelRecruitmentSuccess = () => {
   }
 }
 
+const showPostCancelRecruitmentFail = () => {
+  return {
+    type: SHOW_POST_CANCEL_RECRUITMENT_FAIL,
+    payload: null
+  }
+}
 
 // 글 상세페이지 
 export const showPostDetail = (id) => {
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/contents/${id}`, { withCredentials: true })
-    .then(post => dispatch(showPostDetailSuccess(post)))
-    .catch(err=> console.log(err))
+    .then(post => {
+      if(post.status === 200){
+        dispatch(showPostDetailSuccess(post))
+      }else {
+        dispatch(showPostDetailFail())
+      }
+    })
+    .catch()
   }
 }
 
@@ -63,7 +111,7 @@ export const editPostDetail = (id,data)=> {
       if(post.status === 200){
         dispatch(showPostEditSuccess(post))
       }else {
-        console.log('글 수정 실패')
+        dispatch(showPostEditFail())
       }
     })
     .catch(err=> console.log(err))
@@ -80,7 +128,7 @@ export const editPostClosed = (id,data)=> {
       if(post.status === 200){
         dispatch(showPostClosedEditSuccess(post))
       }else {
-        console.log('글 수정 실패')
+        dispatch(showPostClosedEditFail())
       }
     })
     .catch(err=> console.log(err))
@@ -98,7 +146,7 @@ export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
       if(post.status === 200){
         dispatch(showPostRecruitmentSuccess())
       }else {
-        console.log('글 신청 실패')
+        dispatch(showPostRecruitmentFail())
       }
     })
     .catch(err=> console.log(err))
@@ -119,7 +167,7 @@ export const editPostCancelRecruitment = (id, nickname)=> {
       if(post.status === 200){
         dispatch(showPostCancelRecruitmentSuccess())
       }else {
-        console.log('글 신청 취소 실패')
+        dispatch(showPostCancelRecruitmentFail())
       }
     })
     .catch(err=> console.log(err))

@@ -483,3 +483,42 @@ const PostEditDiv = styled.textarea`
 `
 
 export default PostDetail;
+
+// {!editText
+//   ? <>  
+//   <WrapperDiv>
+//       <Wrapper>
+//         <PostListImg src={`/icon/${list.category_food}.png`}/>
+//         <PostListTextWrapper>
+//           <PostTextDiv>
+//             <PostListText>식당이름 :</PostListText>
+//             <PostListTextRight> {list.restaurant_name} </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>모집인원 :</PostListText>
+//             <PostListTextRight> {list.content_count} / {list.recruitment_personnel}명 </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>배달비 :</PostListText>
+//             <PostListTextRight> {list.delivery_fee} 원</PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>N빵 :</PostListText>
+//             <PostListTextRight> {parseInt(list.delivery_fee / list.recruitment_personnel)} 원</PostListTextRight>
+//           </PostTextDiv>
+//         </PostListTextWrapper>
+//       </Wrapper>
+      
+//         <div>
+//           <PostListText>{newChangeDate}</PostListText>
+//           <PostTextDiv>
+//             <PostListText>주소 :</PostListText>
+//             <PostListTextRight> {list.address} </PostListTextRight>
+//           </PostTextDiv>
+//           <PostListExText>설명글</PostListExText>
+//           <PostListDetailText>
+//             {list.body}
+//           </PostListDetailText>
+//         </div>
+//   </WrapperDiv>
+//     </>

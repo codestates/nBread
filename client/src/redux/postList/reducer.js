@@ -1,4 +1,14 @@
-import { SHOW_POST_LIST_SUCCESS, SHOW_POST_EDIT_SUCCESS,SHOW_POST_CLOSED_EDIT_SUCCESS, SHOW_POST_RECRUITMENT_SUCCESS, SHOW_POST_CANCEL_RECRUITMENT_SUCCESS } from "./type";
+import { SHOW_POST_LIST_SUCCESS, 
+        SHOW_POST_EDIT_SUCCESS,
+        SHOW_POST_CLOSED_EDIT_SUCCESS, 
+        SHOW_POST_RECRUITMENT_SUCCESS, 
+        SHOW_POST_CANCEL_RECRUITMENT_SUCCESS,
+        SHOW_POST_LIST_FAIL,
+        SHOW_POST_EDIT_FAIL,
+        SHOW_POST_CLOSED_EDIT_FAIL,
+        SHOW_POST_RECRUITMENT_FAIL,
+        SHOW_POST_CANCEL_RECRUITMENT_FAIL 
+} from "./type";
 
 const postDetailInitialState = {
     address: null,
@@ -52,6 +62,16 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
     case SHOW_POST_RECRUITMENT_SUCCESS:
       return state;
     case SHOW_POST_CANCEL_RECRUITMENT_SUCCESS:
+      return state;
+    case SHOW_POST_LIST_FAIL:
+      return state;
+    case SHOW_POST_EDIT_FAIL:
+      return state;
+    case SHOW_POST_CLOSED_EDIT_FAIL:
+      return state;
+    case SHOW_POST_RECRUITMENT_FAIL:
+      return state;
+    case SHOW_POST_CANCEL_RECRUITMENT_FAIL:
       return state;
     default: return state;
   }

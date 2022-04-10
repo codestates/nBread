@@ -43,9 +43,8 @@ export const writingPost = (post) => {
         let categoryFood = post.category_food
 
         socket.emit('createRoom', ({ id, nickname, roomName, categoryFood }));
-        // console.log('글쓰기 성공')
       }else{
-        // console.log('글쓰기 실패')
+        dispatch(writingPostFailure())
       }
     })
     .catch(err=> dispatch(writingPostFailure(err)))
