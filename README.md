@@ -55,7 +55,7 @@
 <summary>로그인</summary>
 <div markdown="1">    
 
-<img src="https://user-images.githubusercontent.com/86206374/162618966-613cba73-7d75-49f3-b1d1-548186591ff6.gif" width="620" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162618966-613cba73-7d75-49f3-b1d1-548186591ff6.gif" width="640" height="400"/>
 <img src="https://user-images.githubusercontent.com/86206374/162618984-86d3cf2b-34d8-46e9-91c1-f0a50c39c355.gif" width="180" height="400"/>
 
     
