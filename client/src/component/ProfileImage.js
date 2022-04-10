@@ -41,7 +41,7 @@ function ProfileImage(props) {
             `
           })
           setImg(response.data.filePath)
-          console.log(Img,'88888888888888')
+          // console.log(Img,'88888888888888')
           props.updateImages(response.data.filePath)
           dispatch(axiosProfileImageEdit(response.data.filePath))
         }else {

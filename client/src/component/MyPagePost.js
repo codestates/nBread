@@ -133,7 +133,7 @@ function MyPagePost({openPost, setOpenPost}) {
   }
 
   const myPagePostHandleBack = () => {
-    console.log('cdcdcd')
+    // console.log('cdcdcd')
     setOpenPost(!openPost)
   }
 
