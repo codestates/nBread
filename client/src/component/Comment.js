@@ -5,7 +5,7 @@ import { fetchComments } from '../redux/comments/actions'
 function Comment(props) {
   const dispatch = useDispatch()
   const comment = useSelector((state)=> state.commentsReducer.items)
-  console.log('comment',comment)
+  // console.log('comment',comment)
   const commentList = comment.map(comment => {
     return( 
     <div key={comment.id}>

@@ -30,20 +30,20 @@ function Test () {
       });
       // myRoomList 정보 받기
       socket.on('myRoomList', ({ userRoom, userNickName }) => {
-        console.log('--------1----------', userNickName)
-        console.log('--------2----------', data.nickname)
+        // console.log('--------1----------', userNickName)
+        // console.log('--------2----------', data.nickname)
         if (userNickName === data.nickname) {
           setMyRoomList(userRoom);
         }
       });
       // 채팅 기록 받기
       socket.on('chatLog', (log) => {
-        console.log('--------chatlog-------', log)
+        // console.log('--------chatlog-------', log)
         setChatLog(log);
       });
       // room 채팅 기록 받기
       socket.on('roomChatLog', (log) => {
-        console.log('------------2----------', log)
+        // console.log('------------2----------', log)
         setRoomChatLog(log);
       });
     }
@@ -74,7 +74,7 @@ function Test () {
 
   const enterKey = (value) => (e) => {
     if (e.key === 'Enter') {
-      console.log('---------enter-----------')
+      // console.log('---------enter-----------')
       if (value === 'roomName') {
         if (roomName.length !== 0) {
           createRoom();   
@@ -82,10 +82,10 @@ function Test () {
       }
       if (value === 'message') {
         if (messageInfo.message.length !== 0) {
-          console.log('--------!0--------')
+          // console.log('--------!0--------')
           sendMessage();
         } else {
-          console.log('--------0--------')
+          // console.log('--------0--------')
         }
       }
       if (value === 'roomMessage') {
@@ -104,7 +104,7 @@ function Test () {
   };
 
   const sendMessage = () => {
-    console.log('------------snedMessage-----------')
+    // console.log('------------snedMessage-----------')
     socket.emit('sendMessage', (messageInfo));
     setMessageInfo({ nickname: '', message: '' });
   };
