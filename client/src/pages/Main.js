@@ -28,7 +28,7 @@ function Main() {
   const isAuthenticated = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/auth`,{withCredentials: true})
     .then(response => {
-      console.log(response.data,'res')
+      // console.log(response.data,'res')
       if (!response.data.success) {
         // dispatch(axiosLogin())
         dispatch(axiosLogout())
