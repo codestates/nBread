@@ -1,4 +1,4 @@
-import { SHOW_MY_APPLY_LIST_SUCCESS } from "./types";
+import { SHOW_MY_APPLY_LIST_SUCCESS, SHOW_MY_APPLY_LIST_Fail } from "./types";
 
 const myApplyInitialState = {
   posts:[]
@@ -7,11 +7,14 @@ const myApplyInitialState = {
 const myApplyPostsReducer = (state=myApplyInitialState, action) => {
   switch(action.type){
     case SHOW_MY_APPLY_LIST_SUCCESS:
-      // console.log('지원액션페이로드',action.payload)
       const data = action.payload;
       return {
         ...state,
         posts: data,
+      }
+    case SHOW_MY_APPLY_LIST_Fail:
+      return {
+        ...state,
       }
     default: return state;
   }

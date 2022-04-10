@@ -1,4 +1,10 @@
-import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST, SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
+import { SHOW_POST_LIST , 
+        RESET_POST_LIST, 
+        DELETE_POST_LIST, 
+        SHOW_MY_OPEN_LIST_SUCCESS,
+        SHOW_POST_FAIL,
+        DELETE_POST_LIST_FAIL
+      } from "./types";
 
 
 export const postInitialState = {
@@ -19,6 +25,10 @@ const postsReducer = (state=postInitialState, action) => {
         posts: null,
       }
     case DELETE_POST_LIST:
+      return {
+        ...state
+      }
+    case SHOW_POST_FAIL:
       return {
         ...state
       }

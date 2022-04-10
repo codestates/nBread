@@ -1,4 +1,4 @@
-import { SHOW_MY_OPEN_LIST_SUCCESS } from "./types";
+import { SHOW_MY_OPEN_LIST_SUCCESS, SHOW_MY_OPEN_LIST_FAIL } from "./types";
 
 
 const myPostInitialState = {
@@ -13,6 +13,10 @@ const myPostsReducer = (state=myPostInitialState, action) => {
       return {
         ...state,
         posts: data,
+      }
+    case SHOW_MY_OPEN_LIST_FAIL:
+      return {
+        ...state,
       }
     default: return state;
   }
