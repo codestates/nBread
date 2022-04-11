@@ -47,6 +47,7 @@
 ### Deploy
 <img src="https://img.shields.io/badge/S3-EC1C24?style=for-the-badge&logo=&logoColor=white"> <img src="https://img.shields.io/badge/rds-0066B3?style=for-the-badge&logo=&logoColor=white">
 <img src="https://img.shields.io/badge/ec2-FF9900?style=for-the-badge&logo=&logoColor=white">
+<img src="https://img.shields.io/badge/codepipeline-006600?style=for-the-badge&logo=&logoColor=white">
 
 
 
