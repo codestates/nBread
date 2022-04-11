@@ -91,7 +91,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(showPostUserDelete(postId, userInfo.nickname))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -104,7 +104,7 @@ function PostDetail({click, setClick}) {
   const handelPostEditComplete = () => {
     dispatch(editPostDetail(list.id,postEditInfo))
     setEditText(!editText)
-    window.location.replace("/") 
+    window.location.replace("/Main") 
   }
   
 
@@ -124,7 +124,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostClosed(list.id))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -142,7 +142,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname, list.category_food))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -160,7 +160,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostCancelRecruitment(list.id, userInfo.nickname))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		}) 
