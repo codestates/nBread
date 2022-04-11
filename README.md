@@ -114,7 +114,7 @@
 <summary>일정 크기 이하일때 출력</summary>
 <div markdown="1">    
 
-<img src="https://user-images.githubusercontent.com/86206374/162788260-17852aad-bbb6-4e7b-b5c8-452eff6223b1.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162789586-106845cb-5b8c-4729-8dde-2c484e6fb942.gif" width="650" height="400"/>
 <img src="https://user-images.githubusercontent.com/86206374/162788063-02b51bfb-c7a1-404b-b01d-7d2747e6baa1.gif" width="170" height="400"/>
 
     
