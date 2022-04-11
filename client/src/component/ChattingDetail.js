@@ -51,8 +51,10 @@ function ChattingDetail({newRoomName,click, setClick,setChattingModal}) {
   }, []) 
 
   const sendRoomMessage = () => {
-    socket.emit('sendRoomMessage', (roomMessageInfo));
-    setRoomMessageInfo({ ...roomMessageInfo, message: ''});
+    if (roomMessageInfo.message.length !== 0) {
+      socket.emit('sendRoomMessage', (roomMessageInfo));
+      setRoomMessageInfo({ ...roomMessageInfo, message: ''});
+    }
   };
 
   const handleInputValue = (value) => (e) => {
