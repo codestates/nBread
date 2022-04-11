@@ -62,7 +62,7 @@ const Hidden = styled.div`
 function PostList({ openPost, setOpenPost}) {
   const dispatch = useDispatch();
   const post = useSelector((state)=> state.postsReducer.posts)
-  // console.log(post)
+  console.log("PostList_post: ", post)
 
   const [click, setClick] = useState(false);
   const [loading, setLoading] = useState(true);
