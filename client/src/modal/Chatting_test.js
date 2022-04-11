@@ -37,7 +37,7 @@ function Chatting_test () {
   }
 
   const onTextChange = e => {
-    console.log('-------1-------', e.target.value)
+    // console.log('-------1-------', e.target.value)
     setState(e.target.value)
   }
 

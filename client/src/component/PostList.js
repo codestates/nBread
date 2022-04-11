@@ -68,7 +68,7 @@ function PostList({ openPost, setOpenPost}) {
   const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const timeout = setTimeout(() => setLoading((loading) => !loading), 1000);
+		const timeout = setTimeout(() => setLoading((loading) => !loading), 500);
 		return () => clearTimeout(timeout);
 	}, [setLoading]);
   

@@ -1,4 +1,4 @@
-import {SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
+import {SHOW_MY_OPEN_LIST_SUCCESS, SHOW_MY_OPEN_LIST_FAIL} from "./types";
 import axios from 'axios';
 
 const showMyOpenListSuccess = (myPost) => {
@@ -7,6 +7,12 @@ const showMyOpenListSuccess = (myPost) => {
   return {
     type : SHOW_MY_OPEN_LIST_SUCCESS,
     payload : MyPosts,
+  }
+}
+
+const showMyOpenListFail = () => {
+  return {
+    type : SHOW_MY_OPEN_LIST_FAIL,
   }
 }
 
@@ -21,7 +27,7 @@ export const showMyPageOpenList = () => {
       if(res.status === 200){
         dispatch(showMyOpenListSuccess(res))
       }else{
-        console.log('마이페이지 글 불러오기 실패')
+        dispatch(showMyOpenListFail())
       }
     })
     .catch(err=> console.log(err))

@@ -1,21 +1,31 @@
 import axios from 'axios';
-import { SHOW_POST_LIST , RESET_POST_LIST, DELETE_POST_LIST, SHOW_MY_OPEN_LIST_SUCCESS} from "./types";
+import { SHOW_POST_LIST , 
+        RESET_POST_LIST, 
+        DELETE_POST_LIST, 
+        SHOW_MY_OPEN_LIST_SUCCESS,
+        SHOW_POST_FAIL,
+        DELETE_POST_LIST_FAIL      
+      } from "./types";
 import io from 'socket.io-client';
 
 const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
 
 const showPostSuccess = (post) => {
   const posts = post.data.data
- //  console.log('showPostSuccess console: ',post)
   return {
     type : SHOW_POST_LIST,
     payload : posts,
   }
 }
 
+const showPostFail = () => {
+  return {
+    type : SHOW_POST_FAIL,
+  }
+}
+
+
 const showPostReset = (post) => {
-  // const posts = post.data.data
-  // console.log('posts',post)
   return {
     type : RESET_POST_LIST,
     payload : null,
@@ -23,22 +33,19 @@ const showPostReset = (post) => {
 }
 
 const showPostDelete = () => {
-  // const posts = post.data.data
-  // console.log('posts',post)
   return {
     type : DELETE_POST_LIST,
     payload : null,
   }
 }
 
-// const showMyOpenListSuccess = (myPost) => {
-//   const MyPosts = myPost.data.app
-//   console.log('posts',MyPosts)
-//   return {
-//     type : SHOW_MY_OPEN_LIST_SUCCESS,
-//     payload : MyPosts,
-//   }
-// }
+const showPostDeleteFail = () => {
+  return {
+    type : DELETE_POST_LIST_FAIL,
+    payload : null,
+  }
+}
+
 
 
 export const showPostUserDelete = (contentId, nickname) => {
@@ -48,11 +55,10 @@ export const showPostUserDelete = (contentId, nickname) => {
   return (dispatch) => {
     axios.delete(`${process.env.REACT_APP_API_URL}/contents/${contentId}`)
     .then(res => {
-      // console.log('res-----', res)
       if(res.status === 200){
         dispatch(showPostDelete())
       }else{
-        console.log('글 삭제 실패')
+        dispatch(showPostDeleteFail())
       }
     })
     .catch(err=> console.log(err))
@@ -70,8 +76,12 @@ export const showPostList = (info) => {
     }else{
       axios.get(`${process.env.REACT_APP_API_URL}/contents?start=${info.swLatLng.lat},${info.swLatLng.lng}&end=${info.neLatLng.lat},${info.neLatLng.lng}`)
       .then(post => {
-	//  console.log("showPostList console: ",post)
-      dispatch(showPostSuccess(post))})
+        if(post.status === 200){
+          dispatch(showPostSuccess(post))
+        }else{
+          dispatch(showPostFail())
+        }
+      })
       .catch(err=> console.log(err))
     }
   }

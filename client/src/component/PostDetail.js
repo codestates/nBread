@@ -91,7 +91,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(showPostUserDelete(postId, userInfo.nickname))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -104,7 +104,7 @@ function PostDetail({click, setClick}) {
   const handelPostEditComplete = () => {
     dispatch(editPostDetail(list.id,postEditInfo))
     setEditText(!editText)
-    window.location.replace("/") 
+    window.location.replace("/Main") 
   }
   
 
@@ -124,7 +124,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostClosed(list.id))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -142,7 +142,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname, list.category_food))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		})
@@ -160,7 +160,7 @@ function PostDetail({click, setClick}) {
 		}).then((result) => {
       if (result.value) {
         dispatch(editPostCancelRecruitment(list.id, userInfo.nickname))
-        window.location.replace("/") 
+        window.location.replace("/Main") 
       }else{
       }
 		}) 
@@ -286,6 +286,8 @@ function PostDetail({click, setClick}) {
             if(!userInfo){
               return (null)
             } else if (list.closed === 2){
+              return (<PostButton> 신청마감 </PostButton>)
+            } else if (list.content_count === list.recruitment_personnel) {
               return (<PostButton> 신청마감 </PostButton>)
             } else if( userInfo.id === listUserId){
               return (<PostButton onClick={handlePostClosed}> 마감하기 </PostButton>)
@@ -481,3 +483,42 @@ const PostEditDiv = styled.textarea`
 `
 
 export default PostDetail;
+
+// {!editText
+//   ? <>  
+//   <WrapperDiv>
+//       <Wrapper>
+//         <PostListImg src={`/icon/${list.category_food}.png`}/>
+//         <PostListTextWrapper>
+//           <PostTextDiv>
+//             <PostListText>식당이름 :</PostListText>
+//             <PostListTextRight> {list.restaurant_name} </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>모집인원 :</PostListText>
+//             <PostListTextRight> {list.content_count} / {list.recruitment_personnel}명 </PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>배달비 :</PostListText>
+//             <PostListTextRight> {list.delivery_fee} 원</PostListTextRight>
+//           </PostTextDiv>
+//           <PostTextDiv>
+//             <PostListText>N빵 :</PostListText>
+//             <PostListTextRight> {parseInt(list.delivery_fee / list.recruitment_personnel)} 원</PostListTextRight>
+//           </PostTextDiv>
+//         </PostListTextWrapper>
+//       </Wrapper>
+      
+//         <div>
+//           <PostListText>{newChangeDate}</PostListText>
+//           <PostTextDiv>
+//             <PostListText>주소 :</PostListText>
+//             <PostListTextRight> {list.address} </PostListTextRight>
+//           </PostTextDiv>
+//           <PostListExText>설명글</PostListExText>
+//           <PostListDetailText>
+//             {list.body}
+//           </PostListDetailText>
+//         </div>
+//   </WrapperDiv>
+//     </>

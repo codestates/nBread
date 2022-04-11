@@ -1,4 +1,4 @@
-import {SHOW_MY_APPLY_LIST_SUCCESS} from "./types";
+import {SHOW_MY_APPLY_LIST_SUCCESS, SHOW_MY_APPLY_LIST_Fail} from "./types";
 import axios from 'axios';
 
 const showMyApplyListSuccess = (myPost) => {
@@ -10,6 +10,11 @@ const showMyApplyListSuccess = (myPost) => {
   }
 }
 
+const showMyApplyListFail = (myPost) => {
+  return {
+    type : SHOW_MY_APPLY_LIST_Fail,
+  }
+}
 
 // 마이페이지 리스트 불러오기
 export const showMyPageApplyList = () => {
@@ -21,7 +26,7 @@ export const showMyPageApplyList = () => {
       if(res.status === 200){
         dispatch(showMyApplyListSuccess(res))
       }else{
-        console.log('마이페이지 지원글 불러오기 실패')
+        dispatch(showMyApplyListFail())
       }
     })
     .catch(err=> console.log(err))

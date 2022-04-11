@@ -184,7 +184,6 @@ export const axiosUserSignUp = (data) => {
   }
   //-----------회원수정-------------------
   export const axiosUserEdit = (data) => {
-    // console.log('2244445454522',data)
     return (dispatch) => {
     dispatch(userEdit(data))
     axios.patch(`${process.env.REACT_APP_API_URL}/users`, {
@@ -198,8 +197,25 @@ export const axiosUserSignUp = (data) => {
     username:data.username
       } ,{withCredentials: true})
     .then(data => {
-      
       if(data.status===200){
+        const userInfoNewSearchAddress = () => {
+          const geocoder = new kakao.maps.services.Geocoder();
+          
+          let callback = function(result, status) {
+            if (status === 'OK') {
+              const newAddSearch = result[0]
+              // console.log('newAddSearch',newAddSearch)
+              const newAddSearchLng =  newAddSearch.x
+              const newAddSearchLat =  newAddSearch.y
+              dispatch(userLocationEdit(newAddSearchLat, newAddSearchLng)) 
+            }
+          };
+          geocoder.addressSearch(`${data.data.data.address}`, callback)
+        }
+        userInfoNewSearchAddress()
+          // -----------추가----------- 
+
+
         // console.log('수정완료')
         dispatch(userEdit(data.data.data))
         

@@ -132,7 +132,7 @@ function MyPage() {
   }
 //메인페이지로 이동 버튼
   const clickHomelBtn = () => {
-    history.push("/LandingPage")
+    history.push("/")
   }
 
   //마이페이지 수정
@@ -206,7 +206,7 @@ const handleUserEdit = () => {
 		}).then((result) => {
       if (result.value) {
         dispatch(axiosUserDelete())
-        history.push("/")
+        history.push("/Main")
       }else{
       }
 		})
@@ -400,11 +400,12 @@ overflow: auto; /* 스크롤 속성 */
   visibility: visible;
   margin-right: 0px;
   padding-right: 0px;
-  
+  width: 576px;
 } 
 `;
 
 const MyPageDiv = styled.div`
+
 margin: auto;
 background-color: #FFFFFF;
 width: 95%;
@@ -579,11 +580,18 @@ font-size: 16px;
   margin-left: 20%;
 } 
 @media (max-width: 400px) {
+  width: 150px;
+  height: 46px;
+  float: left;
+  margin-left: 5%;
+  font-size: 16px;
+}
+@media (max-width: 380px) {
   width: 140px;
   height: 40px;
   float: left;
   margin-top: -27px;
-  margin-left: 127px;
+  margin-left: 80px;
   font-size: 16px;
 }
 `;
@@ -595,6 +603,9 @@ color: gray;
 &:hover{  
     cursor: pointer;
     }
+@media (max-width: 400px) {
+  margin-left: -20px;
+}
 `;
 
 const Err = styled.div`

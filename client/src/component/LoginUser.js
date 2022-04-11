@@ -19,7 +19,7 @@ function LoginUser({setLoginModal}) {
 
   const handleLogout = () => {
       dispatch(axiosLogout())
-      history.push('/')
+      history.push('/Main')
   }
 
   const handleLoginButton = () => {
