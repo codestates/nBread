@@ -28,7 +28,7 @@
 <img src="https://img.shields.io/badge/axios-6F02B5?style=for-the-badge&logo=&logoColor=black"> 
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
 <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components&logoColor=black"> 
-<img src="https://img.shields.io/badge/Kakaomap-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black"> 
+<img src="https://img.shields.io/badge/ReactKakaomapSDK-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black"> 
 <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=black"> 
 
 
