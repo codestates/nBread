@@ -205,7 +205,7 @@ function SignUp({ handleCloseSignupModal, setLoginModal }) {
     ) {
       dispatch(axiosUserSignUp(userInfo));
       Swal.fire({
-        title: "회원가입 되었습니다. 로그인해주세요.",
+        title: "회원가입 완료",
         width: 500,
         padding: "1.5em",
         confirmButtonColor: "#B51D29",
