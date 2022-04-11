@@ -1,0 +1,37 @@
+.test{
+  display: block;
+  /* background-color: aqua; */
+  width: 500px;
+  height: 400px;
+  /* position: absolute; */
+  position: static;
+  top: 300px;
+  right: 140px;
+}
+
+@media (max-width:576px) { 
+  .test{
+    display: block;
+    /* background-color: darkgoldenrod; */
+    width: 342px;
+    height: 400px;
+    position: static;
+    /* position: absolute; */
+    top: 220px;
+    right: 140px;
+  }
+}
+
+@media (max-width: 400px) {
+  .test{
+    display: block;
+    /* background-color: rgb(184, 11, 155); */
+    position: absolute;
+    top: 185px;
+    right: 10px;
+  }
+} 
+
+.DaumPost{
+  display: block;
+}

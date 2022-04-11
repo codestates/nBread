@@ -1,13 +1,54 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* * {
+  font-family: 'NanumBarunGothic';
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+} */
+@font-face {
+  font-family: 'BinggraeSamanco-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/BinggraeSamanco-Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Gaegu&family=Jua&family=Noto+Sans+KR:wght@100;300;400&family=Song+Myung&display=swap');
+
+ .notosanskr * { 
+  font-family: 'Noto Sans KR', sans-serif;
+}  
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+} 
+
+:root {
+  --main-font: 'Jua', sans-serif;
+}
+
+.swal2-popup {
+  font-size: 15px !important;
+  font-weight: 100 !important;
+  font-family: 'Noto Sans KR', sans-serif !important;
+  border: none !important;
+}
+
+.swal2-popup .swal2-styled:focus {
+  box-shadow: none !important;
+}
+
+input:hover{  
+  cursor: pointer;
+}
+
+textarea:hover{  
+  cursor: pointer;
 }
