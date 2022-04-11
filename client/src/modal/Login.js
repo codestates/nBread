@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { axiosLogin } from '../redux/user/action';
 import SignUp from "./SignUp";
 import PWConfirm from "./PWConfirm";
+import { useHistory } from 'react-router';
 
 
 function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWConfirmModal}) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   
   // console.log('login',isLogin)
@@ -46,6 +48,7 @@ function Login({setLoginModal,handleSignupModal,handleCloseSignupModal,handlePWC
           } else{
             dispatch(axiosLogin(loginInfo))
             setLoginModal(false)
+            history.push('/Main')
           }
           
           })
@@ -121,6 +124,9 @@ margin-bottom: 35px;
 const PostSpan = styled.span`
 position: absolute;
 right: 40px;
+&:hover{  
+    cursor: pointer;
+    }
 `
 
 const LoginForm = styled.form`
@@ -161,6 +167,9 @@ border: none;
 border-radius: 6px;
 margin-top: 30px;
 font-size: 16px;
+&:hover{  
+    cursor: pointer;
+    }
 `;
 
 
@@ -174,6 +183,9 @@ const SignUpButton = styled.div`
 margin-top: 20px;
 font-size: 14px;
 color: gray;
+&:hover{  
+    cursor: pointer;
+    }
 `;
 
 const PassWorldCheck = styled.div`

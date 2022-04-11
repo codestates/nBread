@@ -132,7 +132,7 @@ function MyPage() {
   }
 //메인페이지로 이동 버튼
   const clickHomelBtn = () => {
-    history.push("/LandingPage")
+    history.push("/")
   }
 
   //마이페이지 수정
@@ -206,7 +206,7 @@ const handleUserEdit = () => {
 		}).then((result) => {
       if (result.value) {
         dispatch(axiosUserDelete())
-        history.push("/")
+        history.push("/Main")
       }else{
       }
 		})

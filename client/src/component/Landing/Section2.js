@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import ChattImg from "./img/nBreadPosting.png";
+import ChattImg from "./img/nBreadPosting1.png";
 import { Slide, Zoom } from "react-awesome-reveal";
 import Takoyaki from "./img/24.png";
 

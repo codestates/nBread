@@ -39,7 +39,7 @@ function Navbar() {
   };
 
   const handleMainPage = () => {
-    window.location.replace("/");
+    window.location.replace("/Main");
   };
   return (
     <>

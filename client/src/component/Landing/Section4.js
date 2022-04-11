@@ -8,7 +8,7 @@ function Section4() {
   const history = useHistory();
 
   const handleMain = () => {
-    history.push("/");
+    history.push("/Main");
   };
   return (
     <div>

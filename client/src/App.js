@@ -13,46 +13,18 @@ import ProfileImage from './component/ProfileImage';
 import Test from './modal/Test';
 import 'antd/dist/antd.css';
 import LandingPage from './pages/LandingPage';
-import ImageSliders from './component/Landing/ImageSliders';
 
 function App() {
   return (
     <BrowserRouter>
         <Route exact path="/">
-          <Main/>
-        </Route>
-        <Route path="/signUp">
-          <SignUp/>
+          <LandingPage/>
         </Route>
         <Route path="/MyPage">
           <MyPage/>
         </Route>
-        <Route path="/sub">
-          <Subscribers/>
-        </Route>
-        <Route path="/comment">
-          <Comment/>
-        </Route>
-        <Route path="/LoginUser">
-          <LoginUser/>
-        </Route>
-        <Route path="/test">
-          <Chatting_test/>
-        </Route>
-        <Route path="/ChattingDetail">
-          <ChattingDetail/>
-        </Route>
-        <Route path="/ProfileImage">
-          <ProfileImage/>
-        </Route>
-        <Route path="/chat">
-          <Test/>
-        </Route>
-        <Route path="/LandingPage">
-          <LandingPage/>
-        </Route>
-        <Route path="/ImageSliders">
-          <ImageSliders/>
+        <Route path="/Main">
+          <Main/>
         </Route>
     </BrowserRouter>
   );

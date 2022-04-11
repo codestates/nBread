@@ -402,6 +402,9 @@ const SignUpForm = styled.form``;
 const PostSpan = styled.span`
   position: absolute;
   right: 40px;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 const InputFieldDiv = styled.div`
@@ -436,12 +439,18 @@ const SignUpButton = styled.button`
   border-radius: 6px;
   margin-top: 30px;
   font-size: 16px;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 const SignUpToLogin = styled.div`
   margin-top: 20px;
   font-size: 14px;
   color: gray;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 const Err = styled.div`
@@ -471,6 +480,9 @@ const CloseBtn = styled.button`
   border-radius: 6px;
   background-color: #b51d29;
   border: none;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 const AddressInputDiv = styled.div`
@@ -487,6 +499,9 @@ const AddressInputDiv = styled.div`
   border-radius: 6px;
   color: #737373;
   padding-left: 5px;
+  &:hover{  
+    cursor: pointer;
+    }
 `;
 
 // 주소 api css
