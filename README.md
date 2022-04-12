@@ -8,7 +8,7 @@
 
 우리 함께 N빵 해봐요!
 
-### 배포 링크 : https://www.nbread.kro.kr/Main
+### 배포 링크 : https://www.nbread.kro.kr
 
 ### 🍞 N빵의 기능들
 
