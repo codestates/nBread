@@ -161,6 +161,34 @@
 </div>
 </details>
 
+<details>
+<summary>마이페이지 </summary>
+<div markdown="1">    
+
+👉 정보 수정
+    
+<img src="https://user-images.githubusercontent.com/86206374/162863324-cf413379-2534-4039-a9cb-36f64735ba83.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162863316-765196a4-a8b2-4517-b5b9-d40ed281fd44.gif" width="170" height="400"/>
+
+    
+ 👉 프로필 사진
+    
+<img src="https://user-images.githubusercontent.com/86206374/162863417-3285fae6-92e4-439c-84bb-1ce75490f055.gif" width="650" height="400"/>
+
+👉 회원 탈퇴
+    
+<img src="https://user-images.githubusercontent.com/86206374/162863544-d2a115ca-c6e3-4c25-bc45-70f324f2d31a.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162863424-f40077d5-a74d-48ba-a27d-99c69fe896ae.gif" width="170" height="400"/>
+
+👉 개설목록 • 신청목록 
+    
+<img src="https://user-images.githubusercontent.com/86206374/162863557-afb6c179-ba10-417b-a144-d49934e3744e.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162863562-5ac0dc0a-875a-45c2-ae2a-e2e775b9f63d.gif" width="170" height="400"/>
+
+    
+</div>
+</details>
+
 
 
 # 👨‍👨‍👧‍👦 팀원 소개 
