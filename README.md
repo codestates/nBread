@@ -85,44 +85,28 @@
 </div>
 </details>
 
-### 지도
-
 <details>
-<summary>검색시 위치 변경</summary>
+<summary>지도</summary>
 <div markdown="1">    
 
+👉 검색시 위치 변경
+    
 <img src="https://user-images.githubusercontent.com/86206374/162787268-b037b2fb-1d78-4e5b-80ca-1b50dab9bbc9.gif" width="650" height="400"/>
 <img src="https://user-images.githubusercontent.com/86206374/162786191-587e73ff-abb1-49e3-9441-4453bb7a6d41.gif" width="170" height="400"/>
 
     
-</div>
-</details>
-
-
-<details>
-<summary>지도 안의 게시물만 출력</summary>
-<div markdown="1">    
-
+ 👉 지도 안의 게시물만 출력
+    
 <img src="https://user-images.githubusercontent.com/86206374/162787776-b072072a-ca33-4348-b983-f21e1e22db08.gif" width="650" height="400"/>
 <img src="https://user-images.githubusercontent.com/86206374/162787890-73afa9fe-c9db-480e-8733-1a2b0e5e77d1.gif" width="170" height="400"/>
 
+👉일정 크기 이하일때 출력  
     
-</div>
-</details>
-
-<details>
-<summary>일정 크기 이하일때 출력</summary>
-<div markdown="1">    
-
 <img src="https://user-images.githubusercontent.com/86206374/162789586-106845cb-5b8c-4729-8dde-2c484e6fb942.gif" width="650" height="400"/>
 <img src="https://user-images.githubusercontent.com/86206374/162788063-02b51bfb-c7a1-404b-b01d-7d2747e6baa1.gif" width="170" height="400"/>
-
     
 </div>
 </details>
-
-
-
 
 
 
