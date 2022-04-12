@@ -166,11 +166,10 @@
 <div markdown="1">    
    
 💁‍♂️ **백엔드**
-
 - 게시글 CRUD
-- 데이터베이스 관리
-- 배포 자동화
-- HTTPS 적용
+- 데이터 베이스 관리
+- CodePipeline을 이용한 배포 자동화
+- Let's Encrypt를 이용한 HTTPS 적용
 
 </div>
 </details>
@@ -180,12 +179,9 @@
 <div markdown="1">    
    
 💁‍♂️ **백엔드**
-
 - 유저 CRUD
-- API 문서 작섣ㅇ
-- 실시간 채팅
-- HTTPS 적용
-
+- Socket.io를 통한 실시간 채팅
+- Let's Encrypt를 이용한 HTTPS 적용
 
 </div>
 </details>
