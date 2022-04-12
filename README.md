@@ -137,6 +137,30 @@
 </div>
 </details>
 
+<details>
+<summary>채팅</summary>
+<div markdown="1">    
+
+👉 게시물 생성시 채팅방 개설
+    
+<img src="https://user-images.githubusercontent.com/86206374/162862746-1ce87932-1981-47bc-b129-269de385b55d.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162861356-404548a9-db0f-48c7-8eef-ccc408337613.gif" width="170" height="400"/>
+
+    
+ 👉 게시물 신청시 채팅방 참여
+    
+<img src="https://user-images.githubusercontent.com/86206374/162861864-7dab92c5-77da-4ab3-9d76-e76947523cd5.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162862671-374b7f19-7afe-4753-a47b-1f874330da2c.gif" width="170" height="400"/>
+
+👉 대화하기 / 나가기
+    
+<img src="https://user-images.githubusercontent.com/86206374/162862543-170f48c8-e02d-47e6-91ac-d60d3f51422b.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162862608-3730d2f5-9528-49f5-8ee6-854425b7650d.gif" width="170" height="400"/>
+
+    
+</div>
+</details>
+
 
 
 # 👨‍👨‍👧‍👦 팀원 소개 
