@@ -109,6 +109,35 @@
 </details>
 
 
+<details>
+<summary>게시물</summary>
+<div markdown="1">    
+
+👉 글 작성
+    
+<img src="https://user-images.githubusercontent.com/86206374/162861996-130c163f-9664-4e25-9d58-fdd1701b247f.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162861135-672b4aab-540d-4d92-ae26-1cda3c4797fc.gif" width="170" height="400"/>
+
+    
+ 👉 신청 • 신청 취소
+    
+<img src="https://user-images.githubusercontent.com/86206374/162861864-7dab92c5-77da-4ab3-9d76-e76947523cd5.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162861547-0855e348-3f50-4d58-b811-d1c7c499adf7.gif" width="170" height="400"/>
+
+👉 마감
+    
+<img src="https://user-images.githubusercontent.com/86206374/162861728-f792f400-a9d5-4ec2-9a3c-14abea49eb33.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162861478-7d389979-58ef-4ee4-8a8f-7d0d51f3f280.gif" width="170" height="400"/>
+    
+👉 수정 • 삭제
+    
+<img src="https://user-images.githubusercontent.com/86206374/162862128-2f9f9bf1-f013-443d-8c5c-06d73249a481.gif" width="650" height="400"/>
+<img src="https://user-images.githubusercontent.com/86206374/162861029-2fd6e496-c207-4d0f-a118-281f4876839f.gif" width="170" height="400"/>    
+    
+</div>
+</details>
+
+
 
 # 👨‍👨‍👧‍👦 팀원 소개 
 <details>
