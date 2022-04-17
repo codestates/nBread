@@ -253,3 +253,8 @@
 
 </div>
 </details>
+
+# 🧑‍💻 More
+
+발표 동영상 👉 https://www.youtube.com/watch?v=RTjhYA54f2Y
+
