@@ -141,7 +141,7 @@ function PostDetail({click, setClick}) {
       cancelButtonText: '취소'
 		}).then((result) => {
       if (result.value) {
-        dispatch(editPostRecruitment(list.id, list.restaurant_name, userInfo.nickname, list.category_food))
+        dispatch(editPostRecruitment(list.recruitment_personnel, list.id, list.restaurant_name, userInfo.nickname, list.category_food))
         window.location.replace("/Main") 
       }else{
       }
