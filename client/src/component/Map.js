@@ -16,20 +16,11 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
   const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
   const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
 
-  // ------- test ---------
   const [location, setLocation] = useState({
     // 지도의 초기 위치
     lat: userInfo.location[0], 
     lng: userInfo.location[1],
   });
-  // ------- test ---------
-
-  // const [location, setLocation] = useState({
-  //   // 지도의 초기 위치
-  //   lat: 37.49676871972202, 
-  //   lng: 127.02474726969814 ,
-  // }
-  // );
   const [dragMap, setDragMap] = useState();
   const [position, setPosition] = useState();
   const [searchAddress, SetSearchAddress] = useState();
@@ -85,27 +76,6 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
       })
     }
   }
-  
-  // const userInfoNewSearchAddress = () => {
-  //   const geocoder = new kakao.maps.services.Geocoder();
-    
-  //   let callback = function(result, status) {
-  //     if (status === 'OK') {
-  //       const newAddSearch = result[0]
-  //       const newAddSearchLng =  newAddSearch.x
-  //       const newAddSearchLat =  newAddSearch.y
-  //       // setLocation({
-  //       //   lat: newAddSearchLat, lng:  newAddSearchLng 
-  //       // })
-  //       setUserLocation({
-  //         lat: newAddSearchLat, lng:  newAddSearchLng 
-  //       })
-  //       // dispatch(userLocationEdit(newAddSearchLat, newAddSearchLng)) 
-  //     }
-  //   };
-  //   {isLogin && geocoder.addressSearch(`${userInfo.data.address}`, callback)}
-  // }
-
 
   const handleMapInfo = () => {
     {map && (setInfo({
