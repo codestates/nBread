@@ -8,7 +8,8 @@ import { SHOW_POST_LIST_SUCCESS,
         SHOW_POST_EDIT_FAIL,
         SHOW_POST_CLOSED_EDIT_FAIL,
         SHOW_POST_RECRUITMENT_FAIL,
-        SHOW_POST_CANCEL_RECRUITMENT_FAIL
+        SHOW_POST_CANCEL_RECRUITMENT_FAIL,
+        SHOW_POST_RESET_SUCCESS
 } from "./type";
 import io from 'socket.io-client';
 
@@ -82,6 +83,13 @@ const showPostCancelRecruitmentFail = () => {
   }
 }
 
+const showPostResetSuccess = () => {
+  return {
+    type: SHOW_POST_RESET_SUCCESS,
+    payload: null
+  }
+}
+
 // 글 상세페이지 
 export const showPostDetail = (id) => {
   return (dispatch) => {
@@ -94,6 +102,13 @@ export const showPostDetail = (id) => {
       }
     })
     .catch()
+  }
+}
+
+// 뒤로가기 클릭시 리셋
+export const showPostReset = () => {
+  return (dispatch) => {
+    dispatch(showPostResetSuccess())
   }
 }
 

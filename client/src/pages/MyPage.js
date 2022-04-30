@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../component/Navbar'
 import styled from 'styled-components'
 import { Link, useHistory } from 'react-router-dom';
-//회원탈퇴 테스트
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosUserDelete } from '../redux/user/action';
 import { axiosUserEdit } from '../redux/user/action';

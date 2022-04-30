@@ -1,29 +1,21 @@
-import React, { useRef, useEffect , useState, useMemo} from "react";
+import React, { useEffect , useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
-import { showPostList, showPostReset } from "../redux/posts/actions";
-import { useHistory } from 'react-router-dom';
-import { userLocationEdit } from "../redux/user/action";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { showPostList } from "../redux/posts/actions";
 
 const { kakao } = window;
 
 
 function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const MarkerPost = useSelector((state)=> state.postsReducer.posts) // 마커 표시 게시물 데이터
   const userInfo = useSelector((state)=> state.loginReducer)   // 로그인한 유저
-  const isLogin = useSelector((state)=> state.loginReducer.isLogIn)
-  const locationInfo = useSelector((state)=> state.locationReducer)   // 글쓴 곳의 주소
 
   const [location, setLocation] = useState({
     // 지도의 초기 위치
     lat: userInfo.location[0], 
     lng: userInfo.location[1],
   });
-  const [dragMap, setDragMap] = useState();
-  const [position, setPosition] = useState();
-  const [searchAddress, SetSearchAddress] = useState();
   const [map, setMap] = useState();
   const [info, setInfo] = useState();
 
@@ -111,8 +103,7 @@ function KaKaoMap({writingAddress,mainSearchAddressCenter}) {
         onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
       >
 
-      {MarkerPost && 
-        MarkerPost.map((el, index) => (
+    {(MarkerPost ?? []).map((el, index) => (
           <MapMarker
             key={index}
             position={{ lat: el.lat, lng: el.lng }} // 마커 표시 위치
