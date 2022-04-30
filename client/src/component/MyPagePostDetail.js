@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
 import { useHistory } from 'react-router-dom';
-import { editPostDetail, editPostClosed,editPostRecruitment,editPostCancelRecruitment } from '../redux/postList/action';
+import { editPostDetail, editPostClosed,editPostRecruitment,editPostCancelRecruitment, showPostReset } from '../redux/postList/action';
 import Swal from 'sweetalert2'
 
 
@@ -12,6 +12,7 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
+  console.log(list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
@@ -40,6 +41,7 @@ function PostDetail({click, setClick}) {
   
   const handleBack = () => {
     setClick(!click)
+    dispatch(showPostReset())
   }
 
   const handleInput = (e) => {

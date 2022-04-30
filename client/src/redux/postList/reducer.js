@@ -7,7 +7,8 @@ import { SHOW_POST_LIST_SUCCESS,
         SHOW_POST_EDIT_FAIL,
         SHOW_POST_CLOSED_EDIT_FAIL,
         SHOW_POST_RECRUITMENT_FAIL,
-        SHOW_POST_CANCEL_RECRUITMENT_FAIL 
+        SHOW_POST_CANCEL_RECRUITMENT_FAIL,
+        SHOW_POST_RESET_SUCCESS
 } from "./type";
 
 const postDetailInitialState = {
@@ -57,6 +58,23 @@ const postsDetailReducer = (state=postDetailInitialState, action) => {
           address: post.address,
           body: post.body,
       });
+    case SHOW_POST_RESET_SUCCESS:
+      return {
+        address: null,
+        body: null,
+        category_food: null,
+        closed: null,
+        created_at: null,
+        delivery_fee: null,
+        id: null,
+        lat: null,
+        lng: null,
+        recruitment_personnel: null,
+        restaurant_name: null,
+        user_id: null,
+        content_count: null,
+        rel: null
+      }
     case SHOW_POST_CLOSED_EDIT_SUCCESS:
       return state;
     case SHOW_POST_RECRUITMENT_SUCCESS:

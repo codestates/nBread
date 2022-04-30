@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { showPostDetail } from '../redux/postList/action';
 import { showPostUserDelete } from '../redux/posts/actions';
-import { useHistory } from 'react-router-dom';
-import Select from 'react-select'
-import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment } from '../redux/postList/action';
+import { useHistory, useParams } from 'react-router-dom';
+import { editPostDetail, editPostClosed, editPostRecruitment, editPostCancelRecruitment, showPostReset } from '../redux/postList/action';
 import Swal from 'sweetalert2'
 import io from 'socket.io-client';
+
 
 
 const socket = io.connect(`${process.env.REACT_APP_API_URL}`);
@@ -61,6 +61,7 @@ function PostDetail({click, setClick}) {
 
   const handleBack = () => {
     setClick(!click)
+    dispatch(showPostReset())
   }
 
   const handleInput = (e) => {
