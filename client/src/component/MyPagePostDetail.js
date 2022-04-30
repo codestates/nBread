@@ -12,7 +12,6 @@ function PostDetail({click, setClick}) {
   const history = useHistory();
   const dispatch = useDispatch()
   const list = useSelector((state)=> state.postsDetailReducer)
-  console.log(list)
   const listUserId = list.user_id // 글 쓴 유저의 id
   const postId = list.id // 글의 id  
   const userInfo = useSelector((state)=> state.loginReducer.data)   // 로그인한 유저의 id
