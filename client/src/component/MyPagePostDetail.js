@@ -365,7 +365,7 @@ text-align: center;
 &:hover{  
   cursor: pointer;
 }
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   width: 100%;
 } 
 `
