@@ -8,12 +8,7 @@
 
 우리 함께 N빵 해봐요!
 
-### 📌 배포 링크 : https://www.nbread.kro.kr
-
-테스트 계정
-
-id: test / 
-password: 12341234
+### 📌 배포 중단
 
 ### 🍞 N빵의 기능들
 
